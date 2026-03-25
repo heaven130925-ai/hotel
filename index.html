@@ -2408,7 +2408,7 @@ Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min)
     document.getElementById(s).style.display = 'none';
   });
   const lastScreen = localStorage.getItem('last_screen');
-  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : 'screen-home';
+  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : 'screen-landing';
   goTo(startScreen);
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
