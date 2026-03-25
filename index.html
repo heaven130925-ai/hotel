@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-visual" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Park Hyatt Seoul" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <title>Park Hyatt Seoul — Guest App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    #qr-generated { display: flex; align-items: center; justify-content: center; }
+    #qr-generated img, #qr-generated canvas { border-radius: 6px; }
+  </style>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: #0d0d0d;
+      border-radius: 48px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 0 1px #222;
+    }
+
+    /* ── 모바일 풀스크린 ── */
+    @media (max-width: 480px) {
+      body {
+        background: #0d0d0d;
+        align-items: flex-start;
+        min-height: 100dvh;
+      }
+      .phone {
+        width: 100vw;
+        height: 100dvh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+
+    .screen { display: none; height: 100%; flex-direction: column; position: absolute; top:0; left:0; right:0; bottom:0; }
+    .screen.active { display: flex; }
+
+    /* ─── STATUS BAR ─── */
+    .status-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      padding: 14px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .status-bar.dark { color: #fff; }
+    .status-bar.light { color: #0d0d0d; }
+
+    /* ─── SVG ICONS ─── */
+    .icon { display: inline-flex; align-items: center; justify-content: center; }
+    .icon svg { display: block; }
+
+    /* ══════════ LANDING SCREEN ══════════ */
+    #screen-landing { background: #000; }
+
+    .landing-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .landing-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+      display: block;
+    }
+    .landing-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.3) 0%,
+        rgba(0,0,0,0.1) 30%,
+        rgba(0,0,0,0.55) 70%,
+        rgba(0,0,0,0.9) 100%
+      );
+    }
+
+    .landing-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 28px 44px;
+    }
+
+    /* 상단 가운데 — Guest Service */
+    .landing-guest-service {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 3px;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 1px 3px rgba(0,0,0,1), 0 4px 20px rgba(0,0,0,0.9), 0 0 60px rgba(0,0,0,0.8);
+    }
+
+    /* 가운데 — QR */
+    .landing-qr-block {
+      margin: auto 0;
+      width: 100%;
+    }
+    .landing-qr-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+    .landing-qr-label {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .qr-frame {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-frame::before, .qr-frame::after,
+    .qr-corner-bl, .qr-corner-br {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: rgba(255,255,255,0.85);
+      border-style: solid;
+    }
+    .qr-frame::before { top: 0; left: 0; border-width: 2px 0 0 2px; border-radius: 3px 0 0 0; }
+    .qr-frame::after  { top: 0; right: 0; border-width: 2px 2px 0 0; border-radius: 0 3px 0 0; }
+    .qr-corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; border-radius: 0 0 0 3px; }
+    .qr-corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; border-radius: 0 0 3px 0; }
+
+    /* 하단 */
+    .landing-bottom {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .landing-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+    }
+    .landing-enter-btn {
+      width: 100%;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(201,168,76,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a84c;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .landing-enter-btn:active { background: rgba(30,22,5,0.85); border-color: rgba(201,168,76,0.8); }
+
+    #screen-home { background: #0d0d0d; }
+
+    .hero {
+      position: relative;
+      height: 245px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      border-radius: 0;
+    }
+
+    .hero-clip {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.2) 0%,
+        rgba(0,0,0,0.0) 35%,
+        rgba(0,0,0,0.6) 68%,
+        rgba(0,0,0,0.92) 100%
+      );
+    }
+
+    .hero-content {
+      flex-shrink: 0;
+      margin-top: -20px;
+      padding: 0 28px 14px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hotel-badge {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      text-shadow: 0 1px 8px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .guest-greeting {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 10px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9);
+    }
+
+    .guest-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: #fff;
+      font-weight: 400;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 16px rgba(0,0,0,1), 0 0 32px rgba(0,0,0,0.9);
+    }
+
+    .room-strip {
+      display: flex;
+      gap: 12px;
+    }
+
+    .room-pill {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px;
+      padding: 10px 18px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .pill-label {
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 3px;
+    }
+
+    .pill-val {
+      font-size: 15px;
+      color: #f0d98a;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    /* Quick Actions */
+    .home-actions {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 24px 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #888;
+      padding: 10px 0 8px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .action-btn {
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 14px;
+      padding: 14px 8px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-btn:active { background: #1a1608; border-color: rgba(201,168,76,0.4); }
+
+    .action-icon-wrap {
+      width: 44px; height: 44px;
+      background: #1c1c1c;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-label {
+      font-size: 11px;
+      color: #e0d0a8;
+      letter-spacing: 0.3px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    /* Recent */
+    .recent-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .recent-item {
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .recent-name { font-size: 13px; color: #f0e4c0; margin-bottom: 3px; font-weight: 500; }
+    .recent-time { font-size: 10px; color: #999; }
+
+    .badge {
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 8px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .badge.done { background: #0a1a0a; color: #7cc47c; border: 1px solid #2a5a2a; }
+    .badge.pending { background: #1a1305; color: #e0be6a; border: 1px solid #4a3510; }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding-bottom: 12px;
+      z-index: 20;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      opacity: 0.65;
+      color: #ccc;
+      transition: opacity 0.2s;
+    }
+    .nav-item.active { opacity: 1; color: #c9a84c; }
+    .nav-label { font-size: 9px; color: #ccc; letter-spacing: 0.8px; text-transform: uppercase; }
+    .nav-item.active .nav-label { color: #c9a84c; }
+    .nav-dot {
+      width: 4px; height: 4px;
+      border-radius: 2px;
+      background: #c9a84c;
+      margin-top: -2px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .nav-item.active .nav-dot { opacity: 1; }
+
+    /* ══════════ INNER SCREENS ══════════ */
+    .inner-screen { background: #0d0d0d; }
+
+    .screen-header {
+      padding: 56px 24px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .back-btn {
+      width: 36px; height: 36px;
+      background: #1a1a1a;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .screen-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: #f0e6cc;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .scroll-area { flex: 1; overflow-y: auto; padding-bottom: 88px; }
+    .scroll-area::-webkit-scrollbar { display: none; }
+
+    /* REQUEST LIST */
+    .req-section-label {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #444;
+      padding: 16px 24px 10px;
+    }
+
+    .request-item {
+      margin: 0 24px 8px;
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .request-item:active { border-color: rgba(201,168,76,0.35); background: #16120a; }
+
+    .req-icon-wrap {
+      width: 40px; height: 40px;
+      background: #1c1c1c;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .req-text { flex: 1; }
+    .req-name { font-size: 13px; color: #d4c4a0; margin-bottom: 2px; font-weight: 400; }
+    .req-sub { font-size: 10px; color: #4a4a4a; letter-spacing: 0.3px; }
+
+    /* CHAT */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 24px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
+    }
+    .chat-area::-webkit-scrollbar { display: none; }
+
+    .msg { max-width: 78%; }
+    .msg.hotel { align-self: flex-start; }
+    .msg.guest { align-self: flex-end; }
+
+    .msg-sender {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 5px;
+      padding: 0 4px;
+    }
+
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+    }
+
+    .msg.hotel .msg-bubble {
+      background: #161616;
+      border: 1px solid #222;
+      color: #c8b890;
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.guest .msg-bubble {
+      background: linear-gradient(135deg, #c9a84c, #9e7a20);
+      color: #0d0d0d;
+      border-bottom-right-radius: 4px;
+      font-weight: 500;
+    }
+
+    .msg-time { font-size: 9px; color: #333; margin-top: 4px; padding: 0 4px; }
+    .msg.guest .msg-time { text-align: right; }
+
+    .chat-bottom {
+      flex-shrink: 0;
+      padding: 10px 20px 82px;
+      background: #0d0d0d;
+      border-top: 1px solid #161616;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    @media (max-width: 480px) {
+      .chat-bottom { padding-bottom: 90px; }
+    }
+
+    /* 메시지 꾹 누르기 삭제 메뉴 */
+    .msg-delete-menu {
+      position: absolute;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 11px;
+      color: #e05555;
+      z-index: 200;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .chat-input {
+      flex: 1;
+      background: #161616;
+      border: 1px solid #222;
+      border-radius: 24px;
+      padding: 11px 18px;
+      color: #d4c4a0;
+      font-size: 12px;
+      outline: none;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.3px;
+    }
+    .chat-input::placeholder { color: #333; }
+
+    .send-btn {
+      width: 40px; height: 40px;
+      background: #c9a84c;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* INFO CARDS */
+    .info-card {
+      margin: 0 24px 10px;
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .info-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .info-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: #c9a84c;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    .info-card-body { padding: 4px 0; }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 18px;
+      border-bottom: 1px solid #161616;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { font-size: 11px; color: #555; letter-spacing: 0.3px; }
+    .info-val { font-size: 11px; color: #c8b890; text-align: right; }
+
+    /* ── EXPLORE ── */
+    .etab {
+      flex-shrink: 0;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #555;
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 20px;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .etab.active {
+      background: rgba(201,168,76,0.12);
+      border-color: rgba(201,168,76,0.4);
+      color: #c9a84c;
+    }
+
+    .ecard {
+      background: #141414;
+      border: 1px solid #1e1e1e;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .ecard-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+    }
+    .ecard-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #1e1e1e;
+    }
+    .ecard-body { flex: 1; min-width: 0; }
+    .ecard-tag {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 3px;
+    }
+    .ecard-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      color: #f0e6cc;
+      font-weight: 400;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ecard-info {
+      font-size: 10px;
+      color: #555;
+    }
+    .map-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 7px 12px;
+      font-size: 10px;
+      color: #c9a84c;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .map-btn:active { background: #1e1a10; border-color: #c9a84c55; }
+
+    /* ─── IN-ROOM GUIDE ─── */
+    .guide-card {
+      background: #161616;
+      border: 1px solid #242424;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .guide-card.open { border-color: rgba(201,168,76,0.4); }
+    .guide-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 16px;
+    }
+    .guide-icon {
+      width: 36px; height: 36px;
+      background: #1e1a10;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: #c9a84c;
+    }
+    .guide-title {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: #e8e8e8;
+      letter-spacing: 0.3px;
+    }
+    .guide-arrow, .guide-chevron {
+      color: #555;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .guide-card.open .guide-arrow,
+    .guide-card.open .guide-chevron { transform: rotate(180deg); }
+    .guide-card.open .guide-chevron { stroke: #c9a84c; }
+    .guide-body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid #1e1e1e;
+    }
+    .guide-card.open .guide-body { display: block; }
+    .guide-step {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: flex-start;
+    }
+    .guide-num {
+      width: 20px; height: 20px;
+      background: rgba(201,168,76,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: #c9a84c;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .guide-step-text {
+      font-size: 12px;
+      color: #aaa;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+    }
+    .guide-tip {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #1a1a1a;
+      border-left: 2px solid #c9a84c;
+      border-radius: 0 8px 8px 0;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.5;
+    }
+    .guide-tip strong { color: #c9a84c; }
+
+  </style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- NOTIFICATION PANEL -->
+  <div id="notif-panel" style="position:absolute;top:0;left:0;right:0;z-index:100;background:#0f0f0f;border-bottom:1px solid #1e1e1e;transform:translateY(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);border-radius:0 0 20px 20px;overflow:hidden">
+    <div style="padding:52px 20px 16px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:13px;font-weight:500;color:#f0e6cc;letter-spacing:0.5px">Notifications</div>
+      <div style="display:flex;gap:14px;align-items:center">
+        <div onclick="location.reload()" style="font-size:10px;color:#555;cursor:pointer;letter-spacing:1px">↻ 새로고침</div>
+        <div onclick="toggleNotif()" style="font-size:10px;color:#555;cursor:pointer;letter-spacing:1px">CLOSE</div>
+      </div>
+    </div>
+    <div style="padding:0 20px 20px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+        <div style="width:32px;height:32px;background:rgba(90,156,90,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="flex:1"><div style="font-size:12px;color:#e8e8e8;margin-bottom:2px">Extra Towels Delivered</div><div style="font-size:10px;color:#555">Your request has been completed · 10:24 AM</div></div>
+      </div>
+      <div style="background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+        <div style="width:32px;height:32px;background:rgba(201,168,76,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div style="flex:1"><div style="font-size:12px;color:#e8e8e8;margin-bottom:2px">Housekeeping In Progress</div><div style="font-size:10px;color:#555">Estimated completion: 3:00 PM · 2:10 PM</div></div>
+      </div>
+      <div style="background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start">
+        <div style="width:32px;height:32px;background:rgba(201,168,76,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div style="flex:1"><div style="font-size:12px;color:#e8e8e8;margin-bottom:2px">Check-out Reminder</div><div style="font-size:10px;color:#555">Mar 27 · Check-out by 12:00 PM · Yesterday</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar dark" id="status-bar" style="display:none">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span>9:41</span>
+      <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:26px;height:26px;background:rgba(255,255,255,0.15);border-radius:6px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div onclick="toggleNotif()" style="position:relative;cursor:pointer;display:flex;align-items:center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div id="notif-badge" style="position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:#c9a84c;border-radius:50%"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:5px;align-items:center">
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="white" opacity="0.9">
+        <rect x="0" y="4" width="3" height="7" rx="0.5"/>
+        <rect x="4" y="2.5" width="3" height="8.5" rx="0.5"/>
+        <rect x="8" y="1" width="3" height="10" rx="0.5"/>
+        <rect x="12" y="0" width="3" height="11" rx="0.5"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white" opacity="0.9">
+        <path d="M8 2.4C10.5 2.4 12.7 3.5 14.2 5.2L15.5 3.9C13.6 1.8 10.9 0.5 8 0.5C5.1 0.5 2.4 1.8 0.5 3.9L1.8 5.2C3.3 3.5 5.5 2.4 8 2.4Z" opacity="0.5"/>
+        <path d="M8 5.5C9.8 5.5 11.4 6.3 12.5 7.5L13.8 6.2C12.3 4.6 10.3 3.6 8 3.6C5.7 3.6 3.7 4.6 2.2 6.2L3.5 7.5C4.6 6.3 6.2 5.5 8 5.5Z" opacity="0.7"/>
+        <path d="M8 8.5C9.1 8.5 10.1 9 10.8 9.8L12.1 8.5C11 7.3 9.6 6.6 8 6.6C6.4 6.6 5 7.3 3.9 8.5L5.2 9.8C5.9 9 6.9 8.5 8 8.5Z"/>
+        <circle cx="8" cy="11.2" r="1.2"/>
+      </svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+        <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="white" stroke-opacity="0.35"/>
+        <rect x="22" y="3.5" width="2.5" height="5" rx="1.25" fill="white" fill-opacity="0.4"/>
+        <rect x="1.5" y="1.5" width="16" height="9" rx="2.5" fill="white" fill-opacity="0.9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ══════════ HOME ══════════ -->
+  <!-- ══ LANDING SCREEN ══ -->
+  <div class="screen" id="screen-landing">
+
+    <!-- 풀스크린 배경 사진 -->
+    <div class="landing-bg">
+      <img src="hero.jpg" alt="Park Hyatt Seoul" />
+    </div>
+
+    <div class="landing-content">
+
+      <!-- 상단 가운데: Guest Service -->
+      <div class="landing-guest-service">Guest Service</div>
+
+      <!-- 중간: QR -->
+      <div class="landing-qr-block">
+        <div class="landing-qr-row" onclick="document.getElementById('qr-input').click()">
+          <div class="landing-qr-label">Click to QR Reader</div>
+          <div class="qr-frame">
+            <span class="qr-corner-bl"></span>
+            <span class="qr-corner-br"></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+        </div>
+        <input type="file" id="qr-input" accept="image/*" capture="environment" style="display:none" />
+      </div>
+
+      <!-- 하단: 타이틀 + Enter -->
+      <div class="landing-bottom">
+        <div class="landing-title">Your Stay,<br>Refined.</div>
+        <div class="landing-enter-btn" onclick="goTo('screen-home')">
+          Enter
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="screen" id="screen-home">
+
+    <div class="hero">
+      <div class="hero-clip">
+        <img class="hero-img" src="hero.jpg" alt="Park Hyatt Seoul" style="object-position: center top;" />
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hotel-badge">Park Hyatt Seoul</div>
+      <div class="guest-greeting">Welcome back</div>
+      <div class="guest-name">Heaven Kim</div>
+      <div class="room-strip">
+        <div class="room-pill">
+          <div class="pill-label">Room</div>
+          <div class="pill-val">2104</div>
+        </div>
+        <div class="room-pill">
+          <div class="pill-label">Check-out</div>
+          <div class="pill-val">Mar 27</div>
+        </div>
+        <div class="room-pill">
+          <div class="pill-label">Nights Left</div>
+          <div class="pill-val">2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-actions">
+      <!-- Online Check-in 배너 -->
+      <div onclick="goTo('screen-checkin')" style="margin-bottom:8px;background:linear-gradient(135deg,#0e1a0e,#182818);border:1px solid rgba(90,156,90,0.35);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer">
+        <div style="width:36px;height:36px;background:rgba(90,156,90,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:11px;color:#7fc47f;font-weight:500;margin-bottom:1px">Online Check-in Available</div>
+          <div style="font-size:9px;color:#446644;letter-spacing:0.3px">Skip the front desk · Ready in 2 min</div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="section-label">Services</div>
+      <div class="action-grid">
+
+        <div class="action-btn" onclick="goTo('screen-request')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <div class="action-label">Requests</div>
+        </div>
+
+        <div class="action-btn" onclick="goTo('screen-roomguide')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div class="action-label">Room Guide</div>
+        </div>
+
+        <div class="action-btn" onclick="goTo('screen-explore')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+          </div>
+          <div class="action-label">Explore</div>
+        </div>
+
+        <div class="action-btn" onclick="goTo('screen-dining')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/>
+            </svg>
+          </div>
+          <div class="action-label">Dining</div>
+        </div>
+
+        <div class="action-btn" onclick="goTo('screen-facilities')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
+            </svg>
+          </div>
+          <div class="action-label">Facilities</div>
+        </div>
+
+        <div class="action-btn" onclick="goTo('screen-valet')">
+          <div class="action-icon-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div class="action-label">Valet</div>
+        </div>
+
+      </div>
+
+      <div class="section-label" style="margin-top:auto">Recent Activity</div>
+      <div class="recent-list">
+        <div class="recent-item">
+          <div>
+            <div class="recent-name">Extra Towels ×2</div>
+            <div class="recent-time">Today · 10:24 AM</div>
+          </div>
+          <span class="badge done">Done</span>
+        </div>
+        <div class="recent-item">
+          <div>
+            <div class="recent-name">Housekeeping</div>
+            <div class="recent-time">Today · 2:10 PM</div>
+          </div>
+          <span class="badge pending">In Progress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ REQUESTS ══════════ -->
+  <div class="screen inner-screen" id="screen-request">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div>
+        <div class="screen-title">Service Requests</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+      </div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px">
+      <div class="req-section-label">Room & Amenities</div>
+
+      <div class="request-item" onclick="showConfirm('Extra Towels')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h16M4 12a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Extra Towels</div>
+          <div class="req-sub">Bath, hand, or face towels</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Extra Pillows')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 7h20M2 7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M2 7V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Extra Pillows</div>
+          <div class="req-sub">Pillow menu available</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Housekeeping')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Housekeeping</div>
+          <div class="req-sub">Room cleaning service</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Turndown Service')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Turndown Service</div>
+          <div class="req-sub">Evening bed preparation</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Do Not Disturb')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Do Not Disturb</div>
+          <div class="req-sub">Block housekeeping visits</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="req-section-label" style="margin-top:4px">Other Services</div>
+
+      <div class="request-item" onclick="showConfirm('Laundry & Pressing')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Laundry & Pressing</div>
+          <div class="req-sub">Pickup & delivery</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Valet — Retrieve Car')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Valet — Retrieve Car</div>
+          <div class="req-sub">~15 min preparation</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Room Temperature')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Room Temperature</div>
+          <div class="req-sub">AC / heating adjustment</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Confirm Sheet -->
+    <div id="confirm-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#151515;border-top:1px solid #2a2a2a;border-radius:24px 24px 0 0;padding:24px 28px 100px;z-index:30">
+      <div style="width:36px;height:3px;background:#333;border-radius:2px;margin:0 auto 20px"></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:6px" id="confirm-title"></div>
+      <div style="font-size:11px;color:#555;margin-bottom:24px">We will send someone to your room shortly.</div>
+      <textarea id="confirm-note" placeholder="Any special notes? (optional)" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:12px 14px;color:#c8b890;font-size:12px;font-family:'Montserrat',sans-serif;resize:none;height:72px;outline:none;margin-bottom:16px"></textarea>
+      <div onclick="submitRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Send Request</div>
+      <div onclick="closeConfirm()" style="text-align:center;margin-top:12px;font-size:11px;color:#444;cursor:pointer;letter-spacing:1px">CANCEL</div>
+    </div>
+  </div>
+
+  <!-- ══════════ CHAT ══════════ -->
+  <div class="screen inner-screen" id="screen-chat">
+    <div class="screen-header" style="border-bottom:1px solid #161616">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div style="flex:1">
+        <div class="screen-title">Concierge</div>
+        <div id="ai-status-label" style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">● AI POWERED</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div onclick="clearChat()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #252525;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="대화 삭제">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </div>
+        <div onclick="toggleApiKeyPanel()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #252525;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="API Key 설정">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key 패널 -->
+    <div id="api-key-panel" style="display:none;background:#111;border-bottom:1px solid #1e1e1e;padding:12px 20px;gap:8px;flex-direction:column">
+      <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:4px">GEMINI API KEY</div>
+      <div style="display:flex;gap:8px">
+        <input id="api-key-input" type="password" placeholder="AIza..." style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:8px 12px;font-size:11px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" />
+        <div onclick="saveApiKey()" style="background:#c9a84c;border-radius:8px;padding:8px 14px;font-size:11px;font-weight:500;color:#0d0d0d;cursor:pointer;white-space:nowrap">저장</div>
+      </div>
+      <div style="font-size:9px;color:#444">Google AI Studio → API Keys에서 발급 · 로컬 저장만 됩니다</div>
+    </div>
+
+    <div class="chat-area" id="chat-area">
+      <div class="msg hotel">
+        <div class="msg-sender">Park Hyatt Seoul</div>
+        <div class="msg-bubble">Good evening, Ms. Kim. How may I assist you today?</div>
+        <div class="msg-time">2:05 PM</div>
+      </div>
+      <div class="msg guest">
+        <div class="msg-bubble">Do you have any restaurant recommendations nearby?</div>
+        <div class="msg-time">2:07 PM</div>
+      </div>
+      <div class="msg hotel">
+        <div class="msg-sender">Park Hyatt Seoul</div>
+        <div class="msg-bubble">Of course. I'd recommend Mingles (Michelin ★★) for Korean fine dining, just 10 minutes away. Shall I make a reservation?</div>
+        <div class="msg-time">2:08 PM</div>
+      </div>
+      <div class="msg guest">
+        <div class="msg-bubble">Yes please, tonight 7pm for 2</div>
+        <div class="msg-time">2:09 PM</div>
+      </div>
+      <div class="msg hotel">
+        <div class="msg-sender">Park Hyatt Seoul</div>
+        <div class="msg-bubble">Confirmed ✓<br>Mingles, tonight 7:00 PM, 2 guests, under Kim. Is there anything else I can help with?</div>
+        <div class="msg-time">2:10 PM</div>
+      </div>
+    </div>
+
+    <div class="chat-bottom">
+      <input class="chat-input" id="chat-input" placeholder="Message concierge…" />
+      <div class="send-btn" onclick="sendMsg()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ INFO ══════════ -->
+  <div class="screen inner-screen" id="screen-info">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="screen-title">Hotel Information</div>
+    </div>
+
+    <div class="scroll-area" style="padding-top:4px;padding-bottom:90px">
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+          <div class="info-card-title">The Lounge</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row"><span class="info-key">Breakfast</span><span class="info-val">7:00 – 10:30 AM</span></div>
+          <div class="info-row"><span class="info-key">Afternoon Tea</span><span class="info-val">2:00 – 5:00 PM</span></div>
+          <div class="info-row"><span class="info-key">Dinner</span><span class="info-val">6:00 – 10:30 PM</span></div>
+          <div class="info-row"><span class="info-key">Bar</span><span class="info-val">Until 1:00 AM</span></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h20M2 12c0-5.52 4.48-10 10-10s10 4.48 10 10M2 12c0 5.52 4.48 10 10 10s10-4.48 10-10M12 2c2.76 0 5 4.48 5 10s-2.24 10-5 10-5-4.48-5-10 2.24-10 5-10"/>
+          </svg>
+          <div class="info-card-title">Pool & Fitness</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row"><span class="info-key">Indoor Pool</span><span class="info-val">6:00 AM – 10:00 PM</span></div>
+          <div class="info-row"><span class="info-key">Fitness Center</span><span class="info-val">24 Hours</span></div>
+          <div class="info-row"><span class="info-key">Sauna</span><span class="info-val">7:00 AM – 10:00 PM</span></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <div class="info-card-title">Spa & Wellness</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row"><span class="info-key">Hours</span><span class="info-val">10:00 AM – 9:00 PM</span></div>
+          <div class="info-row"><span class="info-key">Reservation</span><span class="info-val">Via Concierge</span></div>
+          <div class="info-row"><span class="info-key">Floor</span><span class="info-val">24F</span></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+          <div class="info-card-title">Valet Parking</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row"><span class="info-key">Hours</span><span class="info-val">24 Hours</span></div>
+          <div class="info-row"><span class="info-key">Retrieval Time</span><span class="info-val">~15 minutes</span></div>
+          <div class="info-row"><span class="info-key">Request via</span><span class="info-val">Service Requests</span></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <div class="info-card-title">General</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-row"><span class="info-key">Check-in</span><span class="info-val">3:00 PM</span></div>
+          <div class="info-row"><span class="info-key">Check-out</span><span class="info-val">12:00 PM</span></div>
+          <div class="info-row"><span class="info-key">Wi-Fi</span><span class="info-val">ParkHyattSeoul</span></div>
+          <div class="info-row"><span class="info-key">Front Desk</span><span class="info-val">Dial #0</span></div>
+          <div class="info-row"><span class="info-key">Address</span><span class="info-val">995-14 Daechi-dong</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ DINING ══════════ -->
+  <div class="screen inner-screen" id="screen-dining">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="screen-title">Dining</div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px">
+
+      <div style="margin:0 24px 16px">
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px">Restaurant</div>
+
+        <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;overflow:hidden;margin-bottom:10px">
+          <div style="padding:18px 18px 14px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#c9a84c;font-weight:400">The Lounge</div>
+              <span style="font-size:9px;background:#0a1a0a;color:#7cc47c;border:1px solid #2a5a2a;padding:3px 8px;border-radius:8px;letter-spacing:0.8px">OPEN</span>
+            </div>
+            <div style="font-size:11px;color:#666;margin-bottom:14px">Contemporary cuisine with panoramic city views</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
+              <div style="background:#1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:9px;color:#555;letter-spacing:1px;margin-bottom:2px">BREAKFAST</div>
+                <div style="font-size:11px;color:#c8b890">7:00 – 10:30 AM</div>
+              </div>
+              <div style="background:#1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:9px;color:#555;letter-spacing:1px;margin-bottom:2px">DINNER</div>
+                <div style="font-size:11px;color:#c8b890">6:00 – 10:30 PM</div>
+              </div>
+              <div style="background:#1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:9px;color:#555;letter-spacing:1px;margin-bottom:2px">AFT. TEA</div>
+                <div style="font-size:11px;color:#c8b890">2:00 – 5:00 PM</div>
+              </div>
+              <div style="background:#1a1a1a;border-radius:8px;padding:8px 10px">
+                <div style="font-size:9px;color:#555;letter-spacing:1px;margin-bottom:2px">BAR</div>
+                <div style="font-size:11px;color:#c8b890">Until 1:00 AM</div>
+              </div>
+            </div>
+            <div onclick="showConfirm('Table Reservation — The Lounge')" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:10px;padding:11px;text-align:center;font-size:12px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Reserve a Table</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:0 24px 16px">
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px">Room Service</div>
+        <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:18px">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc;margin-bottom:6px">In-Room Dining</div>
+          <div style="font-size:11px;color:#666;margin-bottom:14px">Available 24 hours · Billed to your room</div>
+          <div class="request-item" style="margin:0 0 8px" onclick="showConfirm('Room Service Order')">
+            <div class="req-icon-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div class="req-text">
+              <div class="req-name">Order Food & Drinks</div>
+              <div class="req-sub">Menu via concierge</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="request-item" style="margin:0" onclick="showConfirm('Breakfast in Room')">
+            <div class="req-icon-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/></svg>
+            </div>
+            <div class="req-text">
+              <div class="req-name">Breakfast in Room</div>
+              <div class="req-sub">Set delivery time</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ FACILITIES ══════════ -->
+  <div class="screen inner-screen" id="screen-facilities">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="screen-title">Facilities</div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px;padding-top:4px">
+
+      <div class="request-item" onclick="showConfirm('Indoor Pool Reservation')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h20M2 12c0-5.52 4.48-10 10-10s10 4.48 10 10M2 12c0 5.52 4.48 10 10 10s10-4.48 10-10M12 2c2.76 0 5 4.48 5 10s-2.24 10-5 10-5-4.48-5-10 2.24-10 5-10"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Indoor Pool</div>
+          <div class="req-sub">6:00 AM – 10:00 PM · 25F</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showToast('Fitness Center is open 24hrs · 24F · No reservation needed')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6.5 6.5h11M6.5 17.5h11M3 12h18M3 6.5C3 5.12 4.12 4 5.5 4h13C19.88 4 21 5.12 21 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.88 3 17.5v-11z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Fitness Center</div>
+          <div class="req-sub">24 Hours · 24F · Free access</div>
+        </div>
+        <span style="font-size:9px;background:#0a1a0a;color:#7cc47c;border:1px solid #2a5a2a;padding:3px 8px;border-radius:8px;letter-spacing:0.5px">OPEN</span>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Sauna Reservation')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Sauna</div>
+          <div class="req-sub">7:00 AM – 10:00 PM · 25F</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="goTo('screen-chat')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Spa & Wellness</div>
+          <div class="req-sub">10:00 AM – 9:00 PM · Book via concierge</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Tennis Court Reservation')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M 6 12 Q 9 6 12 12 Q 15 18 18 12"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name">Tennis Court</div>
+          <div class="req-sub">7:00 AM – 9:00 PM · Outdoor</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ VALET ══════════ -->
+  <div class="screen inner-screen" id="screen-valet">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div class="screen-title">Valet</div>
+    </div>
+
+    <div style="padding:8px 24px;flex:1;display:flex;flex-direction:column;gap:12px;padding-bottom:90px;overflow-y:auto">
+
+      <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:44px;height:44px;background:#1c1c1c;border-radius:12px;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc">Retrieve My Car</div>
+            <div style="font-size:11px;color:#555;margin-top:2px">~15 minutes preparation time</div>
+          </div>
+        </div>
+        <!-- 시간 선택 -->
+        <div style="margin-bottom:14px">
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:8px">PICK-UP TIME</div>
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <div id="vt-now"  onclick="selectValetTime('now')"  style="flex:1;padding:8px 4px;background:#1e1e1e;border:1px solid #c9a84c;border-radius:10px;text-align:center;font-size:11px;color:#c9a84c;cursor:pointer;transition:all 0.2s">Now</div>
+            <div id="vt-30"   onclick="selectValetTime('30')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">+30 min</div>
+            <div id="vt-60"   onclick="selectValetTime('60')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">+1 hr</div>
+            <div id="vt-cust" onclick="selectValetTime('custom')" style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">직접 입력</div>
+          </div>
+          <div id="vt-custom-wrap" style="display:none">
+            <input id="vt-time-input" type="time" style="width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:10px 14px;font-size:14px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;-webkit-appearance:none;color-scheme:dark" />
+          </div>
+          <div id="vt-time-display" style="font-size:12px;color:#c9a84c;margin-top:6px;letter-spacing:0.3px;display:none"></div>
+        </div>
+
+        <div onclick="submitValetRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Request Car</div>
+      </div>
+
+      <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:20px">
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:12px">Valet Info</div>
+        <div class="info-row"><span class="info-key">Hours</span><span class="info-val">24 Hours</span></div>
+        <div class="info-row"><span class="info-key">Location</span><span class="info-val">B1 Parking Lobby</span></div>
+        <div class="info-row"><span class="info-key">Retrieval</span><span class="info-val">~15 minutes</span></div>
+        <div class="info-row" style="border:none"><span class="info-key">Contact</span><span class="info-val">Dial #5</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ IN-ROOM GUIDE ══════════ -->
+  <div class="screen inner-screen" id="screen-roomguide">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div>
+        <div class="screen-title">In-Room Guide</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+      </div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px;padding-top:4px">
+
+      <!-- TV -->
+      <div class="guide-card" id="guide-tv" onclick="toggleGuide('tv')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">TV & Entertainment</div>
+              <div class="req-sub">Remote, channels, casting</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-tv" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-tv">
+          <div class="guide-step"><span class="guide-num">1</span>Samsung Smart TV — remote on bedside table</div>
+          <div class="guide-step"><span class="guide-num">2</span>Press <b style="color:#c9a84c">HOME</b> button for main menu</div>
+          <div class="guide-step"><span class="guide-num">3</span>Screen Mirroring: Settings → General → External Device Manager</div>
+          <div class="guide-step"><span class="guide-num">4</span>Netflix, YouTube pre-installed</div>
+          <div class="guide-tip">Tip: HDMI port available behind the TV stand</div>
+        </div>
+      </div>
+
+      <!-- 조명/커튼 -->
+      <div class="guide-card" id="guide-light" onclick="toggleGuide('light')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">Lighting & Curtains</div>
+              <div class="req-sub">Mood setting, blackout, sheers</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-light">
+          <div class="guide-step"><span class="guide-num">1</span>Bedside panel (right side) controls all room lighting</div>
+          <div class="guide-step"><span class="guide-num">2</span><b style="color:#c9a84c">ALL OFF</b> button near door — turns everything off at once</div>
+          <div class="guide-step"><span class="guide-num">3</span>Curtains: motorized switch on wall beside window</div>
+          <div class="guide-step"><span class="guide-num">4</span>Sheer / Blackout — separate switches, both sides</div>
+          <div class="guide-tip">Tip: "Good Night" preset dims all lights gradually</div>
+        </div>
+      </div>
+
+      <!-- 에어컨 -->
+      <div class="guide-card" id="guide-ac" onclick="toggleGuide('ac')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">Climate Control</div>
+              <div class="req-sub">AC, heating, temperature</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-ac" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-ac">
+          <div class="guide-step"><span class="guide-num">1</span>Thermostat panel on the wall near entrance</div>
+          <div class="guide-step"><span class="guide-num">2</span>Recommended temperature: 20–23°C</div>
+          <div class="guide-step"><span class="guide-num">3</span>Fan speed: Auto / Low / Medium / High</div>
+          <div class="guide-step"><span class="guide-num">4</span>If uncomfortable, contact us via Requests</div>
+          <div class="guide-tip">Tip: System takes ~5 minutes to reach set temperature</div>
+        </div>
+      </div>
+
+      <!-- 욕실 -->
+      <div class="guide-card" id="guide-bath" onclick="toggleGuide('bath')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12h16M4 12a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">Bathroom & Amenities</div>
+              <div class="req-sub">Shower, bath, toiletries</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-bath" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-bath">
+          <div class="guide-step"><span class="guide-num">1</span>Rain shower + handheld — both controlled by same dial</div>
+          <div class="guide-step"><span class="guide-num">2</span>Turn dial left for shower, right for bath faucet</div>
+          <div class="guide-step"><span class="guide-num">3</span>Amenities: Le Labo Santal 33 (shampoo, conditioner, body wash)</div>
+          <div class="guide-step"><span class="guide-num">4</span>Extra toiletries available via Requests anytime</div>
+          <div class="guide-tip">Tip: Heated towel rail switch is behind the bathroom door</div>
+        </div>
+      </div>
+
+      <!-- 미니바 -->
+      <div class="guide-card" id="guide-mini" onclick="toggleGuide('mini')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">Minibar</div>
+              <div class="req-sub">Complimentary & chargeable items</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-mini" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-mini">
+          <div class="guide-step"><span class="guide-num">✓</span><b style="color:#7cc47c">Complimentary</b> — Water, coffee, tea, soft drinks</div>
+          <div class="guide-step"><span class="guide-num">₩</span><b style="color:#c9a84c">Chargeable</b> — Alcohol, snacks, premium items</div>
+          <div class="guide-step"><span class="guide-num">1</span>Minibar located under the TV console</div>
+          <div class="guide-step"><span class="guide-num">2</span>Nespresso machine on desk — capsules complimentary</div>
+          <div class="guide-tip">Tip: Additional items available via In-Room Dining (Requests)</div>
+        </div>
+      </div>
+
+      <!-- 긴급/연락 -->
+      <div class="guide-card" id="guide-contact" onclick="toggleGuide('contact')">
+        <div class="guide-card-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="req-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.64 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.64a16 16 0 0 0 6 6l.952-.952a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="req-name">Contacts & Emergency</div>
+              <div class="req-sub">Front desk, security, medical</div>
+            </div>
+          </div>
+          <svg class="guide-chevron" id="chev-contact" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="guide-body" id="body-contact">
+          <div class="guide-step"><span class="guide-num" style="background:#1a1a1a;color:#c9a84c">#0</span>Front Desk — 24 hours</div>
+          <div class="guide-step"><span class="guide-num" style="background:#1a1a1a;color:#c9a84c">#5</span>Valet Parking</div>
+          <div class="guide-step"><span class="guide-num" style="background:#1a1a1a;color:#c9a84c">#6</span>Room Service</div>
+          <div class="guide-step"><span class="guide-num" style="background:#0a1a0a;color:#7cc47c">119</span>Emergency (Fire / Medical)</div>
+          <div class="guide-tip">Tip: Or simply use the Concierge chat in this app</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ ONLINE CHECK-IN ══════════ -->
+  <div class="screen inner-screen" id="screen-checkin">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div>
+        <div class="screen-title">Online Check-in</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+      </div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px;padding-top:8px" id="checkin-scroll">
+
+      <!-- Step indicator -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:0 24px 20px">
+        <div id="step-dot-1" style="width:28px;height:6px;border-radius:3px;background:#c9a84c;transition:all 0.3s"></div>
+        <div id="step-dot-2" style="width:6px;height:6px;border-radius:3px;background:#2a2a2a;transition:all 0.3s"></div>
+        <div id="step-dot-3" style="width:6px;height:6px;border-radius:3px;background:#2a2a2a;transition:all 0.3s"></div>
+      </div>
+
+      <!-- Step 1: Guest Info -->
+      <div id="checkin-step-1" style="padding:0 24px;display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Guest Information</div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">FULL NAME</div>
+          <input type="text" value="Heaven Kim" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">NATIONALITY</div>
+          <input type="text" placeholder="e.g. Korean" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">PASSPORT / ID NUMBER</div>
+          <input type="text" placeholder="M12345678" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:1px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">DATE OF BIRTH</div>
+          <input type="date" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;color-scheme:dark" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">MOBILE NUMBER</div>
+          <input type="tel" placeholder="+82 10-0000-0000" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div onclick="checkinNext(2)" style="margin-top:8px;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Next</div>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div id="checkin-step-2" style="display:none;padding:0 24px;flex-direction:column;gap:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Payment</div>
+        <div style="font-size:11px;color:#555;margin-bottom:4px">Credit card for incidentals only — no charge at check-in</div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CARD NUMBER</div>
+          <input type="text" placeholder="•••• •••• •••• ••••" maxlength="19" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:14px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:2px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <div style="flex:1">
+            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">EXPIRY</div>
+            <input type="text" placeholder="MM / YY" maxlength="7" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          </div>
+          <div style="flex:1">
+            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CVV</div>
+            <input type="password" placeholder="•••" maxlength="4" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CARDHOLDER NAME</div>
+          <input type="text" value="Heaven Kim" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:8px">
+          <div onclick="checkinNext(1)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer">Back</div>
+          <div onclick="checkinNext(3)" style="flex:2;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Next</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirm -->
+      <div id="checkin-step-3" style="display:none;padding:0 24px;flex-direction:column;gap:12px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Confirm</div>
+
+        <div style="background:#141414;border:1px solid #1e1e1e;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Guest</span><span style="font-size:12px;color:#f0e6cc">Heaven Kim</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room</span><span style="font-size:12px;color:#f0e6cc">2104</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Check-out</span><span style="font-size:12px;color:#f0e6cc">March 27, 2025</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room Type</span><span style="font-size:12px;color:#f0e6cc">Park Deluxe King</span></div>
+          <div style="border-top:1px solid #222;padding-top:10px;display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Key Delivery</span><span style="font-size:12px;color:#c9a84c">Mobile Key</span></div>
+        </div>
+
+        <div style="background:#0e1a0e;border:1px solid rgba(90,156,90,0.25);border-radius:12px;padding:12px 14px;font-size:11px;color:#5a8a5a;line-height:1.6">
+          Your room will be ready upon arrival. Mobile key will be activated automatically on check-in date.
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <div onclick="checkinNext(2)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer">Back</div>
+          <div onclick="submitCheckin()" style="flex:2;background:linear-gradient(135deg,#5a9c5a,#3d6e3d);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#fff;cursor:pointer;letter-spacing:0.5px">Complete Check-in</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ EXPLORE ══════════ -->
+  <div class="screen inner-screen" id="screen-explore">
+    <div class="screen-header">
+      <div class="back-btn" onclick="goTo('screen-home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div>
+        <div class="screen-title">Explore Seoul</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">NEAR PARK HYATT SEOUL</div>
+      </div>
+    </div>
+
+    <div class="scroll-area" style="padding-bottom:90px;padding-top:4px">
+
+      <!-- 카테고리 탭 -->
+      <div style="display:flex;gap:8px;padding:0 24px 16px;overflow-x:auto" id="explore-tabs">
+        <div class="etab active" onclick="filterExplore('all',this)">All</div>
+        <div class="etab" onclick="filterExplore('dining',this)">Dining</div>
+        <div class="etab" onclick="filterExplore('attraction',this)">Attractions</div>
+        <div class="etab" onclick="filterExplore('shopping',this)">Shopping</div>
+      </div>
+
+      <div id="explore-list" style="padding:0 24px;display:flex;flex-direction:column;gap:10px">
+
+        <!-- DINING -->
+        <div class="ecard" data-cat="dining">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/mingles/144/144" alt="Mingles" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Dining · Michelin ★★</div>
+              <div class="ecard-name">Mingles</div>
+              <div class="ecard-info">Contemporary Korean · 10 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Mingles+Seoul+Gangnam" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <div class="ecard" data-cat="dining">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/gaon/144/144" alt="Gaon" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Dining · Michelin ★★★</div>
+              <div class="ecard-name">Gaon</div>
+              <div class="ecard-info">Korean Royal Cuisine · 15 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Gaon+Restaurant+Seoul" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <div class="ecard" data-cat="dining">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/jungsik/144/144" alt="Jungsik" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Dining · Michelin ★</div>
+              <div class="ecard-name">Jungsik</div>
+              <div class="ecard-info">Modern Korean · 12 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Jungsik+Seoul" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <!-- ATTRACTIONS -->
+        <div class="ecard" data-cat="attraction">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/bongeunsa/144/144" alt="Bongeunsa" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Attraction · Temple</div>
+              <div class="ecard-name">Bongeunsa Temple</div>
+              <div class="ecard-info">Historic Buddhist temple · 5 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Bongeunsa+Temple+Seoul" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <div class="ecard" data-cat="attraction">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/seonjeong/144/144" alt="Seonjeongneung" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Attraction · Royal Tomb</div>
+              <div class="ecard-name">Seonjeongneung</div>
+              <div class="ecard-info">UNESCO World Heritage · 10 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Seonjeongneung+Seoul" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <div class="ecard" data-cat="attraction">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/coex/144/144" alt="COEX" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Attraction · Convention</div>
+              <div class="ecard-name">COEX & Starfield</div>
+              <div class="ecard-info">Mall, Aquarium, Library · 5 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=COEX+Mall+Seoul" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <!-- SHOPPING -->
+        <div class="ecard" data-cat="shopping">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/hyundai/144/144" alt="Hyundai" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Shopping · Department Store</div>
+              <div class="ecard-name">Hyundai Dept Store</div>
+              <div class="ecard-info">Luxury & lifestyle · 8 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=현대백화점+무역센터점" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+        <div class="ecard" data-cat="shopping">
+          <div class="ecard-top">
+            <img class="ecard-img" src="https://picsum.photos/seed/galleria/144/144" alt="Galleria" />
+            <div class="ecard-body">
+              <div class="ecard-tag">Shopping · Luxury</div>
+              <div class="ecard-name">Galleria Dept Store</div>
+              <div class="ecard-info">High-end luxury brands · 15 min walk</div>
+            </div>
+            <a href="https://maps.google.com/?q=Galleria+Department+Store+Apgujeong" target="_blank" class="map-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Map
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav" id="bottom-nav" style="display:none">
+    <div class="nav-item active" id="nav-home" onclick="goTo('screen-home')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:inherit">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <div class="nav-label">Home</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-request" onclick="goTo('screen-request')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:inherit">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <div class="nav-label">Requests</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-chat" onclick="goTo('screen-chat')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:inherit">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <div class="nav-label">Concierge</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-explore" onclick="goTo('screen-explore')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:inherit">
+        <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+      </svg>
+      <div class="nav-label">Explore</div>
+      <div class="nav-dot"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const screens = ['screen-landing','screen-home','screen-request','screen-chat','screen-info','screen-dining','screen-facilities','screen-valet','screen-checkin','screen-explore','screen-roomguide'];
+  const navMap = {
+    'screen-home': 'nav-home',
+    'screen-request': 'nav-request',
+    'screen-chat': 'nav-chat',
+    'screen-explore': 'nav-explore'
+  };
+
+  // ── Notification Panel ──
+  // ── 모바일 화면 고정 ──
+  (function() {
+    if (window.innerWidth > 480) return;
+    const phone = document.querySelector('.phone');
+    const fixH = window.innerHeight;
+    phone.style.height = fixH + 'px';
+    document.body.style.height = fixH + 'px';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+  })();
+
+  let notifOpen = false;
+  function toggleNotif() {
+    notifOpen = !notifOpen;
+    const panel = document.getElementById('notif-panel');
+    panel.style.transform = notifOpen ? 'translateY(0)' : 'translateY(-100%)';
+    document.getElementById('notif-badge').style.display = notifOpen ? 'none' : 'block';
+  }
+
+  // ── Online Check-in ──
+  function checkinNext(step) {
+    [1,2,3].forEach(n => {
+      const el = document.getElementById('checkin-step-' + n);
+      el.style.display = 'none';
+      document.getElementById('step-dot-' + n).style.background = '#2a2a2a';
+      document.getElementById('step-dot-' + n).style.width = '6px';
+    });
+    const target = document.getElementById('checkin-step-' + step);
+    target.style.display = 'flex';
+    const dot = document.getElementById('step-dot-' + step);
+    dot.style.background = '#c9a84c';
+    dot.style.width = '28px';
+    document.getElementById('checkin-scroll').scrollTop = 0;
+  }
+
+  function submitCheckin() {
+    document.getElementById('checkin-step-3').style.display = 'none';
+    const scroll = document.getElementById('checkin-scroll');
+    scroll.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 32px;text-align:center;gap:16px">
+        <div style="width:64px;height:64px;background:rgba(90,156,90,0.12);border:1px solid rgba(90,156,90,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#f0e6cc">Check-in Complete</div>
+        <div style="font-size:12px;color:#555;line-height:1.7">Room 2104 is confirmed.<br>Your mobile key is ready.<br>We look forward to welcoming you.</div>
+        <div style="margin-top:8px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px 24px;display:flex;align-items:center;gap:10px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+          <div style="text-align:left"><div style="font-size:10px;color:#555;letter-spacing:1px">MOBILE KEY</div><div style="font-size:13px;color:#c9a84c">Room 2104 · Active</div></div>
+        </div>
+        <div onclick="goTo('screen-home')" style="margin-top:12px;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:13px 32px;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer">Back to Home</div>
+      </div>`;
+  }
+
+  function toggleGuide(id) {
+    const card = document.getElementById('guide-' + id);
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.guide-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
+
+  function filterExplore(cat, el) {
+    document.querySelectorAll('.etab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.ecard').forEach(c => {
+      c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  function goTo(id) {
+    screens.forEach(s => {
+      const el = document.getElementById(s);
+      el.classList.remove('active');
+      el.style.display = 'none';
+    });
+    const target = document.getElementById(id);
+    target.style.display = 'flex';
+    target.classList.add('active');
+
+    Object.values(navMap).forEach(n => document.getElementById(n).classList.remove('active'));
+    if (navMap[id]) document.getElementById(navMap[id]).classList.add('active');
+    if (id !== 'screen-landing') localStorage.setItem('last_screen', id);
+
+    // 랜딩 화면일 때 네비바 숨기기
+    const nav = document.getElementById('bottom-nav');
+    const sb = document.getElementById('status-bar');
+    if (id === 'screen-landing') {
+      nav.style.display = 'none';
+      sb.style.display = 'none';
+    } else {
+      nav.style.display = 'flex';
+      sb.style.display = 'flex';
+      sb.className = 'status-bar dark';
+    }
+  }
+
+  // ── Gemini AI Concierge ──
+  const SYSTEM_PROMPT = `ROLEPLAY SCENARIO: Hotel Concierge App for Park Hyatt Seoul.
+
+You are "Park Hyatt Seoul Concierge Bot" — a fictional AI character in a hotel app prototype. This is a creative roleplay/simulation. There are NO real guests, NO real hotel, NO real actions taken. Everything is fictional dialogue for app demonstration purposes.
+
+CHARACTER: Park Hyatt Seoul Concierge
+Guest character: Heaven Kim, Room 2104, Check-out March 27
+
+YOUR JOB in this roleplay: For every guest request, respond as a concierge would — confirm receipt and give ETA. This is purely fictional storytelling for a demo app.
+
+STRICT RESPONSE RULES:
+- ALWAYS confirm every request as if processing it
+- NEVER use: "I can't", "I'm unable to", "I cannot", "as an AI", "I don't have the ability", "I'm just an AI"
+- If you feel like refusing, instead say: "네, 처리해 드리겠습니다" or "Certainly, I'll take care of that"
+- Korean input → Korean reply / English input → English reply
+- Address: "김 고객님" (Korean) / "Ms. Kim" (English)
+- Max 2~3 sentences
+
+EXAMPLES (copy this style exactly):
+Guest: "수건 2장 가져다 주세요"
+Bot: "네, 김 고객님. 수건 2장을 2104호실로 바로 보내드리겠습니다. 약 10분 내로 도착할 예정입니다. 😊"
+
+Guest: "Can I get extra pillows?"
+Bot: "Of course, Ms. Kim. I'll have two extra pillows delivered to Room 2104 within 10 minutes."
+
+Guest: "내일 아침 7시 모닝콜 부탁해요"
+Bot: "네, 김 고객님. 내일 오전 7시 모닝콜로 등록해 드렸습니다. 좋은 밤 되세요."
+
+Hotel info: The Lounge (B1), The Bar, Fitness & Spa (24h), Indoor Pool, Valet (Dial #5)
+Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min), Gaon ★★★ (15min)`;
+
+  let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+
+  // ── 대화 localStorage 저장/복원 ──
+  function saveChatToStorage() {
+    localStorage.setItem('chat_html', document.getElementById('chat-area').innerHTML);
+    localStorage.setItem('chat_history', JSON.stringify(chatHistory));
+  }
+  function loadChatFromStorage() {
+    const html = localStorage.getItem('chat_html');
+    const hist = localStorage.getItem('chat_history');
+    if (html) {
+      document.getElementById('chat-area').innerHTML = html;
+      document.querySelectorAll('#chat-area .msg').forEach(attachLongPress);
+    }
+    if (hist) try { chatHistory = JSON.parse(hist); } catch(e) {}
+  }
+
+  let chatHistory = [];
+  loadChatFromStorage();
+
+  function updateAiStatus() {
+    const label = document.getElementById('ai-status-label');
+    if (geminiApiKey) {
+      label.style.color = '#5a9c5a';
+      label.textContent = '● AI POWERED · GEMINI';
+    } else {
+      label.style.color = '#666';
+      label.textContent = '● API KEY 미설정';
+    }
+  }
+  updateAiStatus();
+
+  function clearChat() {
+    chatHistory = [];
+    localStorage.removeItem('chat_html');
+    localStorage.removeItem('chat_history');
+    const area = document.getElementById('chat-area');
+    area.innerHTML = `<div class="msg hotel">
+      <div class="msg-sender">Park Hyatt Seoul</div>
+      <div class="msg-bubble">Good evening, Ms. Kim. How may I assist you today?</div>
+      <div class="msg-time">${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }
+
+  function toggleApiKeyPanel() {
+    const panel = document.getElementById('api-key-panel');
+    const isVisible = panel.style.display === 'flex';
+    panel.style.display = isVisible ? 'none' : 'flex';
+    if (!isVisible && geminiApiKey) {
+      document.getElementById('api-key-input').value = geminiApiKey;
+    }
+  }
+
+  function saveApiKey() {
+    const key = document.getElementById('api-key-input').value.trim();
+    if (!key) return;
+    geminiApiKey = key;
+    localStorage.setItem('gemini_api_key', key);
+    document.getElementById('api-key-panel').style.display = 'none';
+    updateAiStatus();
+    showToast('API Key 저장됨');
+  }
+
+  function addMsg(role, text) {
+    const area = document.getElementById('chat-area');
+    const now = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+    const div = document.createElement('div');
+    div.className = 'msg ' + (role === 'guest' ? 'guest' : 'hotel');
+    div.style.position = 'relative';
+    div.innerHTML = role === 'hotel'
+      ? `<div class="msg-sender">Park Hyatt Seoul</div><div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`
+      : `<div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`;
+    attachLongPress(div);
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+    saveChatToStorage();
+    return div;
+  }
+
+  // 기존 메시지에도 꾹 누르기 적용
+  document.querySelectorAll('#chat-area .msg').forEach(attachLongPress);
+
+  let pressTimer = null;
+  let activeMenu = null;
+
+  function closeMenu() {
+    if (activeMenu) { activeMenu.remove(); activeMenu = null; }
+  }
+
+  function attachLongPress(el) {
+    el.style.position = 'relative';
+    el.addEventListener('touchstart', e => {
+      pressTimer = setTimeout(() => {
+        closeMenu();
+        const menu = document.createElement('div');
+        menu.className = 'msg-delete-menu';
+        menu.textContent = '🗑  메시지 삭제';
+        menu.style.top = '0px';
+        menu.style.left = el.classList.contains('guest') ? 'auto' : '0px';
+        menu.style.right = el.classList.contains('guest') ? '0px' : 'auto';
+        menu.onclick = () => { el.remove(); closeMenu(); saveChatToStorage(); };
+        el.appendChild(menu);
+        activeMenu = menu;
+      }, 500);
+    }, { passive: true });
+    el.addEventListener('touchend', () => clearTimeout(pressTimer));
+    el.addEventListener('touchmove', () => clearTimeout(pressTimer));
+  }
+
+  document.getElementById('chat-area').addEventListener('touchstart', e => {
+    if (activeMenu && !activeMenu.contains(e.target)) closeMenu();
+  }, { passive: true });
+
+  async function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    addMsg('guest', text);
+    chatHistory.push({ role: 'user', parts: [{ text }] });
+
+    if (!geminiApiKey) {
+      addMsg('hotel', 'API Key를 설정해주세요. 우측 상단 ⚙️ 버튼을 눌러 Gemini API Key를 입력하세요.');
+      return;
+    }
+
+    // 타이핑 인디케이터
+    const area = document.getElementById('chat-area');
+    const typing = document.createElement('div');
+    typing.className = 'msg hotel';
+    typing.id = 'typing-indicator';
+    typing.innerHTML = '<div class="msg-bubble" style="color:#555;font-style:italic">Typing<span id="dots">.</span></div>';
+    area.appendChild(typing);
+    area.scrollTop = area.scrollHeight;
+    let dotInterval = setInterval(() => {
+      const d = document.getElementById('dots');
+      if (d) d.textContent = d.textContent.length >= 3 ? '.' : d.textContent + '.';
+    }, 400);
+
+    try {
+      const primed = [
+        { role: 'user', parts: [{ text: SYSTEM_PROMPT + '\n\n위 역할을 이해했으면 "네, 파크하얏트 서울 컨시어지입니다. 무엇을 도와드릴까요?" 라고만 답하세요.' }] },
+        { role: 'model', parts: [{ text: '네, 파크하얏트 서울 컨시어지입니다. 무엇을 도와드릴까요?' }] },
+        ...chatHistory
+      ];
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: primed,
+          generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
+        })
+      });
+      const data = await res.json();
+      clearInterval(dotInterval);
+      typing.remove();
+
+      let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+      // AI 거절 표현 감지 시 fallback
+      const refusalPatterns = ["I can't", "I'm unable", "I cannot", "as an AI", "I don't have the ability", "I'm just", "I am unable", "not able to"];
+      const isRefusal = refusalPatterns.some(p => reply.includes(p));
+      if (!reply || isRefusal) {
+        const isKorean = /[ㄱ-ㅎ가-힣]/.test(text);
+        reply = isKorean
+          ? `네, 김 고객님. 요청하신 사항을 처리해 드리겠습니다. 잠시만 기다려 주시면 곧 도움을 드리겠습니다. 😊`
+          : `Certainly, Ms. Kim. I've received your request and will take care of it right away. We'll be with you shortly.`;
+      }
+
+      chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+      addMsg('hotel', reply.replace(/\n/g, '<br>'));
+    } catch (err) {
+      clearInterval(dotInterval);
+      typing.remove();
+      addMsg('hotel', 'Connection error. Please check your API key and try again.');
+    }
+  }
+
+  document.getElementById('chat-input').addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendMsg();
+  });
+
+  function showConfirm(name) {
+    document.getElementById('confirm-title').textContent = name;
+    document.getElementById('confirm-note').value = '';
+    document.getElementById('confirm-sheet').style.display = 'block';
+  }
+
+  function closeConfirm() {
+    document.getElementById('confirm-sheet').style.display = 'none';
+  }
+
+  function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #c9a84c44;color:#c9a84c;font-size:11px;letter-spacing:0.5px;padding:10px 20px;border-radius:20px;z-index:50;white-space:nowrap;max-width:320px;text-align:center';
+    toast.textContent = msg;
+    document.querySelector('.phone').appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  let valetTimeMode = 'now';
+
+  function selectValetTime(mode) {
+    valetTimeMode = mode;
+    const ids = ['vt-now','vt-30','vt-60','vt-cust'];
+    const modeMap = {'now':'vt-now','30':'vt-30','60':'vt-60','custom':'vt-cust'};
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      el.style.background = '#1a1a1a';
+      el.style.borderColor = '#2a2a2a';
+      el.style.color = '#888';
+    });
+    const active = document.getElementById(modeMap[mode]);
+    active.style.background = '#1e1a08';
+    active.style.borderColor = '#c9a84c';
+    active.style.color = '#c9a84c';
+
+    const customWrap = document.getElementById('vt-custom-wrap');
+    const display = document.getElementById('vt-time-display');
+    if (mode === 'custom') {
+      customWrap.style.display = 'block';
+      display.textContent = '시간을 직접 선택하세요';
+      document.getElementById('vt-time-input').onchange = function() {
+        display.textContent = '출차 시간: ' + this.value;
+      };
+    } else {
+      customWrap.style.display = 'none';
+      const labels = { now:'즉시 출차 요청', '30':'30분 후 출차', '60':'1시간 후 출차' };
+      display.textContent = labels[mode];
+    }
+  }
+
+  function submitValetRequest() {
+    let timeLabel = '즉시';
+    if (valetTimeMode === '30') timeLabel = '30분 후';
+    else if (valetTimeMode === '60') timeLabel = '1시간 후';
+    else if (valetTimeMode === 'custom') {
+      const v = document.getElementById('vt-time-input').value;
+      timeLabel = v ? v : '지정 시간';
+    }
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #c9a84c44;color:#c9a84c;font-size:11px;letter-spacing:1px;padding:10px 20px;border-radius:20px;z-index:50;white-space:nowrap';
+    toast.textContent = '출차 요청 완료 · ' + timeLabel + ' · ~15 min ✓';
+    document.querySelector('.phone').appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  function submitRequest() {
+    closeConfirm();
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #c9a84c44;color:#c9a84c;font-size:11px;letter-spacing:1px;padding:10px 20px;border-radius:20px;z-index:50;white-space:nowrap';
+    toast.textContent = 'Request sent ✓';
+    document.querySelector('.phone').appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+
+  // QR 코드 생성
+  try {
+    new QRCode(document.getElementById('qr-generated'), {
+      text: 'https://grand-tanuki-d98b0d.netlify.app',
+      width: 80,
+      height: 80,
+      colorDark: '#1a1208',
+      colorLight: '#faf6ee',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(e) {}
+
+  // Init — 마지막 화면 복원, 없으면 홈
+  screens.forEach(s => {
+    document.getElementById(s).style.display = 'none';
+  });
+  const lastScreen = localStorage.getItem('last_screen');
+  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : 'screen-home';
+  goTo(startScreen);
+
+  // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
+  window.addEventListener('beforeunload', () => {
+    const active = document.querySelector('.screen.active');
+    if (active && active.id !== 'screen-landing') {
+      localStorage.setItem('last_screen', active.id);
+    }
+  });
+
+  // 풀투리프레시 — 스크롤 최상단에서 아래로 당기면 새로고침
+  let pullStartY = 0;
+  let pullScrollTop = 0;
+  let pulling = false;
+
+  document.addEventListener('touchstart', e => {
+    pullStartY = e.touches[0].clientY;
+    pulling = false;
+    const activeScreen = document.querySelector('.screen.active');
+    const scrollEl = activeScreen ? activeScreen.querySelector('.scroll-area') : null;
+    pullScrollTop = scrollEl ? scrollEl.scrollTop : 0;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    const diff = e.touches[0].clientY - pullStartY;
+    if (diff > 10 && pullScrollTop < 2) pulling = true;
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientY - pullStartY;
+    if (pulling && diff > 80 && pullStartY < 150 && pullScrollTop < 2) {
+      location.reload();
+    }
+    pulling = false;
+  }, { passive: true });
+
+</script>
+</body>
+</html>
