@@ -54,6 +54,14 @@
         min-height: -webkit-fill-available;
         border-radius: 0;
         box-shadow: none;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        box-sizing: border-box;
+      }
+      .screen {
+        top: 0 !important;
+        padding-top: env(safe-area-inset-top, 0px);
+        box-sizing: border-box;
       }
     }
 
@@ -2142,6 +2150,11 @@
     if (navMap[id]) document.getElementById(navMap[id]).classList.add('active');
     if (id !== 'screen-landing') localStorage.setItem('last_screen', id);
 
+    // 브라우저 history 관리 — 뒤로가기 버튼이 QR로 가는 것 방지
+    if (id !== 'screen-landing') {
+      history.pushState({ screen: id }, '', '');
+    }
+
     // 랜딩 화면일 때 네비바 숨기기
     const nav = document.getElementById('bottom-nav');
     const sb = document.getElementById('status-bar');
@@ -2154,6 +2167,14 @@
       sb.className = 'status-bar dark';
     }
   }
+
+  // 브라우저 뒤로가기 버튼 → screen-home으로
+  window.addEventListener('popstate', () => {
+    const active = document.querySelector('.screen.active');
+    if (active && active.id !== 'screen-home' && active.id !== 'screen-landing') {
+      goTo('screen-home');
+    }
+  });
 
   // ── Gemini AI Concierge ──
   const SYSTEM_PROMPT = `ROLEPLAY SCENARIO: Hotel Concierge App for Park Hyatt Seoul.
