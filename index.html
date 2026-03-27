@@ -1380,7 +1380,7 @@
         <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:18px">
           <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc;margin-bottom:6px">In-Room Dining</div>
           <div style="font-size:11px;color:#666;margin-bottom:14px">Available 24 hours · Billed to your room</div>
-          <div class="request-item" style="margin:0 0 8px" onclick="showConfirm('Room Service Order')">
+          <div class="request-item" style="margin:0 0 8px" onclick="openRoomService('I\'d like to order room service. Could you show me the menu?')">
             <div class="req-icon-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
             </div>
@@ -1390,7 +1390,7 @@
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
-          <div class="request-item" style="margin:0" onclick="showConfirm('Breakfast in Room')">
+          <div class="request-item" style="margin:0" onclick="openRoomService('I\'d like to set up breakfast in my room. What are my options?')">
             <div class="req-icon-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/></svg>
             </div>
@@ -1826,6 +1826,19 @@
 
     <div class="scroll-area" style="padding-bottom:90px;padding-top:4px">
 
+      <!-- AI 검색창 -->
+      <div style="padding:0 24px 16px">
+        <div style="display:flex;gap:8px;align-items:center;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:10px 14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="explore-search" type="text" placeholder="Ask anything — nearby restaurants, attractions…" style="flex:1;background:transparent;border:none;outline:none;font-size:11px;color:#ccc;font-family:'Montserrat',sans-serif" onkeydown="if(event.key==='Enter')searchExplore()" />
+          <div onclick="searchExplore()" style="background:#c9a84c;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:500;color:#0d0d0d;cursor:pointer;white-space:nowrap">Ask AI</div>
+        </div>
+        <div id="explore-ai-result" style="display:none;margin-top:10px;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:14px">
+          <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:8px">AI CONCIERGE</div>
+          <div id="explore-ai-text" style="font-size:12px;color:#ccc;line-height:1.7;white-space:pre-wrap"></div>
+        </div>
+      </div>
+
       <!-- 카테고리 탭 -->
       <div style="display:flex;gap:8px;padding:0 24px 16px;overflow-x:auto" id="explore-tabs">
         <div class="etab active" onclick="filterExplore('all',this)">All</div>
@@ -2066,6 +2079,43 @@
     const isOpen = card.classList.contains('open');
     document.querySelectorAll('.guide-card').forEach(c => c.classList.remove('open'));
     if (!isOpen) card.classList.add('open');
+  }
+
+  function openRoomService(msg) {
+    goTo('screen-chat');
+    setTimeout(() => {
+      const input = document.getElementById('chat-input');
+      if (input) {
+        input.value = msg;
+        input.focus();
+      }
+    }, 300);
+  }
+
+  async function searchExplore() {
+    const query = document.getElementById('explore-search').value.trim();
+    if (!query) return;
+    const resultBox = document.getElementById('explore-ai-result');
+    const resultText = document.getElementById('explore-ai-text');
+    resultBox.style.display = 'block';
+    resultText.textContent = 'Searching…';
+    const apiKey = localStorage.getItem('gemini_api_key');
+    if (!apiKey) {
+      resultText.innerHTML = 'Please set your Gemini API key in the Concierge chat (⚙ icon) first.';
+      return;
+    }
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: `You are a concierge at Park Hyatt Seoul in Gangnam. Answer this guest query briefly and helpfully (2-4 sentences). Include place names so they can search on Google Maps. Query: ${query}` }] }] })
+      });
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t find results.';
+      resultText.textContent = text;
+    } catch(e) {
+      resultText.textContent = 'Network error. Please try again.';
+    }
   }
 
   function filterExplore(cat, el) {
