@@ -45,11 +45,13 @@
       body {
         background: #0d0d0d;
         align-items: flex-start;
+        padding: 0;
         min-height: 100dvh;
       }
       .phone {
         width: 100vw;
         height: 100dvh;
+        min-height: -webkit-fill-available;
         border-radius: 0;
         box-shadow: none;
       }
@@ -409,14 +411,14 @@
     .bottom-nav {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 80px;
       background: rgba(10,10,10,0.96);
       backdrop-filter: blur(20px);
       border-top: 1px solid #2a2a2a;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding-bottom: 12px;
+      padding-top: 10px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
       z-index: 20;
     }
 
