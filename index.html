@@ -23,7 +23,9 @@
       background: #111;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      padding-top: 40px;
+      padding-bottom: 40px;
       min-height: 100vh;
       font-family: 'Montserrat', sans-serif;
     }
@@ -2099,22 +2101,18 @@
     const resultText = document.getElementById('explore-ai-text');
     resultBox.style.display = 'block';
     resultText.textContent = 'Searching…';
-    const apiKey = localStorage.getItem('gemini_api_key');
-    if (!apiKey) {
-      resultText.innerHTML = 'Please set your Gemini API key in the Concierge chat (⚙ icon) first.';
-      return;
-    }
+    const apiKey = localStorage.getItem('gemini_api_key') || HARDCODED_API_KEY;
     try {
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: `You are a concierge at Park Hyatt Seoul in Gangnam. Answer this guest query briefly and helpfully (2-4 sentences). Include place names so they can search on Google Maps. Query: ${query}` }] }] })
+        body: JSON.stringify({ contents: [{ parts: [{ text: `You are a concierge at Park Hyatt Seoul in Gangnam-gu. A guest is asking: "${query}". Answer in the same language as the question (Korean if Korean, English if English). Be specific — name actual places near Park Hyatt Seoul (Teheran-ro, Gangnam, COEX area). Include place names and brief descriptions. 3-5 sentences max.` }] }] })
       });
       const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t find results.';
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '죄송합니다, 다시 시도해주세요.';
       resultText.textContent = text;
     } catch(e) {
-      resultText.textContent = 'Network error. Please try again.';
+      resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
   }
 
@@ -2184,7 +2182,9 @@ Bot: "네, 김 고객님. 내일 오전 7시 모닝콜로 등록해 드렸습니
 Hotel info: The Lounge (B1), The Bar, Fitness & Spa (24h), Indoor Pool, Valet (Dial #5)
 Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min), Gaon ★★★ (15min)`;
 
-  let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+  const HARDCODED_API_KEY = 'AIzaSyA-8Xdk7fXeWmpNE04XNGvSEFqG_kZTZAg';
+  let geminiApiKey = localStorage.getItem('gemini_api_key') || HARDCODED_API_KEY;
+  if (!localStorage.getItem('gemini_api_key')) localStorage.setItem('gemini_api_key', HARDCODED_API_KEY);
 
   // ── 대화 localStorage 저장/복원 ──
   function saveChatToStorage() {
