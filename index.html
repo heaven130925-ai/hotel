@@ -418,7 +418,8 @@
       align-items: center;
       justify-content: space-around;
       padding-top: 10px;
-      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+      height: calc(64px + max(0px, env(safe-area-inset-bottom, 0px)));
       z-index: 20;
     }
 
@@ -457,15 +458,16 @@
     }
 
     .back-btn {
-      width: 36px; height: 36px;
-      background: #1a1a1a;
-      border: 1px solid #252525;
-      border-radius: 10px;
+      width: 42px; height: 42px;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
     }
+    .back-btn svg { width: 20px; height: 20px; stroke: #bbb; }
 
     .screen-title {
       font-family: 'Cormorant Garamond', serif;
@@ -857,12 +859,12 @@
   <div class="status-bar dark" id="status-bar" style="display:none">
     <div style="display:flex;align-items:center;gap:8px">
       <span>9:41</span>
-      <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:26px;height:26px;background:rgba(255,255,255,0.15);border-radius:6px">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,0.18);border-radius:10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
-      <div onclick="toggleNotif()" style="position:relative;cursor:pointer;display:flex;align-items:center">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <div id="notif-badge" style="position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:#c9a84c;border-radius:50%"></div>
+      <div onclick="toggleNotif()" style="position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,0.18);border-radius:10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div id="notif-badge" style="position:absolute;top:4px;right:4px;width:7px;height:7px;background:#c9a84c;border-radius:50%"></div>
       </div>
     </div>
     <div style="display:flex;gap:5px;align-items:center">
@@ -1709,7 +1711,7 @@
   <!-- ══════════ ONLINE CHECK-IN ══════════ -->
   <div class="screen inner-screen" id="screen-checkin">
     <div class="screen-header">
-      <div class="back-btn" onclick="goTo('screen-home')">
+      <div class="back-btn" onclick="goTo('screen-landing')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div>
@@ -2460,7 +2462,8 @@ Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min)
     document.getElementById(s).style.display = 'none';
   });
   const lastScreen = localStorage.getItem('last_screen');
-  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : 'screen-landing';
+  const isPWA = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
