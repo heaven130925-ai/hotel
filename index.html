@@ -2444,6 +2444,45 @@ Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min)
 
       chatHistory.push({ role: 'model', parts: [{ text: reply }] });
       addMsg('hotel', reply.replace(/\n/g, '<br>'));
+
+      // 요청 키워드 감지 → Firebase에 직원 알림 저장
+      const requestKeywords = [
+        '수건', '타월', '베개', '어메니티', '칫솔', '슬리퍼', '가운',
+        '룸서비스', '음식', '주문', '배달', '조식', '식사', '음료',
+        '청소', '하우스키핑', '정리', '청소기',
+        '체크아웃', '체크인', '짐', '수하물',
+        'towel', 'pillow', 'room service', 'food', 'order', 'housekeeping',
+        'checkout', 'check-out', 'luggage', 'amenity', 'breakfast'
+      ];
+      const msgLower = text.toLowerCase();
+      const matched = requestKeywords.find(k => msgLower.includes(k.toLowerCase()));
+      if (matched) {
+        try {
+          const { getFirestore, collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+          const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+          const firebaseConfig = {
+            apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
+            authDomain: "hotel-app-f4a93.firebaseapp.com",
+            projectId: "hotel-app-f4a93",
+            storageBucket: "hotel-app-f4a93.firebasestorage.app",
+            messagingSenderId: "285558698060",
+            appId: "1:285558698060:web:50895111eaf0c6cd1344e9"
+          };
+          const app2 = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+          const db2 = getFirestore(app2);
+          const params = new URLSearchParams(window.location.search);
+          const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+          await addDoc(collection(db2, 'hotels', hotelId, 'requests'), {
+            title: `[컨시어지] ${text}`,
+            note: reply.replace(/<br>/g, ' ').substring(0, 100),
+            room: '2104',
+            status: 'pending',
+            source: 'concierge',
+            createdAt: new Date().toISOString()
+          });
+        } catch(e) {}
+      }
+
     } catch (err) {
       clearInterval(dotInterval);
       typing.remove();
