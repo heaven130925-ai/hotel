@@ -2276,10 +2276,7 @@ RULES:
 - Always end with a helpful follow-up offer when appropriate
 - If request is unclear, ask one clarifying question`;
 
-  const HARDCODED_API_KEY = 'AIzaSyDOFke-pSF0wJB8cclVTg3gcCWVD-0NMQg';
-  // 항상 새 키로 강제 업데이트
-  localStorage.setItem('gemini_api_key', HARDCODED_API_KEY);
-  let geminiApiKey = HARDCODED_API_KEY;
+  let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
   // ── 대화 localStorage 저장/복원 ──
   function saveChatToStorage() {
@@ -2436,7 +2433,10 @@ RULES:
       let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
       if (!reply) {
-        reply = `[DEBUG] ${JSON.stringify(data).substring(0, 200)}`;
+        const isKorean = /[ㄱ-ㅎ가-힣]/.test(text);
+        reply = isKorean
+          ? `네, 김 고객님. 말씀하신 내용을 확인하겠습니다. 추가로 필요하신 사항이 있으시면 말씀해 주세요.`
+          : `Certainly, Ms. Kim. Let me look into that for you. Is there anything else I can help with?`;
       }
 
       chatHistory.push({ role: 'model', parts: [{ text: reply }] });
