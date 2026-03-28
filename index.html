@@ -2434,12 +2434,10 @@ RULES:
 
       let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-      // AI 응답이 아예 없을 때만 fallback
+      // 디버그: 응답 없을 때 실제 오류 표시
       if (!reply) {
-        const isKorean = /[ㄱ-ㅎ가-힣]/.test(text);
-        reply = isKorean
-          ? `네, 김 고객님. 말씀하신 내용을 확인하겠습니다. 추가로 필요하신 사항이 있으시면 말씀해 주세요.`
-          : `Certainly, Ms. Kim. Let me look into that for you. Is there anything else I can help with?`;
+        const errMsg = data?.error?.message || data?.promptFeedback?.blockReason || JSON.stringify(data).substring(0, 150);
+        reply = `[DEBUG] ${errMsg}`;
       }
 
       chatHistory.push({ role: 'model', parts: [{ text: reply }] });
