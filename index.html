@@ -2493,7 +2493,26 @@ Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min)
     document.getElementById(s).style.display = 'none';
   });
   const lastScreen = localStorage.getItem('last_screen');
-  const isPWA = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+  // PWA 모드: 가짜 상태바 숨기고 safe area만큼 화면 내리기
+  if (isPWA) {
+    document.getElementById('status-bar').style.setProperty('display', 'none', 'important');
+    const style = document.createElement('style');
+    style.textContent = `
+      .screen:not(#screen-landing) {
+        top: env(safe-area-inset-top, 44px) !important;
+        bottom: 0 !important;
+        height: auto !important;
+      }
+      .bottom-nav {
+        padding-bottom: max(16px, env(safe-area-inset-bottom, 20px)) !important;
+        height: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
 
