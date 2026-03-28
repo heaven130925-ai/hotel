@@ -2424,7 +2424,7 @@ RULES:
         { role: 'model', parts: [{ text: '네, 파크하얏트 서울 컨시어지입니다. 무엇을 도와드릴까요?' }] },
         ...chatHistory
       ];
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
