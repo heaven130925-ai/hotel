@@ -54,14 +54,24 @@
         min-height: -webkit-fill-available;
         border-radius: 0;
         box-shadow: none;
-        padding-top: env(safe-area-inset-top, 0px);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        box-sizing: border-box;
       }
-      .screen {
-        top: 0 !important;
-        padding-top: env(safe-area-inset-top, 0px);
-        box-sizing: border-box;
+    }
+
+    /* ── PWA 홈화면 앱 전용 ── */
+    @media (display-mode: standalone) {
+      /* 가짜 상태바 숨기기 (실제 폰 상태바가 보임) */
+      #status-bar { display: none !important; }
+
+      /* 화면 콘텐츠를 노치 아래로 내리기 */
+      .screen:not(#screen-landing) {
+        top: env(safe-area-inset-top, 44px) !important;
+        height: auto !important;
+        bottom: 0 !important;
+      }
+
+      /* 하단 공백 제거 */
+      .bottom-nav {
+        padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
       }
     }
 
