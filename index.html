@@ -2436,10 +2436,7 @@ RULES:
       let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
       if (!reply) {
-        const isKorean = /[ㄱ-ㅎ가-힣]/.test(text);
-        reply = isKorean
-          ? `네, 김 고객님. 말씀하신 내용을 확인하겠습니다. 추가로 필요하신 사항이 있으시면 말씀해 주세요.`
-          : `Certainly, Ms. Kim. Let me look into that for you. Is there anything else I can help with?`;
+        reply = `[DEBUG] ${JSON.stringify(data).substring(0, 200)}`;
       }
 
       chatHistory.push({ role: 'model', parts: [{ text: reply }] });
