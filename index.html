@@ -12,6 +12,52 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
+      authDomain: "hotel-app-f4a93.firebaseapp.com",
+      projectId: "hotel-app-f4a93",
+      storageBucket: "hotel-app-f4a93.firebasestorage.app",
+      messagingSenderId: "285558698060",
+      appId: "1:285558698060:web:50895111eaf0c6cd1344e9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // URL에서 hotelId 가져오기 (없으면 기본값)
+    const params = new URLSearchParams(window.location.search);
+    const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+
+    async function loadHotelData() {
+      try {
+        const docRef = doc(db, 'hotels', hotelId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // 호텔 데이터 적용
+          document.querySelectorAll('.guest-name').forEach(el => el.textContent = data.guestName || 'Guest');
+          document.querySelectorAll('.hotel-badge').forEach(el => el.textContent = data.name || 'Hotel');
+          document.querySelectorAll('[data-room]').forEach(el => el.textContent = data.room || '');
+          document.querySelectorAll('[data-checkout]').forEach(el => el.textContent = data.checkOut || '');
+          document.querySelectorAll('[data-nights]').forEach(el => el.textContent = data.nightsLeft || '');
+          // Pro 아닌 경우 AI 기능 잠금
+          if (data.tier !== 'pro') {
+            window._hotelTier = 'free';
+          } else {
+            window._hotelTier = 'pro';
+          }
+        }
+      } catch(e) {
+        console.log('Firebase 로드 실패, 기본값 사용');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadHotelData);
+  </script>
   <style>
     #qr-generated { display: flex; align-items: center; justify-content: center; }
     #qr-generated img, #qr-generated canvas { border-radius: 6px; }
