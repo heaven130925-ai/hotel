@@ -2277,8 +2277,9 @@ RULES:
 - If request is unclear, ask one clarifying question`;
 
   const HARDCODED_API_KEY = 'AIzaSyDOFke-pSF0wJB8cclVTg3gcCWVD-0NMQg';
-  let geminiApiKey = localStorage.getItem('gemini_api_key') || HARDCODED_API_KEY;
-  if (!localStorage.getItem('gemini_api_key')) localStorage.setItem('gemini_api_key', HARDCODED_API_KEY);
+  // 항상 새 키로 강제 업데이트
+  localStorage.setItem('gemini_api_key', HARDCODED_API_KEY);
+  let geminiApiKey = HARDCODED_API_KEY;
 
   // ── 대화 localStorage 저장/복원 ──
   function saveChatToStorage() {
