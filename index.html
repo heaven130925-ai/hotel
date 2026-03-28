@@ -2176,16 +2176,14 @@
     const resultText = document.getElementById('explore-ai-text');
     resultBox.style.display = 'block';
     resultText.textContent = 'Searching…';
-    const apiKey = localStorage.getItem('gemini_api_key') || HARDCODED_API_KEY;
     try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      const res = await fetch('https://asia-northeast3-hotel-app-f4a93.cloudfunctions.net/geminiExplore', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: `You are a concierge at Park Hyatt Seoul in Gangnam-gu. A guest is asking: "${query}". Answer in the same language as the question (Korean if Korean, English if English). Be specific — name actual places near Park Hyatt Seoul (Teheran-ro, Gangnam, COEX area). Include place names and brief descriptions. 3-5 sentences max.` }] }] })
+        body: JSON.stringify({ query, hotelName: 'Park Hyatt Seoul', hotelAddress: '서울 강남구 테헤란로 606' })
       });
       const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '죄송합니다, 다시 시도해주세요.';
-      resultText.textContent = text;
+      resultText.textContent = data.text || '죄송합니다, 다시 시도해주세요.';
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
@@ -2298,13 +2296,8 @@ RULES:
 
   function updateAiStatus() {
     const label = document.getElementById('ai-status-label');
-    if (geminiApiKey) {
-      label.style.color = '#5a9c5a';
-      label.textContent = '● AI POWERED · GEMINI';
-    } else {
-      label.style.color = '#666';
-      label.textContent = '● API KEY 미설정';
-    }
+    label.style.color = '#5a9c5a';
+    label.textContent = '● AI POWERED · GEMINI';
   }
   updateAiStatus();
 
@@ -2398,11 +2391,6 @@ RULES:
     addMsg('guest', text);
     chatHistory.push({ role: 'user', parts: [{ text }] });
 
-    if (!geminiApiKey) {
-      addMsg('hotel', 'API Key를 설정해주세요. 우측 상단 ⚙️ 버튼을 눌러 Gemini API Key를 입력하세요.');
-      return;
-    }
-
     // 타이핑 인디케이터
     const area = document.getElementById('chat-area');
     const typing = document.createElement('div');
@@ -2417,20 +2405,20 @@ RULES:
     }, 400);
 
     try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`, {
+      const res = await fetch('https://geminichat-uc4jxyctlq-du.a.run.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: chatHistory,
-          generationConfig: { maxOutputTokens: 400, temperature: 0.8 }
+          message: text,
+          history: chatHistory.slice(0, -1),
+          systemPrompt: SYSTEM_PROMPT
         })
       });
       const data = await res.json();
       clearInterval(dotInterval);
       typing.remove();
 
-      let reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      let reply = data?.text || '';
 
       if (!reply) {
         const isKorean = /[ㄱ-ㅎ가-힣]/.test(text);
