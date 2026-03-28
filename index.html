@@ -103,6 +103,8 @@
       }
       /* 모바일에서 가짜 상태바 항상 숨김 (실제 폰 상태바가 있으므로) */
       #status-bar { display: none !important; }
+      /* 모바일에서만 홈 버튼 표시 */
+      #home-top-btns { display: flex !important; }
       /* 모든 화면 상단에 safe area 적용 */
       .screen:not(#screen-landing) {
         padding-top: env(safe-area-inset-top, 47px);
@@ -992,7 +994,7 @@
   <div class="screen" id="screen-home">
 
     <!-- 홈 전용 상단 버튼 (뒤로가기 + 종) -->
-    <div style="position:absolute;top:12px;left:16px;z-index:20;display:flex;gap:8px" id="home-top-btns">
+    <div style="position:absolute;top:12px;left:16px;z-index:20;display:none;gap:8px" id="home-top-btns">
       <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(0,0,0,0.4);border-radius:10px;backdrop-filter:blur(8px)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
