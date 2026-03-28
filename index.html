@@ -55,23 +55,17 @@
         border-radius: 0;
         box-shadow: none;
       }
-    }
-
-    /* ── PWA 홈화면 앱 전용 ── */
-    @media (display-mode: standalone) {
-      /* 가짜 상태바 숨기기 (실제 폰 상태바가 보임) */
+      /* 모바일에서 가짜 상태바 항상 숨김 (실제 폰 상태바가 있으므로) */
       #status-bar { display: none !important; }
-
-      /* 화면 콘텐츠를 노치 아래로 내리기 */
+      /* 모든 화면 상단에 safe area 적용 */
       .screen:not(#screen-landing) {
-        top: env(safe-area-inset-top, 44px) !important;
-        height: auto !important;
-        bottom: 0 !important;
+        padding-top: env(safe-area-inset-top, 47px);
+        box-sizing: border-box;
       }
-
-      /* 하단 공백 제거 */
+      /* 하단 safe area */
       .bottom-nav {
-        padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
+        padding-bottom: max(12px, env(safe-area-inset-bottom, 20px)) !important;
+        height: auto !important;
       }
     }
 
@@ -2494,25 +2488,6 @@ Nearby: Bongeunsa Temple (5min), COEX & Starfield (5min), Mingles ★★ (10min)
   });
   const lastScreen = localStorage.getItem('last_screen');
   const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-
-  // PWA 모드: 가짜 상태바 숨기고 safe area만큼 화면 내리기
-  if (isPWA) {
-    document.getElementById('status-bar').style.setProperty('display', 'none', 'important');
-    const style = document.createElement('style');
-    style.textContent = `
-      .screen:not(#screen-landing) {
-        top: env(safe-area-inset-top, 44px) !important;
-        bottom: 0 !important;
-        height: auto !important;
-      }
-      .bottom-nav {
-        padding-bottom: max(16px, env(safe-area-inset-bottom, 20px)) !important;
-        height: auto !important;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
   const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
 
