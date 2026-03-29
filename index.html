@@ -125,7 +125,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       z-index: 10;
-      padding: 14px 28px 0;
+      padding: calc(env(safe-area-inset-top, 44px) + 10px) 20px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -605,7 +605,7 @@
     .msg-bubble {
       padding: 12px 16px;
       border-radius: 18px;
-      font-size: 12px;
+      font-size: 15px;
       line-height: 1.6;
       letter-spacing: 0.2px;
     }
@@ -776,7 +776,7 @@
       text-overflow: ellipsis;
     }
     .ecard-info {
-      font-size: 10px;
+      font-size: 13px;
       color: #555;
     }
     .map-btn {
@@ -1912,7 +1912,7 @@
         </div>
         <div id="explore-ai-result" style="display:none;margin-top:10px;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:14px">
           <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:8px">AI CONCIERGE</div>
-          <div id="explore-ai-text" style="font-size:12px;color:#ccc;line-height:1.7;white-space:pre-wrap"></div>
+          <div id="explore-ai-text" style="font-size:15px;color:#ccc;line-height:1.7;white-space:pre-wrap"></div>
         </div>
       </div>
 
@@ -2177,7 +2177,7 @@
     resultBox.style.display = 'block';
     resultText.textContent = 'Searching…';
     try {
-      const res = await fetch('https://asia-northeast3-hotel-app-f4a93.cloudfunctions.net/geminiExplore', {
+      const res = await fetch('https://geminiexplore-uc4jxyctlq-du.a.run.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, hotelName: 'Park Hyatt Seoul', hotelAddress: '서울 강남구 테헤란로 606' })
@@ -2254,12 +2254,19 @@ BEHAVIOR BY SITUATION:
 - Valet / car → Ask for timing preference
 - General questions → Answer helpfully and offer further assistance
 
-HOTEL INFO:
-- The Lounge (B1): All-day dining, open until 1AM
-- The Bar: Cocktails & light bites
-- Fitness & Spa: Open 24 hours
+HOTEL INFO (answer these directly without saying "I'll check"):
+- Sauna / Fitness & Spa: Open 24 hours
 - Indoor Pool: 6AM–10PM
-- Valet parking: Dial #5
+- The Lounge (B1): All-day dining, open until 1AM
+- The Bar: Cocktails & light bites, open until midnight
+- Breakfast: The Lounge, 6:30AM–10:30AM
+- Check-in: 3PM / Check-out: 12PM (noon)
+- Valet parking: Dial #5 from room
+- Room service: Available 24 hours, Dial #3
+- Housekeeping: Dial #0
+- Wake-up call: Dial #0
+- Laundry: Dial #0, same-day service until 9AM
+- Wi-Fi: Network "Park Hyatt Seoul", no password needed
 
 NEARBY:
 - Bongeunsa Temple: 5 min walk
@@ -2269,10 +2276,10 @@ NEARBY:
 - Hyundai Dept Store: 8 min walk
 
 RULES:
+- NEVER say "I'll check" or "I'll confirm" — answer directly from the info above
 - NEVER say "I can't", "I'm an AI", "I'm unable to"
 - Keep replies concise: 2-3 sentences max
-- Always end with a helpful follow-up offer when appropriate
-- If request is unclear, ask one clarifying question`;
+- Always end with a helpful follow-up offer`;
 
   let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
@@ -2405,7 +2412,7 @@ RULES:
     }, 400);
 
     try {
-      const res = await fetch('https://asia-northeast3-hotel-app-f4a93.cloudfunctions.net/geminiChat', {
+      const res = await fetch('https://geminichat-uc4jxyctlq-du.a.run.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
