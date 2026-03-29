@@ -2177,7 +2177,7 @@
     resultBox.style.display = 'block';
     resultText.textContent = 'Searching…';
     try {
-      const res = await fetch('https://geminiexplore-uc4jxyctlq-du.a.run.app', {
+      const res = await fetch('https://asia-northeast3-hotel-app-f4a93.cloudfunctions.net/geminiExplore', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, hotelName: 'Park Hyatt Seoul', hotelAddress: '서울 강남구 테헤란로 606' })
@@ -2405,7 +2405,7 @@ RULES:
     }, 400);
 
     try {
-      const res = await fetch('https://geminichat-uc4jxyctlq-du.a.run.app', {
+      const res = await fetch('https://asia-northeast3-hotel-app-f4a93.cloudfunctions.net/geminiChat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
