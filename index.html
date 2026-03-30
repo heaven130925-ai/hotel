@@ -2106,7 +2106,6 @@
     'screen-explore': 'nav-explore'
   };
 
-  // ── Notification Panel ──
   // ── 모바일 화면 고정 + safe area JS 처리 ──
   (function() {
     if (window.innerWidth > 480) return;
@@ -2118,16 +2117,36 @@
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
 
-    // CSS env()가 PWA에서 동작 안 할 때를 대비해 JS로 보완
-    setTimeout(() => {
-      const sat = parseInt(getComputedStyle(document.documentElement).paddingTop) || 0;
-      // env()가 0이면 폰 모델별로 직접 지정
-      const topOffset = sat > 0 ? sat : (window.screen.height >= 812 ? 47 : 20);
-      const homeTopBtns = document.getElementById('home-top-btns');
-      if (homeTopBtns && homeTopBtns.getBoundingClientRect().top < topOffset) {
-        homeTopBtns.style.top = (topOffset + 8) + 'px';
+    // Android/iOS PWA safe area 강제 적용
+    // CSS env()가 Android에서 0 반환하는 경우 JS로 직접 계산
+    function applySafeArea() {
+      // 실제 시스템 상태바 높이 감지
+      // Android: window.innerHeight vs screen.height 차이로 계산 불가 → 기기별 직접 지정
+      // iOS: env(safe-area-inset-top)이 동작하므로 CSS만으로도 됨
+      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+      let safeTop = 0;
+
+      if (isIOS) {
+        // iOS는 CSS env()가 동작 → JS에서는 추가 처리 불필요
+        safeTop = 0;
+      } else {
+        // Android PWA: 상태바 높이 24~28dp (거의 모든 기기 공통)
+        // devicePixelRatio로 실제 px 계산
+        const dpr = window.devicePixelRatio || 1;
+        // Android 상태바: 보통 24dp = 24*dpr px, 고해상도폰은 약 27~28dp
+        safeTop = Math.round(24 * (dpr > 2.5 ? 1.2 : 1));
       }
-    }, 100);
+
+      if (safeTop > 0) {
+        const homeTopBtns = document.getElementById('home-top-btns');
+        if (homeTopBtns) homeTopBtns.style.top = (safeTop + 14) + 'px';
+        document.querySelectorAll('.screen-header').forEach(h => {
+          h.style.paddingTop = (safeTop + 20) + 'px';
+        });
+      }
+    }
+
+    setTimeout(applySafeArea, 50);
   })();
 
   let notifOpen = false;
@@ -2211,6 +2230,13 @@
       const mapWrap = document.getElementById('explore-map-wrap');
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
       mapWrap.style.display = 'block';
+
+      // 결과 보이도록 스크롤
+      setTimeout(() => {
+        const scrollArea = document.querySelector('#screen-explore .scroll-area');
+        if (scrollArea) scrollArea.scrollTop = 0;
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
