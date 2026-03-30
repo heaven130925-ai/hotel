@@ -83,7 +83,7 @@
       height: 844px;
       background: #0d0d0d;
       border-radius: 48px;
-      overflow: clip;
+      overflow: hidden;
       position: relative;
       box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 0 1px #222;
     }
@@ -536,7 +536,7 @@
       letter-spacing: 0.5px;
     }
 
-    .scroll-area { flex: 1; overflow-y: auto; padding-bottom: 88px; }
+    .scroll-area { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 88px; -webkit-overflow-scrolling: touch; }
     .scroll-area::-webkit-scrollbar { display: none; }
 
     /* REQUEST LIST */
@@ -2222,10 +2222,13 @@
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
       mapWrap.style.display = 'block';
 
-      // 결과 전체 보이도록 스크롤
+      // iOS Safari 스크롤 높이 재계산 강제 + 맨 위로
       setTimeout(() => {
         const scrollArea = document.querySelector('#screen-explore .scroll-area');
-        if (scrollArea) scrollArea.scrollTo({ top: 9999, behavior: 'smooth' });
+        if (scrollArea) {
+          void scrollArea.offsetHeight; // force reflow
+          scrollArea.scrollTop = 0;
+        }
       }, 150);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
