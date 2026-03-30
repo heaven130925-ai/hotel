@@ -605,7 +605,7 @@
     .msg-bubble {
       padding: 12px 16px;
       border-radius: 18px;
-      font-size: 15px;
+      font-size: 18px;
       line-height: 1.6;
       letter-spacing: 0.2px;
     }
@@ -2184,6 +2184,17 @@
       });
       const data = await res.json();
       resultText.textContent = data.text || '죄송합니다, 다시 시도해주세요.';
+
+      // 구글지도 버튼 추가
+      const existingBtn = document.getElementById('explore-map-btn');
+      if (existingBtn) existingBtn.remove();
+      const mapBtn = document.createElement('a');
+      mapBtn.id = 'explore-map-btn';
+      mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
+      mapBtn.target = '_blank';
+      mapBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:#c9a84c;color:#0d0d0d;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;';
+      mapBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> 구글지도에서 보기';
+      resultBox.appendChild(mapBtn);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
@@ -2284,6 +2295,13 @@ RULES:
   let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
   // ── 대화 localStorage 저장/복원 ──
+  // v3: 오염된 캐시 강제 초기화
+  if (localStorage.getItem('chat_version') !== 'v3') {
+    localStorage.removeItem('chat_html');
+    localStorage.removeItem('chat_history');
+    localStorage.setItem('chat_version', 'v3');
+  }
+
   function saveChatToStorage() {
     localStorage.setItem('chat_html', document.getElementById('chat-area').innerHTML);
     localStorage.setItem('chat_history', JSON.stringify(chatHistory));
