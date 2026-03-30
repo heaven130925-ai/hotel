@@ -81,7 +81,7 @@
       height: 844px;
       background: #0d0d0d;
       border-radius: 48px;
-      overflow: hidden;
+      overflow: clip;
       position: relative;
       box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 0 1px #222;
     }
@@ -101,12 +101,15 @@
         border-radius: 0;
         box-shadow: none;
       }
-      /* 모바일에서 가짜 상태바 항상 숨김 (실제 폰 상태바가 있으므로) */
       #status-bar { display: none !important; }
-      /* 모바일에서만 홈 버튼 표시 */
       #home-top-btns { display: flex !important; }
-      /* safe area는 screen-header와 home-top-btns에서 개별 처리 */
-      /* 하단 safe area — 홈 인디케이터 영역 확보 */
+      /* safe area 상단 — 모든 화면에 적용 */
+      #home-top-btns {
+        top: max(44px, env(safe-area-inset-top, 44px)) !important;
+      }
+      .screen-header {
+        padding-top: max(60px, calc(env(safe-area-inset-top, 44px) + 16px)) !important;
+      }
       .bottom-nav {
         padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
         height: auto !important;
@@ -2115,24 +2118,16 @@
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
 
-    // safe area 값을 JS로 읽어서 홈 버튼에 적용
-    const safeTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat') || '0') ||
-      (window.screen.height - window.innerHeight > 40 ? 44 : 0);
-
-    // CSS env() 지원 여부와 무관하게 PWA에서 확실히 적용
+    // CSS env()가 PWA에서 동작 안 할 때를 대비해 JS로 보완
     setTimeout(() => {
+      const sat = parseInt(getComputedStyle(document.documentElement).paddingTop) || 0;
+      // env()가 0이면 폰 모델별로 직접 지정
+      const topOffset = sat > 0 ? sat : (window.screen.height >= 812 ? 47 : 20);
       const homeTopBtns = document.getElementById('home-top-btns');
-      if (homeTopBtns) {
-        // 노치/Dynamic Island 있는 폰: 약 44~59px, 없는 폰: 20px
-        const topOffset = window.screen.height >= 812 ? 54 : 28;
-        homeTopBtns.style.top = topOffset + 'px';
+      if (homeTopBtns && homeTopBtns.getBoundingClientRect().top < topOffset) {
+        homeTopBtns.style.top = (topOffset + 8) + 'px';
       }
-      // screen-header들도 safe area 반영
-      document.querySelectorAll('.screen-header').forEach(h => {
-        const topOffset = window.screen.height >= 812 ? 60 : 36;
-        h.style.paddingTop = topOffset + 'px';
-      });
-    }, 0);
+    }, 100);
   })();
 
   let notifOpen = false;
