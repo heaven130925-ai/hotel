@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>테마 비교</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f0ede8;
+      font-family: 'Montserrat', sans-serif;
+      padding: 40px 24px 60px;
+    }
+    h1 {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .compare-row {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .theme-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .theme-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .phones-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* ── 공통 폰 프레임 ── */
+    .phone {
+      width: 200px;
+      height: 420px;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    .screen-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #aaa;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* ══════════ DARK THEME ══════════ */
+    .dark .phone { background: #0d0d0d; }
+
+    /* Dark Home */
+    .dark .hero-area {
+      height: 170px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%),
+                  url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80') center/cover;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+    }
+    .dark .hotel-badge {
+      font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; margin-bottom: 3px;
+    }
+    .dark .guest-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #fff; font-weight: 300; }
+    .dark .pills {
+      display: flex; gap: 6px; margin-top: 8px;
+    }
+    .dark .pill {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 4px 8px;
+      font-size: 8px; color: #ccc;
+    }
+    .dark .pill span { display: block; font-size: 9px; color: #f0e6cc; font-weight: 500; margin-top: 1px; }
+    .dark .grid {
+      padding: 12px 12px 0;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+    }
+    .dark .grid-btn {
+      background: #141414; border: 1px solid #1e1e1e; border-radius: 10px;
+      padding: 10px 4px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 5px;
+    }
+    .dark .grid-icon {
+      width: 32px; height: 32px; background: #1c1c1c; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dark .grid-label { font-size: 8px; color: #e0d0a8; }
+    .dark .section-lbl { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #555; padding: 10px 12px 6px; }
+    .dark .nav {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(10,10,10,0.96); border-top: 1px solid #222;
+      display: flex; justify-content: space-around; align-items: center; padding: 8px 0 10px;
+    }
+    .dark .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; opacity: 0.5; }
+    .dark .nav-item.active { opacity: 1; }
+    .dark .nav-lbl { font-size: 7px; letter-spacing: 0.8px; text-transform: uppercase; color: #ccc; }
+    .dark .nav-item.active .nav-lbl { color: #c9a84c; }
+
+    /* Dark Chat */
+    .dark .chat-bg { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+    .dark .chat-header {
+      padding: 32px 12px 12px; border-bottom: 1px solid #161616;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dark .chat-back {
+      width: 28px; height: 28px; background: #222; border: 1px solid #333; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dark .chat-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #f0e6cc; }
+    .dark .messages { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .dark .msg-hotel {
+      align-self: flex-start; max-width: 75%;
+      background: #161616; border: 1px solid #222; border-radius: 12px 12px 12px 3px;
+      padding: 9px 12px; font-size: 10px; color: #c8b890; line-height: 1.5;
+    }
+    .dark .msg-guest {
+      align-self: flex-end; max-width: 75%;
+      background: linear-gradient(135deg, #c9a84c, #9e7a20);
+      border-radius: 12px 12px 3px 12px;
+      padding: 9px 12px; font-size: 10px; color: #0d0d0d; font-weight: 500; line-height: 1.5;
+    }
+    .dark .sender { font-size: 7px; letter-spacing: 1.5px; color: #444; margin-bottom: 4px; }
+    .dark .chat-input-bar {
+      padding: 8px 10px 14px; background: #0d0d0d; border-top: 1px solid #161616;
+      display: flex; gap: 6px; align-items: center;
+    }
+    .dark .c-input {
+      flex: 1; background: #161616; border: 1px solid #222; border-radius: 16px;
+      padding: 7px 12px; font-size: 9px; color: #555; font-family: 'Montserrat', sans-serif;
+    }
+    .dark .c-send {
+      width: 28px; height: 28px; background: #c9a84c; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Dark Explore */
+    .dark .explore-bg { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+    .dark .explore-header {
+      padding: 32px 12px 12px; border-bottom: 1px solid #161616;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dark .explore-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #f0e6cc; }
+    .dark .search-box {
+      margin: 10px 12px 8px;
+      background: #141414; border: 1px solid #1e1e1e; border-radius: 10px;
+      padding: 8px 10px; font-size: 9px; color: #555; display: flex; align-items: center; gap: 6px;
+    }
+    .dark .ecard-d {
+      margin: 0 12px 6px; background: #141414; border: 1px solid #1e1e1e; border-radius: 10px;
+      padding: 8px 10px; display: flex; gap: 8px; align-items: center;
+    }
+    .dark .ecard-img-d {
+      width: 40px; height: 40px; border-radius: 7px; object-fit: cover;
+      background: #1e1e1e; flex-shrink: 0;
+    }
+    .dark .ecard-tag-d { font-size: 7px; letter-spacing: 1px; color: #c9a84c; text-transform: uppercase; }
+    .dark .ecard-name-d { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #f0e6cc; }
+    .dark .ecard-info-d { font-size: 8px; color: #555; margin-top: 1px; }
+
+    /* ══════════ LIGHT THEME ══════════ */
+    .light .phone { background: #faf8f4; }
+
+    /* Light Home */
+    .light .hero-area {
+      height: 170px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(250,240,220,0.7) 80%, #faf8f4 100%),
+                  url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80') center/cover;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+    }
+    .light .hotel-badge {
+      font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #a07830; margin-bottom: 3px;
+    }
+    .light .guest-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #2c2216; font-weight: 400; }
+    .light .pills { display: flex; gap: 6px; margin-top: 8px; }
+    .light .pill {
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(160,120,48,0.2);
+      border-radius: 8px; padding: 4px 8px; font-size: 8px; color: #888;
+    }
+    .light .pill span { display: block; font-size: 9px; color: #3a2c1a; font-weight: 500; margin-top: 1px; }
+    .light .section-lbl { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; padding: 10px 12px 6px; }
+    .light .grid {
+      padding: 12px 12px 0;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+    }
+    .light .grid-btn {
+      background: #fff; border: 1px solid #ece8e0; border-radius: 10px;
+      padding: 10px 4px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .light .grid-icon {
+      width: 32px; height: 32px; background: #fdf5e8; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .light .grid-label { font-size: 8px; color: #5a4a34; }
+    .light .nav {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(250,248,244,0.97); border-top: 1px solid #ece8e0;
+      display: flex; justify-content: space-around; align-items: center; padding: 8px 0 10px;
+    }
+    .light .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; opacity: 0.4; }
+    .light .nav-item.active { opacity: 1; }
+    .light .nav-lbl { font-size: 7px; letter-spacing: 0.8px; text-transform: uppercase; color: #888; }
+    .light .nav-item.active .nav-lbl { color: #a07830; }
+
+    /* Light Chat */
+    .light .chat-bg { background: #faf8f4; height: 100%; display: flex; flex-direction: column; }
+    .light .chat-header {
+      padding: 32px 12px 12px; border-bottom: 1px solid #ece8e0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .light .chat-back {
+      width: 28px; height: 28px; background: #fff; border: 1px solid #ddd; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .light .chat-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #2c2216; }
+    .light .messages { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .light .msg-hotel {
+      align-self: flex-start; max-width: 75%;
+      background: #fff; border: 1px solid #ece8e0; border-radius: 12px 12px 12px 3px;
+      padding: 9px 12px; font-size: 10px; color: #5a4a34; line-height: 1.5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .light .msg-guest {
+      align-self: flex-end; max-width: 75%;
+      background: linear-gradient(135deg, #b8914a, #8a6a20);
+      border-radius: 12px 12px 3px 12px;
+      padding: 9px 12px; font-size: 10px; color: #fff; font-weight: 500; line-height: 1.5;
+    }
+    .light .sender { font-size: 7px; letter-spacing: 1.5px; color: #bbb; margin-bottom: 4px; }
+    .light .chat-input-bar {
+      padding: 8px 10px 14px; background: #faf8f4; border-top: 1px solid #ece8e0;
+      display: flex; gap: 6px; align-items: center;
+    }
+    .light .c-input {
+      flex: 1; background: #fff; border: 1px solid #ddd; border-radius: 16px;
+      padding: 7px 12px; font-size: 9px; color: #888; font-family: 'Montserrat', sans-serif;
+    }
+    .light .c-send {
+      width: 28px; height: 28px; background: #b8914a; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Light Explore */
+    .light .explore-bg { background: #faf8f4; height: 100%; display: flex; flex-direction: column; }
+    .light .explore-header {
+      padding: 32px 12px 12px; border-bottom: 1px solid #ece8e0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .light .explore-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #2c2216; }
+    .light .search-box {
+      margin: 10px 12px 8px;
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 8px 10px; font-size: 9px; color: #aaa; display: flex; align-items: center; gap: 6px;
+    }
+    .light .ecard-d {
+      margin: 0 12px 6px; background: #fff; border: 1px solid #ece8e0; border-radius: 10px;
+      padding: 8px 10px; display: flex; gap: 8px; align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .light .ecard-img-d {
+      width: 40px; height: 40px; border-radius: 7px; object-fit: cover; flex-shrink: 0;
+    }
+    .light .ecard-tag-d { font-size: 7px; letter-spacing: 1px; color: #b8914a; text-transform: uppercase; }
+    .light .ecard-name-d { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #2c2216; }
+    .light .ecard-info-d { font-size: 8px; color: #aaa; margin-top: 1px; }
+
+    /* 버튼 */
+    .btn-row {
+      display: flex; gap: 16px; justify-content: center; margin-top: 40px; flex-wrap: wrap;
+    }
+    .pick-btn {
+      padding: 14px 32px; border-radius: 12px; font-size: 13px; font-weight: 500;
+      cursor: pointer; border: none; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px;
+    }
+    .pick-dark { background: #0d0d0d; color: #c9a84c; }
+    .pick-light { background: #b8914a; color: #fff; }
+    .pick-both { background: #f0ede8; color: #555; border: 1px solid #ddd; }
+    .note {
+      text-align: center; font-size: 11px; color: #aaa; margin-top: 14px; letter-spacing: 0.5px;
+    }
+    .divider {
+      text-align: center; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #bbb;
+      margin: 20px 0 32px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>테마 비교</h1>
+<div class="subtitle">Dark vs Light — 어느 쪽이 더 좋으세요?</div>
+
+<div class="compare-row">
+
+  <!-- ── DARK ── -->
+  <div class="theme-col dark">
+    <div class="theme-label">🌑 Current — Dark Luxury</div>
+    <div class="phones-row">
+
+      <!-- Dark Home -->
+      <div>
+        <div class="phone">
+          <div class="hero-area">
+            <div class="hotel-badge">Your Hotel</div>
+            <div class="guest-name">Heaven Kim</div>
+            <div class="pills">
+              <div class="pill">Room<span>2104</span></div>
+              <div class="pill">Check-out<span>Mar 27</span></div>
+              <div class="pill">Nights<span>2</span></div>
+            </div>
+          </div>
+          <div class="section-lbl">Services</div>
+          <div class="grid">
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+              <div class="grid-label">Requests</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div class="grid-label">Concierge</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+              <div class="grid-label">Explore</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+              <div class="grid-label">Room Info</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 3h18v13H3z"/><path d="M3 8h18M8 21l4-5 4 5"/></svg></div>
+              <div class="grid-label">Dining</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <div class="grid-label">Valet</div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-item active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <div class="nav-lbl">Home</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+              <div class="nav-lbl">Request</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div class="nav-lbl">Chat</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg>
+              <div class="nav-lbl">Explore</div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Home</div>
+      </div>
+
+      <!-- Dark Chat -->
+      <div>
+        <div class="phone">
+          <div class="chat-bg">
+            <div class="chat-header">
+              <div class="chat-back"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div>
+                <div class="chat-title">AI Concierge</div>
+                <div style="font-size:7px;color:#555;letter-spacing:1px">CONCIERGE</div>
+              </div>
+            </div>
+            <div class="messages">
+              <div>
+                <div class="sender">Concierge</div>
+                <div class="msg-hotel">안녕하세요, 고객님. 무엇을 도와드릴까요? 😊</div>
+              </div>
+              <div style="align-self:flex-end;max-width:75%">
+                <div class="msg-guest">사우나 몇 시까지 해요?</div>
+              </div>
+              <div>
+                <div class="sender">Concierge</div>
+                <div class="msg-hotel">사우나는 24시간 운영됩니다! 스팀룸과 피트니스센터도 함께 이용 가능해요.</div>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <div class="c-input">메시지를 입력하세요...</div>
+              <div class="c-send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Concierge</div>
+      </div>
+
+      <!-- Dark Explore -->
+      <div>
+        <div class="phone">
+          <div class="explore-bg">
+            <div class="explore-header">
+              <div class="chat-back"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div>
+                <div class="explore-title">Explore Seoul</div>
+                <div style="font-size:7px;color:#555;letter-spacing:1px">NEAR YOUR HOTEL</div>
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              근처 맛집, 약국, 관광지...
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/mingles/80/80" />
+              <div>
+                <div class="ecard-tag-d">Dining · Michelin ★★</div>
+                <div class="ecard-name-d">Mingles</div>
+                <div class="ecard-info-d">Contemporary Korean · 10 min</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/gaon/80/80" />
+              <div>
+                <div class="ecard-tag-d">Dining · Michelin ★★★</div>
+                <div class="ecard-name-d">Gaon</div>
+                <div class="ecard-info-d">Korean Royal Cuisine · 15 min</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/bongeunsa/80/80" />
+              <div>
+                <div class="ecard-tag-d">Attraction · Temple</div>
+                <div class="ecard-name-d">Bongeunsa Temple</div>
+                <div class="ecard-info-d">Historic temple · 5 min walk</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/coex/80/80" />
+              <div>
+                <div class="ecard-tag-d">Attraction</div>
+                <div class="ecard-name-d">COEX & Starfield</div>
+                <div class="ecard-info-d">Mall · Library · 5 min walk</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Explore</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LIGHT ── -->
+  <div class="theme-col light">
+    <div class="theme-label">☀️ New — Light Resort</div>
+    <div class="phones-row">
+
+      <!-- Light Home -->
+      <div>
+        <div class="phone">
+          <div class="hero-area">
+            <div class="hotel-badge">Your Hotel</div>
+            <div class="guest-name">Heaven Kim</div>
+            <div class="pills">
+              <div class="pill">Room<span>2104</span></div>
+              <div class="pill">Check-out<span>Mar 27</span></div>
+              <div class="pill">Nights<span>2</span></div>
+            </div>
+          </div>
+          <div class="section-lbl">Services</div>
+          <div class="grid">
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+              <div class="grid-label">Requests</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div class="grid-label">Concierge</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+              <div class="grid-label">Explore</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+              <div class="grid-label">Room Info</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 3h18v13H3z"/><path d="M3 8h18M8 21l4-5 4 5"/></svg></div>
+              <div class="grid-label">Dining</div>
+            </div>
+            <div class="grid-btn">
+              <div class="grid-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <div class="grid-label">Valet</div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-item active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <div class="nav-lbl">Home</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+              <div class="nav-lbl">Request</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div class="nav-lbl">Chat</div>
+            </div>
+            <div class="nav-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg>
+              <div class="nav-lbl">Explore</div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Home</div>
+      </div>
+
+      <!-- Light Chat -->
+      <div>
+        <div class="phone">
+          <div class="chat-bg">
+            <div class="chat-header">
+              <div class="chat-back"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div>
+                <div class="chat-title">AI Concierge</div>
+                <div style="font-size:7px;color:#bbb;letter-spacing:1px">CONCIERGE</div>
+              </div>
+            </div>
+            <div class="messages">
+              <div>
+                <div class="sender">Concierge</div>
+                <div class="msg-hotel">안녕하세요, 고객님. 무엇을 도와드릴까요? 😊</div>
+              </div>
+              <div style="align-self:flex-end;max-width:75%">
+                <div class="msg-guest">사우나 몇 시까지 해요?</div>
+              </div>
+              <div>
+                <div class="sender">Concierge</div>
+                <div class="msg-hotel">사우나는 24시간 운영됩니다! 스팀룸과 피트니스센터도 함께 이용 가능해요.</div>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <div class="c-input">메시지를 입력하세요...</div>
+              <div class="c-send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Concierge</div>
+      </div>
+
+      <!-- Light Explore -->
+      <div>
+        <div class="phone">
+          <div class="explore-bg">
+            <div class="explore-header">
+              <div class="chat-back"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div>
+                <div class="explore-title">Explore Seoul</div>
+                <div style="font-size:7px;color:#bbb;letter-spacing:1px">NEAR YOUR HOTEL</div>
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              근처 맛집, 약국, 관광지...
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/mingles/80/80" />
+              <div>
+                <div class="ecard-tag-d">Dining · Michelin ★★</div>
+                <div class="ecard-name-d">Mingles</div>
+                <div class="ecard-info-d">Contemporary Korean · 10 min</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/gaon/80/80" />
+              <div>
+                <div class="ecard-tag-d">Dining · Michelin ★★★</div>
+                <div class="ecard-name-d">Gaon</div>
+                <div class="ecard-info-d">Korean Royal Cuisine · 15 min</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/bongeunsa/80/80" />
+              <div>
+                <div class="ecard-tag-d">Attraction · Temple</div>
+                <div class="ecard-name-d">Bongeunsa Temple</div>
+                <div class="ecard-info-d">Historic temple · 5 min walk</div>
+              </div>
+            </div>
+            <div class="ecard-d">
+              <img class="ecard-img-d" src="https://picsum.photos/seed/coex/80/80" />
+              <div>
+                <div class="ecard-tag-d">Attraction</div>
+                <div class="ecard-name-d">COEX & Starfield</div>
+                <div class="ecard-info-d">Mall · Library · 5 min walk</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">Explore</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="btn-row">
+  <button class="pick-btn pick-dark">🌑 Dark 유지</button>
+  <button class="pick-btn pick-light">☀️ Light로 변경</button>
+  <button class="pick-btn pick-both">두 버전 모두 만들기</button>
+</div>
+<div class="note">선택하시면 실제 앱에 바로 적용해드립니다</div>
+
+</body>
+</html>
