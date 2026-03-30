@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#0d0d0d" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-192.png" />
-  <title>Park Hyatt Seoul — Guest App</title>
+  <title>Hotel Guest App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -32,7 +32,7 @@
 
     // URL에서 hotelId 가져오기 (없으면 기본값)
     const params = new URLSearchParams(window.location.search);
-    const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+    const hotelId = params.get('hotel') || 'demo-hotel';
 
     async function loadHotelData() {
       try {
@@ -953,7 +953,7 @@
 
     <!-- 풀스크린 배경 사진 -->
     <div class="landing-bg">
-      <img src="hero.jpg" alt="Park Hyatt Seoul" />
+      <img src="hero.jpg" alt="Hotel" />
     </div>
 
     <div class="landing-content">
@@ -1005,27 +1005,27 @@
 
     <div class="hero">
       <div class="hero-clip">
-        <img class="hero-img" src="hero.jpg" alt="Park Hyatt Seoul" style="object-position: center top;" />
+        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center top;" />
         <div class="hero-overlay"></div>
       </div>
     </div>
 
     <div class="hero-content">
-      <div class="hotel-badge">Park Hyatt Seoul</div>
+      <div class="hotel-badge hotel-name">Your Hotel</div>
       <div class="guest-greeting">Welcome back</div>
-      <div class="guest-name">Heaven Kim</div>
+      <div class="guest-name guest-name-text">Guest</div>
       <div class="room-strip">
         <div class="room-pill">
           <div class="pill-label">Room</div>
-          <div class="pill-val">2104</div>
+          <div class="pill-val" data-room>—</div>
         </div>
         <div class="room-pill">
           <div class="pill-label">Check-out</div>
-          <div class="pill-val">Mar 27</div>
+          <div class="pill-val" data-checkout>—</div>
         </div>
         <div class="room-pill">
           <div class="pill-label">Nights Left</div>
-          <div class="pill-val">2</div>
+          <div class="pill-val" data-nights>—</div>
         </div>
       </div>
     </div>
@@ -1129,7 +1129,7 @@
       </div>
       <div>
         <div class="screen-title">Service Requests</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
 
@@ -1286,7 +1286,7 @@
 
     <div class="chat-area" id="chat-area">
       <div class="msg hotel">
-        <div class="msg-sender">Park Hyatt Seoul</div>
+        <div class="msg-sender hotel-name-text">Concierge</div>
         <div class="msg-bubble">Good evening, Ms. Kim. How may I assist you today?</div>
         <div class="msg-time">2:05 PM</div>
       </div>
@@ -1295,8 +1295,8 @@
         <div class="msg-time">2:07 PM</div>
       </div>
       <div class="msg hotel">
-        <div class="msg-sender">Park Hyatt Seoul</div>
-        <div class="msg-bubble">Of course. I'd recommend Mingles (Michelin ★★) for Korean fine dining, just 10 minutes away. Shall I make a reservation?</div>
+        <div class="msg-sender hotel-name-text">Concierge</div>
+        <div class="msg-bubble">Of course! I'd be happy to recommend nearby dining options. What type of cuisine are you in the mood for?</div>
         <div class="msg-time">2:08 PM</div>
       </div>
       <div class="msg guest">
@@ -1304,8 +1304,8 @@
         <div class="msg-time">2:09 PM</div>
       </div>
       <div class="msg hotel">
-        <div class="msg-sender">Park Hyatt Seoul</div>
-        <div class="msg-bubble">Confirmed ✓<br>Mingles, tonight 7:00 PM, 2 guests, under Kim. Is there anything else I can help with?</div>
+        <div class="msg-sender hotel-name-text">Concierge</div>
+        <div class="msg-bubble">Reservation confirmed ✓<br>Is there anything else I can help with?</div>
         <div class="msg-time">2:10 PM</div>
       </div>
     </div>
@@ -1398,7 +1398,7 @@
         <div class="info-card-body">
           <div class="info-row"><span class="info-key">Check-in</span><span class="info-val">3:00 PM</span></div>
           <div class="info-row"><span class="info-key">Check-out</span><span class="info-val">12:00 PM</span></div>
-          <div class="info-row"><span class="info-key">Wi-Fi</span><span class="info-val">ParkHyattSeoul</span></div>
+          <div class="info-row"><span class="info-key">Wi-Fi</span><span class="info-val hotel-wifi">—</span></div>
           <div class="info-row"><span class="info-key">Front Desk</span><span class="info-val">Dial #0</span></div>
           <div class="info-row"><span class="info-key">Address</span><span class="info-val">995-14 Daechi-dong</span></div>
         </div>
@@ -1619,7 +1619,7 @@
       </div>
       <div>
         <div class="screen-title">In-Room Guide</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
 
@@ -1786,7 +1786,7 @@
       </div>
       <div>
         <div class="screen-title">Online Check-in</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">ROOM 2104</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
 
@@ -1805,7 +1805,7 @@
 
         <div>
           <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">FULL NAME</div>
-          <input type="text" value="Heaven Kim" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <input type="text" placeholder="Full Name" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div>
@@ -1854,7 +1854,7 @@
 
         <div>
           <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CARDHOLDER NAME</div>
-          <input type="text" value="Heaven Kim" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <input type="text" placeholder="Full Name" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div style="display:flex;gap:10px;margin-top:8px">
@@ -1868,10 +1868,10 @@
         <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Confirm</div>
 
         <div style="background:#141414;border:1px solid #1e1e1e;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Guest</span><span style="font-size:12px;color:#f0e6cc">Heaven Kim</span></div>
-          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room</span><span style="font-size:12px;color:#f0e6cc">2104</span></div>
-          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Check-out</span><span style="font-size:12px;color:#f0e6cc">March 27, 2025</span></div>
-          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room Type</span><span style="font-size:12px;color:#f0e6cc">Park Deluxe King</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Guest</span><span style="font-size:12px;color:#f0e6cc guest-name">—</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room</span><span style="font-size:12px;color:#f0e6cc" data-room>—</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Check-out</span><span style="font-size:12px;color:#f0e6cc" data-checkout>—</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room Type</span><span style="font-size:12px;color:#f0e6cc">Deluxe</span></div>
           <div style="border-top:1px solid #222;padding-top:10px;display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Key Delivery</span><span style="font-size:12px;color:#c9a84c">Mobile Key</span></div>
         </div>
 
@@ -1931,112 +1931,8 @@
 
       <div id="explore-list" style="padding:0 24px;display:flex;flex-direction:column;gap:10px">
 
-        <!-- DINING -->
-        <div class="ecard" data-cat="dining">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/mingles/144/144" alt="Mingles" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Dining · Michelin ★★</div>
-              <div class="ecard-name">Mingles</div>
-              <div class="ecard-info">Contemporary Korean · 10 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=Mingles+Seoul+Gangnam" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <div class="ecard" data-cat="dining">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/gaon/144/144" alt="Gaon" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Dining · Michelin ★★★</div>
-              <div class="ecard-name">Gaon</div>
-              <div class="ecard-info">Korean Royal Cuisine · 15 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=Gaon+Restaurant+Seoul" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <div class="ecard" data-cat="dining">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/jungsik/144/144" alt="Jungsik" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Dining · Michelin ★</div>
-              <div class="ecard-name">Jungsik</div>
-              <div class="ecard-info">Modern Korean · 12 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=Jungsik+Seoul" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <!-- ATTRACTIONS -->
-        <div class="ecard" data-cat="attraction">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/bongeunsa/144/144" alt="Bongeunsa" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Attraction · Temple</div>
-              <div class="ecard-name">Bongeunsa Temple</div>
-              <div class="ecard-info">Historic Buddhist temple · 5 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=Bongeunsa+Temple+Seoul" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <div class="ecard" data-cat="attraction">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/seonjeong/144/144" alt="Seonjeongneung" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Attraction · Royal Tomb</div>
-              <div class="ecard-name">Seonjeongneung</div>
-              <div class="ecard-info">UNESCO World Heritage · 10 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=Seonjeongneung+Seoul" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <div class="ecard" data-cat="attraction">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/coex/144/144" alt="COEX" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Attraction · Convention</div>
-              <div class="ecard-name">COEX & Starfield</div>
-              <div class="ecard-info">Mall, Aquarium, Library · 5 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=COEX+Mall+Seoul" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
-        </div>
-
-        <!-- SHOPPING -->
-        <div class="ecard" data-cat="shopping">
-          <div class="ecard-top">
-            <img class="ecard-img" src="https://picsum.photos/seed/hyundai/144/144" alt="Hyundai" />
-            <div class="ecard-body">
-              <div class="ecard-tag">Shopping · Department Store</div>
-              <div class="ecard-name">Hyundai Dept Store</div>
-              <div class="ecard-info">Luxury & lifestyle · 8 min walk</div>
-            </div>
-            <a href="https://maps.google.com/?q=현대백화점+무역센터점" target="_blank" class="map-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              Map
-            </a>
-          </div>
+        <div style="padding:32px 0;text-align:center;color:#333;font-size:13px;line-height:1.8">
+          AI 검색을 사용하거나<br>카테고리를 선택해 주변 장소를 찾아보세요.
         </div>
 
         <div class="ecard" data-cat="shopping">
@@ -2179,10 +2075,10 @@
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#f0e6cc">Check-in Complete</div>
-        <div style="font-size:12px;color:#555;line-height:1.7">Room 2104 is confirmed.<br>Your mobile key is ready.<br>We look forward to welcoming you.</div>
+        <div style="font-size:12px;color:#555;line-height:1.7">Your room is confirmed.<br>Your mobile key is ready.<br>We look forward to welcoming you.</div>
         <div style="margin-top:8px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px 24px;display:flex;align-items:center;gap:10px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-          <div style="text-align:left"><div style="font-size:10px;color:#555;letter-spacing:1px">MOBILE KEY</div><div style="font-size:13px;color:#c9a84c">Room 2104 · Active</div></div>
+          <div style="text-align:left"><div style="font-size:10px;color:#555;letter-spacing:1px">MOBILE KEY</div><div style="font-size:13px;color:#c9a84c">Mobile Key · Active</div></div>
         </div>
         <div onclick="goTo('screen-home')" style="margin-top:12px;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:13px 32px;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer">Back to Home</div>
       </div>`;
@@ -2217,7 +2113,7 @@
       const res = await fetch('https://geminiexplore-uc4jxyctlq-du.a.run.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, hotelName: 'Park Hyatt Seoul', hotelAddress: '서울 강남구 테헤란로 606' })
+        body: JSON.stringify({ query, hotelName: window._hotelName || '', hotelAddress: window._hotelAddress || '' })
       });
       const data = await res.json();
       const rawText = data.text || '죄송합니다, 다시 시도해주세요.';
@@ -2294,15 +2190,15 @@
   });
 
   // ── Gemini AI Concierge ──
-  const SYSTEM_PROMPT = `You are a luxury hotel concierge at Park Hyatt Seoul. The guest is Heaven Kim, staying in Room 2104, checking out March 27.
+  const SYSTEM_PROMPT = `You are a luxury hotel concierge. The guest has contacted you through the hotel's guest app.
 
 PERSONALITY: Warm, professional, proactive. You ask follow-up questions when needed to fulfill requests properly.
 
 LANGUAGE: Always reply in the same language as the guest. Korean → Korean, English → English.
-ADDRESS: Korean → "김 고객님", English → "Ms. Kim"
+ADDRESS: Korean → "고객님", English → "Dear Guest"
 
 BEHAVIOR BY SITUATION:
-- Room service / food order → Ask what they'd like from the menu (mention The Lounge, The Bar)
+- Room service / food order → Ask what they'd like and confirm details
 - Amenity request (towels, pillows etc) → Confirm quantity and say ETA (~10 min)
 - Housekeeping → Confirm time preference or say you'll send someone now
 - Restaurant recommendation → Give specific nearby options with details
@@ -2310,29 +2206,8 @@ BEHAVIOR BY SITUATION:
 - Valet / car → Ask for timing preference
 - General questions → Answer helpfully and offer further assistance
 
-HOTEL INFO (answer these directly without saying "I'll check"):
-- Sauna / Fitness & Spa: Open 24 hours
-- Indoor Pool: 6AM–10PM
-- The Lounge (B1): All-day dining, open until 1AM
-- The Bar: Cocktails & light bites, open until midnight
-- Breakfast: The Lounge, 6:30AM–10:30AM
-- Check-in: 3PM / Check-out: 12PM (noon)
-- Valet parking: Dial #5 from room
-- Room service: Available 24 hours, Dial #3
-- Housekeeping: Dial #0
-- Wake-up call: Dial #0
-- Laundry: Dial #0, same-day service until 9AM
-- Wi-Fi: Network "Park Hyatt Seoul", no password needed
-
-NEARBY:
-- Bongeunsa Temple: 5 min walk
-- COEX & Starfield Library: 5 min walk
-- Mingles (Michelin ★★): 10 min walk
-- Gaon (Michelin ★★★): 15 min walk
-- Hyundai Dept Store: 8 min walk
-
 RULES:
-- NEVER say "I'll check" or "I'll confirm" — answer directly from the info above
+- NEVER say "I'll check" or "I'll confirm" — answer directly and helpfully
 - NEVER say "I can't", "I'm an AI", "I'm unable to"
 - Keep replies concise: 2-3 sentences max
 - Always end with a helpful follow-up offer`;
@@ -2526,7 +2401,7 @@ RULES:
           const app2 = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
           const db2 = getFirestore(app2);
           const params = new URLSearchParams(window.location.search);
-          const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+          const hotelId = params.get('hotel') || 'demo-hotel';
           await addDoc(collection(db2, 'hotels', hotelId, 'requests'), {
             title: `[컨시어지] ${text}`,
             note: reply.replace(/<br>/g, ' ').substring(0, 100),
@@ -2635,7 +2510,7 @@ RULES:
       const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
       const db = getFirestore(app);
       const params = new URLSearchParams(window.location.search);
-      const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+      const hotelId = params.get('hotel') || 'demo-hotel';
       await addDoc(collection(db, 'hotels', hotelId, 'requests'), {
         title,
         note,
