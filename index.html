@@ -102,16 +102,15 @@
         box-shadow: none;
       }
       #status-bar { display: none !important; }
-      #home-top-btns { display: flex !important; }
-      /* safe area 상단 — 모든 화면에 적용 */
       #home-top-btns {
-        top: max(44px, env(safe-area-inset-top, 44px)) !important;
+        display: flex !important;
+        top: calc(env(safe-area-inset-top) + 12px) !important;
       }
       .screen-header {
-        padding-top: max(60px, calc(env(safe-area-inset-top, 44px) + 16px)) !important;
+        padding-top: calc(env(safe-area-inset-top) + 20px) !important;
       }
       .bottom-nav {
-        padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
         height: auto !important;
       }
     }
@@ -998,7 +997,7 @@
   <div class="screen" id="screen-home">
 
     <!-- 홈 전용 상단 버튼 (뒤로가기 + 종) -->
-    <div style="position:absolute;top:calc(env(safe-area-inset-top, 12px) + 12px);left:16px;z-index:20;display:none;gap:8px" id="home-top-btns">
+    <div style="position:absolute;left:16px;z-index:20;display:none;gap:8px" id="home-top-btns">
       <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(0,0,0,0.4);border-radius:10px;backdrop-filter:blur(8px)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
@@ -2117,36 +2116,26 @@
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
 
-    // Android/iOS PWA safe area 강제 적용
-    // CSS env()가 Android에서 0 반환하는 경우 JS로 직접 계산
+    // CSS env(safe-area-inset-top) 실제값을 JS로 읽어서 강제 적용
     function applySafeArea() {
-      // 실제 시스템 상태바 높이 감지
-      // Android: window.innerHeight vs screen.height 차이로 계산 불가 → 기기별 직접 지정
-      // iOS: env(safe-area-inset-top)이 동작하므로 CSS만으로도 됨
-      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-      let safeTop = 0;
+      const el = document.createElement('div');
+      el.style.cssText = 'position:fixed;top:env(safe-area-inset-top);width:0;height:0;visibility:hidden';
+      document.body.appendChild(el);
+      const safeTop = el.getBoundingClientRect().top;
+      document.body.removeChild(el);
 
-      if (isIOS) {
-        // iOS는 CSS env()가 동작 → JS에서는 추가 처리 불필요
-        safeTop = 0;
-      } else {
-        // Android PWA: 상태바 높이 24~28dp (거의 모든 기기 공통)
-        // devicePixelRatio로 실제 px 계산
-        const dpr = window.devicePixelRatio || 1;
-        // Android 상태바: 보통 24dp = 24*dpr px, 고해상도폰은 약 27~28dp
-        safeTop = Math.round(24 * (dpr > 2.5 ? 1.2 : 1));
-      }
+      // safeTop이 0이면 Android 기본값 사용
+      const top = safeTop > 0 ? safeTop : 24;
 
-      if (safeTop > 0) {
-        const homeTopBtns = document.getElementById('home-top-btns');
-        if (homeTopBtns) homeTopBtns.style.top = (safeTop + 14) + 'px';
-        document.querySelectorAll('.screen-header').forEach(h => {
-          h.style.paddingTop = (safeTop + 20) + 'px';
-        });
-      }
+      const homeTopBtns = document.getElementById('home-top-btns');
+      if (homeTopBtns) homeTopBtns.style.top = (top + 12) + 'px';
+
+      document.querySelectorAll('.screen-header').forEach(h => {
+        h.style.paddingTop = (top + 20) + 'px';
+      });
     }
 
-    setTimeout(applySafeArea, 50);
+    setTimeout(applySafeArea, 100);
   })();
 
   let notifOpen = false;
@@ -2231,11 +2220,10 @@
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
       mapWrap.style.display = 'block';
 
-      // 결과 보이도록 스크롤
+      // 결과 보이도록 scroll-area 맨 위로
       setTimeout(() => {
         const scrollArea = document.querySelector('#screen-explore .scroll-area');
-        if (scrollArea) scrollArea.scrollTop = 0;
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
       }, 100);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
