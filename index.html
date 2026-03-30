@@ -663,7 +663,7 @@
       border-radius: 24px;
       padding: 11px 18px;
       color: #d4c4a0;
-      font-size: 12px;
+      font-size: 16px;
       outline: none;
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 0.3px;
@@ -1913,7 +1913,13 @@
         </div>
         <div id="explore-ai-result" style="display:none;margin-top:10px;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:14px">
           <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:8px">AI CONCIERGE</div>
-          <div id="explore-ai-text" style="font-size:15px;color:#ccc;line-height:1.7;white-space:pre-wrap"></div>
+          <div id="explore-ai-text" style="font-size:16px;color:#ccc;line-height:1.7;white-space:pre-wrap"></div>
+          <div id="explore-map-wrap" style="margin-top:12px;display:none">
+            <a id="explore-map-btn" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#c9a84c;color:#0d0d0d;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              구글지도에서 보기
+            </a>
+          </div>
         </div>
       </div>
 
@@ -2098,7 +2104,7 @@
   };
 
   // ── Notification Panel ──
-  // ── 모바일 화면 고정 ──
+  // ── 모바일 화면 고정 + safe area JS 처리 ──
   (function() {
     if (window.innerWidth > 480) return;
     const phone = document.querySelector('.phone');
@@ -2108,6 +2114,25 @@
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
+
+    // safe area 값을 JS로 읽어서 홈 버튼에 적용
+    const safeTop = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat') || '0') ||
+      (window.screen.height - window.innerHeight > 40 ? 44 : 0);
+
+    // CSS env() 지원 여부와 무관하게 PWA에서 확실히 적용
+    setTimeout(() => {
+      const homeTopBtns = document.getElementById('home-top-btns');
+      if (homeTopBtns) {
+        // 노치/Dynamic Island 있는 폰: 약 44~59px, 없는 폰: 20px
+        const topOffset = window.screen.height >= 812 ? 54 : 28;
+        homeTopBtns.style.top = topOffset + 'px';
+      }
+      // screen-header들도 safe area 반영
+      document.querySelectorAll('.screen-header').forEach(h => {
+        const topOffset = window.screen.height >= 812 ? 60 : 36;
+        h.style.paddingTop = topOffset + 'px';
+      });
+    }, 0);
   })();
 
   let notifOpen = false;
@@ -2186,16 +2211,11 @@
       const data = await res.json();
       resultText.textContent = data.text || '죄송합니다, 다시 시도해주세요.';
 
-      // 구글지도 버튼 추가
-      const existingBtn = document.getElementById('explore-map-btn');
-      if (existingBtn) existingBtn.remove();
-      const mapBtn = document.createElement('a');
-      mapBtn.id = 'explore-map-btn';
+      // 구글지도 버튼 표시
+      const mapBtn = document.getElementById('explore-map-btn');
+      const mapWrap = document.getElementById('explore-map-wrap');
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
-      mapBtn.target = '_blank';
-      mapBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:#c9a84c;color:#0d0d0d;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;';
-      mapBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> 구글지도에서 보기';
-      resultBox.appendChild(mapBtn);
+      mapWrap.style.display = 'block';
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
