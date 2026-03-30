@@ -1,7 +1,11 @@
 const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 
-const GEMINI_API_KEY = "AIzaSyDzq_QI_4nvGaor0UZxKkyNT76j_wHvDUs";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const geminiApiKey = defineSecret("GEMINI_API_KEY");
+
+function getGeminiUrl() {
+  return `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey.value()}`;
+}
 
 const HOTEL_SYSTEM_PROMPT = `You are a luxury hotel concierge at Park Hyatt Seoul. The guest is staying in Room 2104.
 
@@ -38,7 +42,7 @@ async function callGemini(contents, systemInstruction) {
     systemInstruction: { parts: [{ text: systemInstruction || HOTEL_SYSTEM_PROMPT }] },
     generationConfig: { maxOutputTokens: 2048, temperature: 0.7 }
   };
-  const res = await fetch(GEMINI_URL, {
+  const res = await fetch(getGeminiUrl(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -53,7 +57,7 @@ async function callGemini(contents, systemInstruction) {
 
 // 컨시어지 채팅
 exports.geminiChat = onRequest(
-  { cors: true, region: "asia-northeast3" },
+  { cors: true, region: "asia-northeast3", secrets: [geminiApiKey] },
   async (req, res) => {
     try {
       const { message, history } = req.body;
@@ -71,7 +75,7 @@ exports.geminiChat = onRequest(
 
 // 주변 탐색
 exports.geminiExplore = onRequest(
-  { cors: true, region: "asia-northeast3" },
+  { cors: true, region: "asia-northeast3", secrets: [geminiApiKey] },
   async (req, res) => {
     try {
       const { query, hotelName, hotelAddress } = req.body;
