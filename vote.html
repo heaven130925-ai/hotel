@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel App — 디자인 투표</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f5f2ed;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+    }
+
+    .hero-top {
+      text-align: center;
+      padding: 48px 24px 32px;
+    }
+    .hero-top h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .hero-top p {
+      font-size: 12px;
+      color: #888;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* 투표 완료 메시지 */
+    #voted-msg {
+      display: none;
+      text-align: center;
+      margin: 0 auto 24px;
+      max-width: 380px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: #555;
+      border: 1px solid #e8e4de;
+    }
+    #voted-msg strong { color: #1a1a1a; }
+
+    /* 카드 레이아웃 */
+    .cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      padding: 0 20px 48px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      width: 340px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 56px rgba(0,0,0,0.12); }
+
+    .card-label {
+      padding: 18px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: 0.3px;
+    }
+    .card-sub {
+      font-size: 10px;
+      color: #aaa;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* 폰 프리뷰 */
+    .phone-wrap {
+      padding: 16px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      overflow-x: auto;
+    }
+    .phone-mini {
+      width: 110px;
+      height: 230px;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .mini-label {
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-top: 6px;
+    }
+
+    /* 투표 섹션 */
+    .vote-section {
+      padding: 0 20px 24px;
+    }
+
+    .vote-bar-wrap {
+      margin-bottom: 16px;
+    }
+    .vote-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .vote-bar-label strong { color: #1a1a1a; font-size: 13px; }
+    .vote-bar-bg {
+      height: 6px;
+      background: #f0ede8;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .vote-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .dark-fill { background: linear-gradient(90deg, #1a1a1a, #444); }
+    .light-fill { background: linear-gradient(90deg, #b8914a, #d4a857); }
+
+    .vote-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vote-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .vote-btn-dark { background: #0d0d0d; color: #c9a84c; }
+    .vote-btn-dark:hover:not(:disabled) { background: #1a1a1a; }
+    .vote-btn-light { background: #b8914a; color: #fff; }
+    .vote-btn-light:hover:not(:disabled) { background: #a07830; }
+
+    /* 선택됨 뱃지 */
+    .selected-badge {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #c9a84c;
+      color: #0d0d0d;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .card.selected .selected-badge { display: block; }
+
+    /* 총 투표 수 */
+    .total-votes {
+      text-align: center;
+      font-size: 11px;
+      color: #bbb;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+    .total-votes strong { color: #888; }
+
+    /* ── DARK 폰 미니 CSS ── */
+    .d-home { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+    .d-hero {
+      height: 95px; flex-shrink: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%),
+        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&q=80') center/cover;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;
+    }
+    .d-badge { font-size: 5px; letter-spacing: 1.5px; text-transform: uppercase; color: #c9a84c; margin-bottom: 2px; }
+    .d-name { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #fff; }
+    .d-pills { display: flex; gap: 3px; margin-top: 4px; }
+    .d-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 2px 5px; font-size: 5px; color: #ccc; }
+    .d-pill b { display: block; font-size: 6px; color: #f0e6cc; font-weight: 600; }
+    .d-grid { padding: 6px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; flex: 1; }
+    .d-btn { background: #141414; border: 1px solid #1e1e1e; border-radius: 6px; padding: 6px 2px 5px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .d-icon { width: 20px; height: 20px; background: #1c1c1c; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .d-lbl { font-size: 5px; color: #e0d0a8; }
+    .d-nav { background: rgba(10,10,10,0.97); border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 5px 0 6px; flex-shrink: 0; }
+    .d-nav-i { display: flex; flex-direction: column; align-items: center; gap: 2px; opacity: 0.4; }
+    .d-nav-i.on { opacity: 1; }
+    .d-nav-l { font-size: 5px; letter-spacing: 0.5px; text-transform: uppercase; color: #ccc; }
+    .d-nav-i.on .d-nav-l { color: #c9a84c; }
+
+    .d-chat { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+    .d-ch { padding: 20px 8px 8px; border-bottom: 1px solid #161616; display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+    .d-ch-back { width: 18px; height: 18px; background: #222; border: 1px solid #333; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .d-ch-title { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: #f0e6cc; }
+    .d-msgs { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+    .d-mh { align-self: flex-start; max-width: 80%; background: #161616; border: 1px solid #222; border-radius: 8px 8px 8px 2px; padding: 6px 8px; font-size: 7px; color: #c8b890; line-height: 1.5; }
+    .d-mg { align-self: flex-end; max-width: 80%; background: linear-gradient(135deg,#c9a84c,#9e7a20); border-radius: 8px 8px 2px 8px; padding: 6px 8px; font-size: 7px; color: #0d0d0d; font-weight: 600; line-height: 1.5; }
+    .d-sndr { font-size: 5px; letter-spacing: 1px; color: #444; margin-bottom: 3px; }
+    .d-inp { padding: 5px 8px 8px; background: #0d0d0d; border-top: 1px solid #161616; display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+    .d-input { flex: 1; background: #161616; border: 1px solid #222; border-radius: 10px; padding: 5px 8px; font-size: 6px; color: #555; }
+    .d-send { width: 20px; height: 20px; background: #c9a84c; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .d-exp { background: #0d0d0d; height: 100%; display: flex; flex-direction: column; }
+    .d-srch { margin: 6px 8px; background: #141414; border: 1px solid #1e1e1e; border-radius: 7px; padding: 5px 7px; font-size: 6px; color: #555; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .d-ec { margin: 0 8px 5px; background: #141414; border: 1px solid #1e1e1e; border-radius: 7px; padding: 6px 7px; display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+    .d-ec-img { width: 28px; height: 28px; border-radius: 5px; object-fit: cover; flex-shrink: 0; }
+    .d-ec-tag { font-size: 5px; letter-spacing: 0.8px; color: #c9a84c; text-transform: uppercase; }
+    .d-ec-name { font-family: 'Cormorant Garamond', serif; font-size: 9px; color: #f0e6cc; }
+    .d-ec-info { font-size: 5px; color: #555; }
+
+    /* ── LIGHT 폰 미니 CSS ── */
+    .l-home { background: #faf8f4; height: 100%; display: flex; flex-direction: column; }
+    .l-hero {
+      height: 95px; flex-shrink: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(250,240,220,0.75) 80%, #faf8f4 100%),
+        url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=300&q=80') center/cover;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;
+    }
+    .l-badge { font-size: 5px; letter-spacing: 1.5px; text-transform: uppercase; color: #a07830; margin-bottom: 2px; }
+    .l-name { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #2c2216; }
+    .l-pills { display: flex; gap: 3px; margin-top: 4px; }
+    .l-pill { background: rgba(255,255,255,0.85); border: 1px solid rgba(160,120,48,0.2); border-radius: 4px; padding: 2px 5px; font-size: 5px; color: #888; }
+    .l-pill b { display: block; font-size: 6px; color: #3a2c1a; font-weight: 600; }
+    .l-grid { padding: 6px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; flex: 1; }
+    .l-btn { background: #fff; border: 1px solid #ece8e0; border-radius: 6px; padding: 6px 2px 5px; display: flex; flex-direction: column; align-items: center; gap: 3px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .l-icon { width: 20px; height: 20px; background: #fdf5e8; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .l-lbl { font-size: 5px; color: #5a4a34; }
+    .l-nav { background: rgba(250,248,244,0.97); border-top: 1px solid #ece8e0; display: flex; justify-content: space-around; padding: 5px 0 6px; flex-shrink: 0; }
+    .l-nav-i { display: flex; flex-direction: column; align-items: center; gap: 2px; opacity: 0.35; }
+    .l-nav-i.on { opacity: 1; }
+    .l-nav-l { font-size: 5px; letter-spacing: 0.5px; text-transform: uppercase; color: #888; }
+    .l-nav-i.on .l-nav-l { color: #a07830; }
+
+    .l-chat { background: #faf8f4; height: 100%; display: flex; flex-direction: column; }
+    .l-ch { padding: 20px 8px 8px; border-bottom: 1px solid #ece8e0; display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+    .l-ch-back { width: 18px; height: 18px; background: #fff; border: 1px solid #ddd; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .l-ch-title { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: #2c2216; }
+    .l-msgs { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+    .l-mh { align-self: flex-start; max-width: 80%; background: #fff; border: 1px solid #ece8e0; border-radius: 8px 8px 8px 2px; padding: 6px 8px; font-size: 7px; color: #5a4a34; line-height: 1.5; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .l-mg { align-self: flex-end; max-width: 80%; background: linear-gradient(135deg,#b8914a,#8a6a20); border-radius: 8px 8px 2px 8px; padding: 6px 8px; font-size: 7px; color: #fff; font-weight: 600; line-height: 1.5; }
+    .l-sndr { font-size: 5px; letter-spacing: 1px; color: #bbb; margin-bottom: 3px; }
+    .l-inp { padding: 5px 8px 8px; background: #faf8f4; border-top: 1px solid #ece8e0; display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+    .l-input { flex: 1; background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 5px 8px; font-size: 6px; color: #aaa; }
+    .l-send { width: 20px; height: 20px; background: #b8914a; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .l-exp { background: #faf8f4; height: 100%; display: flex; flex-direction: column; }
+    .l-srch { margin: 6px 8px; background: #fff; border: 1px solid #ddd; border-radius: 7px; padding: 5px 7px; font-size: 6px; color: #aaa; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .l-ec { margin: 0 8px 5px; background: #fff; border: 1px solid #ece8e0; border-radius: 7px; padding: 6px 7px; display: flex; gap: 6px; align-items: center; flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .l-ec-img { width: 28px; height: 28px; border-radius: 5px; object-fit: cover; flex-shrink: 0; }
+    .l-ec-tag { font-size: 5px; letter-spacing: 0.8px; color: #b8914a; text-transform: uppercase; }
+    .l-ec-name { font-family: 'Cormorant Garamond', serif; font-size: 9px; color: #2c2216; }
+    .l-ec-info { font-size: 5px; color: #aaa; }
+  </style>
+</head>
+<body>
+
+<div class="hero-top">
+  <h1>어느 디자인이 더 좋으세요?</h1>
+  <p>Hotel Guest App · Design Vote</p>
+</div>
+
+<div id="voted-msg"></div>
+
+<div class="total-votes">총 <strong id="total-count">0</strong>명 참여</div>
+
+<div class="cards">
+
+  <!-- DARK CARD -->
+  <div class="card" id="card-dark">
+    <div class="selected-badge">✓ 내 선택</div>
+    <div class="card-label">
+      <div>
+        <div class="card-title">🌑 Dark Luxury</div>
+        <div class="card-sub">도시 럭셔리 · 비즈니스 호텔</div>
+      </div>
+    </div>
+    <div class="phone-wrap">
+
+      <!-- Dark Home -->
+      <div>
+        <div class="phone-mini">
+          <div class="d-home">
+            <div class="d-hero">
+              <div class="d-badge">Your Hotel</div>
+              <div class="d-name">Heaven Kim</div>
+              <div class="d-pills">
+                <div class="d-pill">Room<b>2104</b></div>
+                <div class="d-pill">Out<b>Mar 27</b></div>
+              </div>
+            </div>
+            <div class="d-grid">
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div><div class="d-lbl">Requests</div></div>
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="d-lbl">Concierge</div></div>
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg></div><div class="d-lbl">Explore</div></div>
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 9l9-7 9 7v11H5z"/></svg></div><div class="d-lbl">Room</div></div>
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 3h18v13H3z"/></svg></div><div class="d-lbl">Dining</div></div>
+              <div class="d-btn"><div class="d-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg></div><div class="d-lbl">Valet</div></div>
+            </div>
+            <div class="d-nav">
+              <div class="d-nav-i on"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M3 9l9-7 9 7v11H5z"/></svg><div class="d-nav-l">Home</div></div>
+              <div class="d-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg><div class="d-nav-l">Request</div></div>
+              <div class="d-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="d-nav-l">Chat</div></div>
+              <div class="d-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg><div class="d-nav-l">Explore</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="mini-label">Home</div>
+      </div>
+
+      <!-- Dark Chat -->
+      <div>
+        <div class="phone-mini">
+          <div class="d-chat">
+            <div class="d-ch">
+              <div class="d-ch-back"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div><div class="d-ch-title">AI Concierge</div></div>
+            </div>
+            <div class="d-msgs">
+              <div><div class="d-sndr">CONCIERGE</div><div class="d-mh">안녕하세요, 고객님. 무엇을 도와드릴까요? 😊</div></div>
+              <div style="align-self:flex-end"><div class="d-mg">사우나 몇 시까지예요?</div></div>
+              <div><div class="d-sndr">CONCIERGE</div><div class="d-mh">24시간 운영됩니다! 스팀룸과 피트니스도 함께 이용 가능해요.</div></div>
+            </div>
+            <div class="d-inp">
+              <div class="d-input">메시지 입력...</div>
+              <div class="d-send"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="mini-label">Concierge</div>
+      </div>
+
+      <!-- Dark Explore -->
+      <div>
+        <div class="phone-mini">
+          <div class="d-exp">
+            <div class="d-ch">
+              <div class="d-ch-back"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div><div class="d-ch-title">Explore Seoul</div></div>
+            </div>
+            <div class="d-srch"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><circle cx="11" cy="11" r="8"/></svg>근처 맛집, 관광지...</div>
+            <div class="d-ec"><img class="d-ec-img" src="https://picsum.photos/seed/mingles/60/60"/><div><div class="d-ec-tag">Michelin ★★</div><div class="d-ec-name">Mingles</div><div class="d-ec-info">10 min walk</div></div></div>
+            <div class="d-ec"><img class="d-ec-img" src="https://picsum.photos/seed/gaon/60/60"/><div><div class="d-ec-tag">Michelin ★★★</div><div class="d-ec-name">Gaon</div><div class="d-ec-info">15 min walk</div></div></div>
+            <div class="d-ec"><img class="d-ec-img" src="https://picsum.photos/seed/bongeunsa/60/60"/><div><div class="d-ec-tag">Attraction</div><div class="d-ec-name">Bongeunsa</div><div class="d-ec-info">5 min walk</div></div></div>
+          </div>
+        </div>
+        <div class="mini-label">Explore</div>
+      </div>
+
+    </div>
+
+    <div class="vote-section">
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-label"><span>Dark Luxury</span><strong id="dark-pct">0%</strong></div>
+        <div class="vote-bar-bg"><div class="vote-bar-fill dark-fill" id="dark-bar" style="width:0%"></div></div>
+        <div style="font-size:10px;color:#bbb;margin-top:4px"><span id="dark-count">0</span>표</div>
+      </div>
+      <button class="vote-btn vote-btn-dark" id="btn-dark" onclick="vote('dark')">🌑 이게 더 좋아요</button>
+    </div>
+  </div>
+
+  <!-- LIGHT CARD -->
+  <div class="card" id="card-light">
+    <div class="selected-badge">✓ 내 선택</div>
+    <div class="card-label">
+      <div>
+        <div class="card-title">☀️ Light Resort</div>
+        <div class="card-sub">리조트 · 휴양지 · 밝은 느낌</div>
+      </div>
+    </div>
+    <div class="phone-wrap">
+
+      <!-- Light Home -->
+      <div>
+        <div class="phone-mini">
+          <div class="l-home">
+            <div class="l-hero">
+              <div class="l-badge">Your Hotel</div>
+              <div class="l-name">Heaven Kim</div>
+              <div class="l-pills">
+                <div class="l-pill">Room<b>2104</b></div>
+                <div class="l-pill">Out<b>Mar 27</b></div>
+              </div>
+            </div>
+            <div class="l-grid">
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div><div class="l-lbl">Requests</div></div>
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="l-lbl">Concierge</div></div>
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg></div><div class="l-lbl">Explore</div></div>
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 9l9-7 9 7v11H5z"/></svg></div><div class="l-lbl">Room</div></div>
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 3h18v13H3z"/></svg></div><div class="l-lbl">Dining</div></div>
+              <div class="l-btn"><div class="l-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg></div><div class="l-lbl">Valet</div></div>
+            </div>
+            <div class="l-nav">
+              <div class="l-nav-i on"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a07830" stroke-width="1.5"><path d="M3 9l9-7 9 7v11H5z"/></svg><div class="l-nav-l">Home</div></div>
+              <div class="l-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg><div class="l-nav-l">Request</div></div>
+              <div class="l-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="l-nav-l">Chat</div></div>
+              <div class="l-nav-i"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><circle cx="11" cy="11" r="8"/></svg><div class="l-nav-l">Explore</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="mini-label">Home</div>
+      </div>
+
+      <!-- Light Chat -->
+      <div>
+        <div class="phone-mini">
+          <div class="l-chat">
+            <div class="l-ch">
+              <div class="l-ch-back"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div><div class="l-ch-title">AI Concierge</div></div>
+            </div>
+            <div class="l-msgs">
+              <div><div class="l-sndr">CONCIERGE</div><div class="l-mh">안녕하세요, 고객님. 무엇을 도와드릴까요? 😊</div></div>
+              <div style="align-self:flex-end"><div class="l-mg">사우나 몇 시까지예요?</div></div>
+              <div><div class="l-sndr">CONCIERGE</div><div class="l-mh">24시간 운영됩니다! 스팀룸과 피트니스도 함께 이용 가능해요.</div></div>
+            </div>
+            <div class="l-inp">
+              <div class="l-input">메시지 입력...</div>
+              <div class="l-send"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="mini-label">Concierge</div>
+      </div>
+
+      <!-- Light Explore -->
+      <div>
+        <div class="phone-mini">
+          <div class="l-exp">
+            <div class="l-ch">
+              <div class="l-ch-back"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+              <div><div class="l-ch-title">Explore Seoul</div></div>
+            </div>
+            <div class="l-srch"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="11" cy="11" r="8"/></svg>근처 맛집, 관광지...</div>
+            <div class="l-ec"><img class="l-ec-img" src="https://picsum.photos/seed/mingles/60/60"/><div><div class="l-ec-tag">Michelin ★★</div><div class="l-ec-name">Mingles</div><div class="l-ec-info">10 min walk</div></div></div>
+            <div class="l-ec"><img class="l-ec-img" src="https://picsum.photos/seed/gaon/60/60"/><div><div class="l-ec-tag">Michelin ★★★</div><div class="l-ec-name">Gaon</div><div class="l-ec-info">15 min walk</div></div></div>
+            <div class="l-ec"><img class="l-ec-img" src="https://picsum.photos/seed/bongeunsa/60/60"/><div><div class="l-ec-tag">Attraction</div><div class="l-ec-name">Bongeunsa</div><div class="l-ec-info">5 min walk</div></div></div>
+          </div>
+        </div>
+        <div class="mini-label">Explore</div>
+      </div>
+
+    </div>
+
+    <div class="vote-section">
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-label"><span>Light Resort</span><strong id="light-pct">0%</strong></div>
+        <div class="vote-bar-bg"><div class="vote-bar-fill light-fill" id="light-bar" style="width:0%"></div></div>
+        <div style="font-size:10px;color:#bbb;margin-top:4px"><span id="light-count">0</span>표</div>
+      </div>
+      <button class="vote-btn vote-btn-light" id="btn-light" onclick="vote('light')">☀️ 이게 더 좋아요</button>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, updateDoc, increment, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
+    authDomain: "hotel-app-f4a93.firebaseapp.com",
+    projectId: "hotel-app-f4a93",
+  });
+  const db = getFirestore(app);
+  const voteRef = doc(db, 'votes', 'theme');
+
+  // 초기화 (문서 없으면 생성)
+  async function ensureDoc() {
+    const snap = await getDoc(voteRef);
+    if (!snap.exists()) {
+      await setDoc(voteRef, { dark: 0, light: 0 });
+    }
+  }
+  ensureDoc();
+
+  // 실시간 집계 반영
+  onSnapshot(voteRef, (snap) => {
+    if (!snap.exists()) return;
+    const d = snap.data();
+    const dark = d.dark || 0;
+    const light = d.light || 0;
+    const total = dark + light;
+
+    document.getElementById('dark-count').textContent = dark;
+    document.getElementById('light-count').textContent = light;
+    document.getElementById('total-count').textContent = total;
+
+    if (total > 0) {
+      const dp = Math.round(dark / total * 100);
+      const lp = 100 - dp;
+      document.getElementById('dark-pct').textContent = dp + '%';
+      document.getElementById('light-pct').textContent = lp + '%';
+      document.getElementById('dark-bar').style.width = dp + '%';
+      document.getElementById('light-bar').style.width = lp + '%';
+    }
+  });
+
+  // 투표
+  window.vote = async function(choice) {
+    const already = localStorage.getItem('hotel_theme_vote');
+    if (already) {
+      const msg = document.getElementById('voted-msg');
+      msg.style.display = 'block';
+      msg.innerHTML = `이미 <strong>${already === 'dark' ? '🌑 Dark' : '☀️ Light'}</strong>에 투표하셨습니다.`;
+      return;
+    }
+
+    // 버튼 비활성화
+    document.getElementById('btn-dark').disabled = true;
+    document.getElementById('btn-light').disabled = true;
+
+    await updateDoc(voteRef, { [choice]: increment(1) });
+    localStorage.setItem('hotel_theme_vote', choice);
+
+    // 선택 표시
+    document.getElementById('card-' + choice).classList.add('selected');
+
+    const msg = document.getElementById('voted-msg');
+    msg.style.display = 'block';
+    msg.innerHTML = `<strong>${choice === 'dark' ? '🌑 Dark Luxury' : '☀️ Light Resort'}</strong>에 투표해주셨습니다! 감사합니다 🙏`;
+  };
+
+  // 이미 투표했으면 버튼 비활성화
+  const already = localStorage.getItem('hotel_theme_vote');
+  if (already) {
+    document.getElementById('btn-dark').disabled = true;
+    document.getElementById('btn-light').disabled = true;
+    document.getElementById('card-' + already).classList.add('selected');
+  }
+</script>
+
+</body>
+</html>
