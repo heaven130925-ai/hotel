@@ -102,15 +102,9 @@
         box-shadow: none;
       }
       #status-bar { display: none !important; }
-      #home-top-btns {
-        display: flex !important;
-        top: calc(env(safe-area-inset-top) + 12px) !important;
-      }
-      .screen-header {
-        padding-top: calc(env(safe-area-inset-top) + 20px) !important;
-      }
+      #home-top-btns { display: flex !important; }
       .bottom-nav {
-        padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
+        padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
         height: auto !important;
       }
     }
@@ -2116,26 +2110,33 @@
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
 
-    // CSS env(safe-area-inset-top) 실제값을 JS로 읽어서 강제 적용
+    // iPhone 15 Pro: Dynamic Island = 59px
+    // iPhone 14 이하: 47px, Android: 24px
     function applySafeArea() {
-      const el = document.createElement('div');
-      el.style.cssText = 'position:fixed;top:env(safe-area-inset-top);width:0;height:0;visibility:hidden';
-      document.body.appendChild(el);
-      const safeTop = el.getBoundingClientRect().top;
-      document.body.removeChild(el);
+      const ua = navigator.userAgent;
+      const isIOS = /iPhone|iPad/.test(ua);
+      const screenH = window.screen.height;
+      const screenW = window.screen.width;
 
-      // safeTop이 0이면 Android 기본값 사용
-      const top = safeTop > 0 ? safeTop : 24;
+      let safeTop = 24; // Android 기본
+      if (isIOS) {
+        // iPhone 14 Pro / 15 / 15 Pro / 15 Pro Max: Dynamic Island
+        if (screenH === 2556 || screenH === 2796 || screenH === 2622 || screenH === 2868) {
+          safeTop = 59;
+        } else {
+          safeTop = 47; // 노치 기기
+        }
+      }
 
       const homeTopBtns = document.getElementById('home-top-btns');
-      if (homeTopBtns) homeTopBtns.style.top = (top + 12) + 'px';
+      if (homeTopBtns) homeTopBtns.style.top = (safeTop + 12) + 'px';
 
       document.querySelectorAll('.screen-header').forEach(h => {
-        h.style.paddingTop = (top + 20) + 'px';
+        h.style.paddingTop = (safeTop + 20) + 'px';
       });
     }
 
-    setTimeout(applySafeArea, 100);
+    setTimeout(applySafeArea, 50);
   })();
 
   let notifOpen = false;
@@ -2220,11 +2221,11 @@
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
       mapWrap.style.display = 'block';
 
-      // 결과 보이도록 scroll-area 맨 위로
+      // AI 결과 아래까지 스크롤
       setTimeout(() => {
         const scrollArea = document.querySelector('#screen-explore .scroll-area');
-        if (scrollArea) scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+        if (scrollArea) scrollArea.scrollTo({ top: resultBox.offsetTop + resultBox.scrollHeight, behavior: 'smooth' });
+      }, 150);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
     }
