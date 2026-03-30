@@ -2129,9 +2129,15 @@
         }
       }
 
-      const homeTopBtns = document.getElementById('home-top-btns');
-      if (homeTopBtns) homeTopBtns.style.top = (safeTop + 12) + 'px';
+      // 홈화면 전체 UI를 safe area 아래로 밀기
+      const screenHome = document.getElementById('screen-home');
+      if (screenHome) screenHome.style.paddingTop = safeTop + 'px';
 
+      // 홈 버튼은 safe area 바로 아래에 위치
+      const homeTopBtns = document.getElementById('home-top-btns');
+      if (homeTopBtns) homeTopBtns.style.top = (safeTop + 10) + 'px';
+
+      // 내부 화면 헤더 padding
       document.querySelectorAll('.screen-header').forEach(h => {
         h.style.paddingTop = (safeTop + 20) + 'px';
       });
