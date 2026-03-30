@@ -105,7 +105,7 @@
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
-      #lang-btn { display: block !important; }
+      #settings-open-btn { display: block !important; }
       .bottom-nav {
         padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
         height: auto !important;
@@ -311,7 +311,7 @@
     }
 
     .hotel-badge {
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: #c9a84c;
@@ -323,7 +323,7 @@
 
     .guest-greeting {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
+      font-size: 15px;
       color: #fff;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -359,7 +359,7 @@
     }
 
     .pill-label {
-      font-size: 8px;
+      font-size: 10px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.65);
@@ -367,7 +367,7 @@
     }
 
     .pill-val {
-      font-size: 15px;
+      font-size: 17px;
       color: #f0d98a;
       font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
@@ -389,7 +389,7 @@
     }
 
     .section-label {
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #aaa;
@@ -428,7 +428,7 @@
     }
 
     .action-label {
-      font-size: 12px;
+      font-size: 13px;
       color: #eeddb8;
       letter-spacing: 0.3px;
       font-weight: 500;
@@ -448,11 +448,11 @@
       align-items: center;
     }
 
-    .recent-name { font-size: 14px; color: #f5ecd4; margin-bottom: 3px; font-weight: 500; }
-    .recent-time { font-size: 11px; color: #bbb; }
+    .recent-name { font-size: 16px; color: #f5ecd4; margin-bottom: 3px; font-weight: 500; }
+    .recent-time { font-size: 12px; color: #bbb; }
 
     .badge {
-      font-size: 9px;
+      font-size: 10px;
       padding: 3px 8px;
       border-radius: 8px;
       letter-spacing: 0.8px;
@@ -489,7 +489,7 @@
       transition: opacity 0.2s;
     }
     .nav-item.active { opacity: 1; color: #c9a84c; }
-    .nav-label { font-size: 9px; color: #ccc; letter-spacing: 0.8px; text-transform: uppercase; }
+    .nav-label { font-size: 11px; color: #ccc; letter-spacing: 0.5px; text-transform: uppercase; }
     .nav-item.active .nav-label { color: #c9a84c; }
     .nav-dot {
       width: 4px; height: 4px;
@@ -531,7 +531,7 @@
 
     .screen-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
+      font-size: 26px;
       color: #fff;
       font-weight: 300;
       letter-spacing: 0.5px;
@@ -542,7 +542,7 @@
 
     /* REQUEST LIST */
     .req-section-label {
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #777;
@@ -574,8 +574,8 @@
     }
 
     .req-text { flex: 1; }
-    .req-name { font-size: 15px; color: #e8dfc8; margin-bottom: 3px; font-weight: 400; }
-    .req-sub { font-size: 12px; color: #666; letter-spacing: 0.3px; }
+    .req-name { font-size: 16px; color: #e8dfc8; margin-bottom: 4px; font-weight: 400; }
+    .req-sub { font-size: 13px; color: #666; letter-spacing: 0.3px; }
 
     /* CHAT */
     .chat-area {
@@ -594,7 +594,7 @@
     .msg.guest { align-self: flex-end; }
 
     .msg-sender {
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: #666;
@@ -624,7 +624,7 @@
       font-weight: 500;
     }
 
-    .msg-time { font-size: 9px; color: #333; margin-top: 4px; padding: 0 4px; }
+    .msg-time { font-size: 11px; color: #444; margin-top: 4px; padding: 0 4px; }
     .msg.guest .msg-time { text-align: right; }
 
     .chat-bottom {
@@ -713,8 +713,8 @@
       border-bottom: 1px solid #1e1e1e;
     }
     .info-row:last-child { border-bottom: none; }
-    .info-key { font-size: 12px; color: #888; letter-spacing: 0.3px; }
-    .info-val { font-size: 12px; color: #e0ceaa; text-align: right; }
+    .info-key { font-size: 13px; color: #888; letter-spacing: 0.3px; }
+    .info-val { font-size: 13px; color: #e0ceaa; text-align: right; }
 
     /* ── EXPLORE ── */
     .etab {
@@ -767,7 +767,7 @@
     }
     .ecard-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
+      font-size: 19px;
       color: #f0e6cc;
       font-weight: 400;
       margin-bottom: 2px;
@@ -776,7 +776,7 @@
       text-overflow: ellipsis;
     }
     .ecard-info {
-      font-size: 13px;
+      font-size: 14px;
       color: #888;
     }
     .map-btn {
@@ -878,6 +878,115 @@
       line-height: 1.5;
     }
     .guide-tip strong { color: #c9a84c; }
+
+    /* ══ SETTINGS SHEET ══ */
+    #settings-sheet {
+      position: absolute;
+      inset: 0;
+      z-index: 500;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto;
+    }
+    #settings-sheet.open { transform: translateY(0); }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .setting-label { font-size: 15px; color: #e0ceaa; font-weight: 400; }
+    .setting-sub { font-size: 11px; color: #555; margin-top: 2px; }
+
+    /* Toggle switch */
+    .toggle-wrap { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
+    .toggle-wrap input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute; inset: 0;
+      background: #2a2a2a; border-radius: 14px;
+      cursor: pointer; transition: background 0.25s;
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      left: 3px; top: 3px;
+      background: #666; border-radius: 50%;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .toggle-wrap input:checked + .toggle-track { background: rgba(201,168,76,0.25); }
+    .toggle-wrap input:checked + .toggle-track::before { transform: translateX(22px); background: #c9a84c; }
+
+    /* Lang selector buttons */
+    .lang-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+    .lang-opt {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid #2a2a2a;
+      background: #1a1a1a;
+      color: #888;
+      transition: all 0.2s;
+    }
+    .lang-opt.active { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.5); color: #c9a84c; }
+
+    /* ══ LIGHT MODE ══ */
+    .phone.light-mode { background: #f5f0e8; }
+    .phone.light-mode #screen-home { background: #f5f0e8; }
+    .phone.light-mode .inner-screen { background: #f0ebe0; }
+    .phone.light-mode #settings-sheet { background: #f0ebe0; }
+    .phone.light-mode .bottom-nav { background: rgba(245,240,232,0.96); border-top-color: #e0d8c8; }
+    .phone.light-mode .nav-label { color: #888; }
+    .phone.light-mode .nav-item { color: #888; }
+    .phone.light-mode .nav-item.active { color: #c9a84c; }
+    .phone.light-mode .nav-item.active .nav-label { color: #c9a84c; }
+    .phone.light-mode .screen-title { color: #1a1612; }
+    .phone.light-mode .back-btn { background: #e8e0d0; border-color: #d8d0c0; }
+    .phone.light-mode .back-btn svg { stroke: #555; }
+    .phone.light-mode .section-label { color: #888; }
+    .phone.light-mode .req-section-label { color: #999; }
+    .phone.light-mode .action-btn { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .action-icon-wrap { background: #f0ebe0; }
+    .phone.light-mode .action-label { color: #3a2e1e; }
+    .phone.light-mode .recent-item { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .recent-name { color: #1a1612; }
+    .phone.light-mode .recent-time { color: #888; }
+    .phone.light-mode .request-item { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .req-name { color: #1a1612; }
+    .phone.light-mode .req-sub { color: #999; }
+    .phone.light-mode .req-icon-wrap { background: #f0ebe0; }
+    .phone.light-mode .screen-header { border-bottom-color: #e8e0d0; }
+    .phone.light-mode .chat-area { background: #f0ebe0; }
+    .phone.light-mode .msg.hotel .msg-bubble { background: #fff; border-color: #e8e0d0; color: #3a2e1e; }
+    .phone.light-mode .msg-sender { color: #aaa; }
+    .phone.light-mode .msg-time { color: #bbb; }
+    .phone.light-mode .chat-bottom { background: #f5f0e8; border-top-color: #e8e0d0; }
+    .phone.light-mode .chat-input { background: #fff; border-color: #e0d8c8; color: #1a1612; }
+    .phone.light-mode .chat-input::placeholder { color: #aaa; }
+    .phone.light-mode .info-card { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .info-card-header { border-bottom-color: #e8e0d0; }
+    .phone.light-mode .info-key { color: #888; }
+    .phone.light-mode .info-val { color: #3a2e1e; }
+    .phone.light-mode .info-row { border-bottom-color: #f0ebe0; }
+    .phone.light-mode .ecard { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .ecard-name { color: #1a1612; }
+    .phone.light-mode .ecard-info { color: #888; }
+    .phone.light-mode .etab { background: #f0ebe0; border-color: #e8e0d0; color: #888; }
+    .phone.light-mode .guide-card { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .guide-title { color: #1a1612; }
+    .phone.light-mode .guide-body { border-top-color: #e8e0d0; }
+    .phone.light-mode .guide-tip { background: #f0ebe0; color: #888; }
+    .phone.light-mode .setting-row { border-bottom-color: #e8e0d0; }
+    .phone.light-mode .setting-label { color: #1a1612; }
+    .phone.light-mode .toggle-track { background: #e0d8c8; }
+    .phone.light-mode .toggle-track::before { background: #bbb; }
+    .phone.light-mode .lang-opt { background: #f0ebe0; border-color: #e8e0d0; color: #888; }
+    .phone.light-mode .notif-panel-bg { background: #f5f0e8; }
+    .phone.light-mode #notif-panel { background: #f0ebe0; border-bottom-color: #e0d8c8; }
 
   </style>
 </head>
@@ -1004,9 +1113,11 @@
       </div>
     </div>
 
-    <!-- 언어 전환 버튼 -->
-    <div id="lang-btn" style="position:absolute;right:16px;z-index:20;display:none" onclick="cycleLang()">
-      <div style="cursor:pointer;display:flex;align-items:center;justify-content:center;height:36px;padding:0 12px;background:rgba(0,0,0,0.45);border-radius:10px;backdrop-filter:blur(8px);font-size:12px;font-weight:600;color:#fff;letter-spacing:0.5px" id="lang-display">KO</div>
+    <!-- 셋팅 버튼 -->
+    <div id="settings-open-btn" style="position:absolute;right:16px;z-index:20;display:none" onclick="openSettings()">
+      <div style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(0,0,0,0.45);border-radius:10px;backdrop-filter:blur(8px)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
     </div>
 
     <div class="hero">
@@ -1018,19 +1129,19 @@
 
     <div class="hero-content">
       <div class="hotel-badge hotel-name">Your Hotel</div>
-      <div class="guest-greeting">Welcome back</div>
+      <div class="guest-greeting" data-i18n="welcome">Welcome back</div>
       <div class="guest-name guest-name-text">Guest</div>
       <div class="room-strip">
         <div class="room-pill">
-          <div class="pill-label">Room</div>
+          <div class="pill-label" data-i18n="pill_room">Room</div>
           <div class="pill-val" data-room>2104</div>
         </div>
         <div class="room-pill">
-          <div class="pill-label">Check-out</div>
+          <div class="pill-label" data-i18n="pill_checkout">Check-out</div>
           <div class="pill-val" data-checkout>Mar 27</div>
         </div>
         <div class="room-pill">
-          <div class="pill-label">Nights Left</div>
+          <div class="pill-label" data-i18n="pill_nights">Nights Left</div>
           <div class="pill-val" data-nights>2</div>
         </div>
       </div>
@@ -1057,7 +1168,7 @@
               <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
           </div>
-          <div class="action-label">Requests</div>
+          <div class="action-label" data-i18n="action_requests">Requests</div>
         </div>
 
         <div class="action-btn" onclick="goTo('screen-roomguide')">
@@ -1066,7 +1177,7 @@
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
           </div>
-          <div class="action-label">Room Guide</div>
+          <div class="action-label" data-i18n="action_roomguide">Room Guide</div>
         </div>
 
         <div class="action-btn" onclick="goTo('screen-explore')">
@@ -1075,7 +1186,7 @@
               <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
             </svg>
           </div>
-          <div class="action-label">Explore</div>
+          <div class="action-label" data-i18n="action_explore">Explore</div>
         </div>
 
         <div class="action-btn" onclick="goTo('screen-dining')">
@@ -1084,7 +1195,7 @@
               <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/>
             </svg>
           </div>
-          <div class="action-label">Dining</div>
+          <div class="action-label" data-i18n="action_dining">Dining</div>
         </div>
 
         <div class="action-btn" onclick="goTo('screen-facilities')">
@@ -1093,7 +1204,7 @@
               <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
             </svg>
           </div>
-          <div class="action-label">Facilities</div>
+          <div class="action-label" data-i18n="action_facilities">Facilities</div>
         </div>
 
         <div class="action-btn" onclick="goTo('screen-valet')">
@@ -1102,7 +1213,7 @@
               <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
             </svg>
           </div>
-          <div class="action-label">Valet</div>
+          <div class="action-label" data-i18n="action_valet">Valet</div>
         </div>
 
       </div>
@@ -2064,6 +2175,98 @@
     </div>
   </div>
 
+  <!-- ══════════ SETTINGS SHEET ══════════ -->
+  <div id="settings-sheet" style="background:#0f0f0f">
+    <div style="padding:calc(env(safe-area-inset-top,44px) + 20px) 20px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e1e1e;flex-shrink:0">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;font-weight:300" data-i18n="settings_title">Settings</div>
+      <div onclick="closeSettings()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+
+    <div style="overflow-y:auto;padding-bottom:60px">
+
+      <!-- 언어 -->
+      <div style="padding:20px 20px 8px">
+        <div style="font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:14px" data-i18n="settings_lang">Language</div>
+        <div class="lang-grid" id="lang-grid">
+          <div class="lang-opt active" id="lang-opt-KO" onclick="selectLang('KO')">🇰🇷 한국어</div>
+          <div class="lang-opt" id="lang-opt-EN" onclick="selectLang('EN')">🇺🇸 English</div>
+          <div class="lang-opt" id="lang-opt-JA" onclick="selectLang('JA')">🇯🇵 日本語</div>
+          <div class="lang-opt" id="lang-opt-ZH" onclick="selectLang('ZH')">🇨🇳 中文</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#1e1e1e;margin:8px 0"></div>
+
+      <!-- 테마 -->
+      <div class="setting-row">
+        <div>
+          <div class="setting-label" data-i18n="settings_theme">Theme</div>
+          <div class="setting-sub" id="theme-sub-label">Dark Mode</div>
+        </div>
+        <label class="toggle-wrap">
+          <input type="checkbox" id="theme-toggle" onchange="toggleTheme(this.checked)" />
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+
+      <!-- 알림음 -->
+      <div class="setting-row">
+        <div>
+          <div class="setting-label" data-i18n="settings_sound">Notification Sound</div>
+          <div class="setting-sub" data-i18n="settings_sound_sub">Bird chirp on new alerts</div>
+        </div>
+        <label class="toggle-wrap">
+          <input type="checkbox" id="sound-toggle" onchange="toggleSound(this.checked)" checked />
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+
+      <!-- Wi-Fi -->
+      <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="setting-label" data-i18n="settings_wifi">Wi-Fi</div>
+        <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px 16px;width:100%;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:13px;color:#c9a84c;font-weight:500" class="hotel-wifi-ssid">Hotel Guest Wi-Fi</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="settings_wifi_free">No password required</div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        </div>
+      </div>
+
+      <!-- 연락처 -->
+      <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="setting-label" data-i18n="settings_contact">Quick Dial</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%">
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:#c9a84c">#0</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="dial_desk">Front Desk</div>
+          </div>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:#c9a84c">#3</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="dial_roomservice">Room Service</div>
+          </div>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:#c9a84c">#5</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="dial_valet">Valet</div>
+          </div>
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:#5a9c5a">119</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="dial_emergency">Emergency</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 앱 정보 -->
+      <div style="padding:20px;text-align:center">
+        <div style="font-size:11px;color:#333;letter-spacing:0.5px">Hotel Guest App · v1.0</div>
+        <div style="font-size:10px;color:#2a2a2a;margin-top:4px">Powered by AI Concierge</div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- BOTTOM NAV -->
   <div class="bottom-nav" id="bottom-nav" style="display:none">
     <div class="nav-item active" id="nav-home" onclick="goTo('screen-home')">
@@ -2152,11 +2355,15 @@
     setTimeout(applySafeArea, 50);
   })();
 
-  // ── 언어 전환 ──
+  // ── 언어 ──
   const LANGS = ['KO','EN','JA','ZH'];
   const I18N = {
     KO: {
-      nav_home:'홈', nav_request:'요청', nav_chat:'채팅', nav_explore:'탐색', nav_info:'정보',
+      welcome:'환영합니다',
+      pill_room:'객실', pill_checkout:'체크아웃', pill_nights:'남은 박',
+      action_requests:'요청', action_roomguide:'룸 가이드', action_explore:'탐색',
+      action_dining:'다이닝', action_facilities:'시설', action_valet:'발레',
+      nav_home:'홈', nav_request:'요청', nav_chat:'채팅', nav_explore:'탐색',
       req_title:'서비스 요청', req_amenity:'룸 & 어메니티', req_dining:'다이닝 & 미니바', req_wellness:'웰니스 & 스파',
       req_towel:'추가 타월', req_towel_sub:'욕실, 핸드, 페이스 타월',
       req_pillow:'추가 베개', req_pillow_sub:'베개 메뉴 이용 가능',
@@ -2179,9 +2386,19 @@
       roomguide_title:'룸 가이드',
       checkin_title:'온라인 체크인',
       services:'서비스', recent:'최근 활동',
+      settings_title:'설정', settings_lang:'언어', settings_theme:'테마',
+      settings_sound:'알림음', settings_sound_sub:'새로운 알림 시 새소리',
+      settings_wifi:'Wi-Fi', settings_wifi_free:'비밀번호 없음',
+      settings_contact:'빠른 전화', dial_desk:'프런트', dial_roomservice:'룸서비스',
+      dial_valet:'발레', dial_emergency:'응급',
+      theme_dark:'다크 모드', theme_light:'라이트 모드',
     },
     EN: {
-      nav_home:'Home', nav_request:'Request', nav_chat:'Chat', nav_explore:'Explore', nav_info:'Info',
+      welcome:'Welcome back',
+      pill_room:'Room', pill_checkout:'Check-out', pill_nights:'Nights Left',
+      action_requests:'Requests', action_roomguide:'Room Guide', action_explore:'Explore',
+      action_dining:'Dining', action_facilities:'Facilities', action_valet:'Valet',
+      nav_home:'Home', nav_request:'Requests', nav_chat:'Chat', nav_explore:'Explore',
       req_title:'Service Requests', req_amenity:'Room & Amenities', req_dining:'Dining & Minibar', req_wellness:'Wellness & Spa',
       req_towel:'Extra Towels', req_towel_sub:'Bath, hand, or face towels',
       req_pillow:'Extra Pillows', req_pillow_sub:'Pillow menu available',
@@ -2204,9 +2421,19 @@
       roomguide_title:'Room Guide',
       checkin_title:'Online Check-in',
       services:'Services', recent:'Recent Activity',
+      settings_title:'Settings', settings_lang:'Language', settings_theme:'Theme',
+      settings_sound:'Notification Sound', settings_sound_sub:'Bird chirp on new alerts',
+      settings_wifi:'Wi-Fi', settings_wifi_free:'No password required',
+      settings_contact:'Quick Dial', dial_desk:'Front Desk', dial_roomservice:'Room Service',
+      dial_valet:'Valet', dial_emergency:'Emergency',
+      theme_dark:'Dark Mode', theme_light:'Light Mode',
     },
     JA: {
-      nav_home:'ホーム', nav_request:'リクエスト', nav_chat:'チャット', nav_explore:'探索', nav_info:'情報',
+      welcome:'ようこそ',
+      pill_room:'お部屋', pill_checkout:'チェックアウト', pill_nights:'残り泊数',
+      action_requests:'リクエスト', action_roomguide:'ルームガイド', action_explore:'探索',
+      action_dining:'ダイニング', action_facilities:'施設', action_valet:'バレー',
+      nav_home:'ホーム', nav_request:'リクエスト', nav_chat:'チャット', nav_explore:'探索',
       req_title:'サービスリクエスト', req_amenity:'ルーム & アメニティ', req_dining:'ダイニング & ミニバー', req_wellness:'ウェルネス & スパ',
       req_towel:'タオル追加', req_towel_sub:'バス・ハンド・フェイスタオル',
       req_pillow:'枕追加', req_pillow_sub:'枕メニューあり',
@@ -2229,9 +2456,19 @@
       roomguide_title:'ルームガイド',
       checkin_title:'オンラインチェックイン',
       services:'サービス', recent:'最近の活動',
+      settings_title:'設定', settings_lang:'言語', settings_theme:'テーマ',
+      settings_sound:'通知音', settings_sound_sub:'新着通知時に鳥の声',
+      settings_wifi:'Wi-Fi', settings_wifi_free:'パスワード不要',
+      settings_contact:'クイックダイヤル', dial_desk:'フロント', dial_roomservice:'ルームサービス',
+      dial_valet:'バレー', dial_emergency:'緊急',
+      theme_dark:'ダークモード', theme_light:'ライトモード',
     },
     ZH: {
-      nav_home:'首页', nav_request:'请求', nav_chat:'聊天', nav_explore:'探索', nav_info:'信息',
+      welcome:'欢迎回来',
+      pill_room:'房间', pill_checkout:'退房', pill_nights:'剩余天数',
+      action_requests:'请求', action_roomguide:'客房指南', action_explore:'探索',
+      action_dining:'餐饮', action_facilities:'设施', action_valet:'代客泊车',
+      nav_home:'首页', nav_request:'请求', nav_chat:'聊天', nav_explore:'探索',
       req_title:'服务请求', req_amenity:'客房 & 设施', req_dining:'餐饮 & 迷你吧', req_wellness:'健康 & 水疗',
       req_towel:'额外毛巾', req_towel_sub:'浴巾、手巾、面巾',
       req_pillow:'额外枕头', req_pillow_sub:'枕头菜单可选',
@@ -2254,46 +2491,103 @@
       roomguide_title:'客房指南',
       checkin_title:'在线入住',
       services:'服务', recent:'近期活动',
+      settings_title:'设置', settings_lang:'语言', settings_theme:'主题',
+      settings_sound:'通知提示音', settings_sound_sub:'新通知时播放鸟鸣',
+      settings_wifi:'Wi-Fi', settings_wifi_free:'无需密码',
+      settings_contact:'快速拨号', dial_desk:'前台', dial_roomservice:'客房服务',
+      dial_valet:'代客泊车', dial_emergency:'紧急',
+      theme_dark:'深色模式', theme_light:'浅色模式',
     }
   };
 
-  let currentLangIdx = 0;
-  function cycleLang() {
-    currentLangIdx = (currentLangIdx + 1) % LANGS.length;
-    applyLang(LANGS[currentLangIdx]);
+  let currentLang = 'KO';
+
+  function selectLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('hotel_lang', lang);
+    applyLang(lang);
   }
 
   function applyLang(lang) {
-    const t = I18N[lang];
-    document.getElementById('lang-display').textContent = lang;
+    const t = I18N[lang] || I18N['KO'];
+    currentLang = lang;
     localStorage.setItem('hotel_lang', lang);
 
-    // 네비게이션
+    // 네비게이션 라벨
     const navLabels = document.querySelectorAll('.nav-label');
-    const navKeys = ['nav_home','nav_request','nav_chat','nav_explore','nav_info'];
-    navLabels.forEach((el, i) => { if(navKeys[i]) el.textContent = t[navKeys[i]]; });
+    const navKeys = ['nav_home','nav_request','nav_chat','nav_explore'];
+    navLabels.forEach((el, i) => { if(navKeys[i] && t[navKeys[i]]) el.textContent = t[navKeys[i]]; });
 
-    // data-i18n 속성으로 바꾸기
+    // data-i18n 속성
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (t[key]) el.textContent = t[key];
     });
 
-    // 채팅 placeholder
+    // 입력창 placeholder
     const ci = document.getElementById('chat-input');
-    if (ci) ci.placeholder = t.chat_placeholder;
+    if (ci) ci.placeholder = t.chat_placeholder || '';
     const es = document.getElementById('explore-search');
-    if (es) es.placeholder = t.explore_placeholder;
+    if (es) es.placeholder = t.explore_placeholder || '';
+
+    // 셋팅 언어 버튼 활성화
+    document.querySelectorAll('.lang-opt').forEach(el => el.classList.remove('active'));
+    const opt = document.getElementById('lang-opt-' + lang);
+    if (opt) opt.classList.add('active');
+
+    // 테마 라벨 업데이트
+    updateThemeLabel();
   }
 
   // 저장된 언어 복원
   const savedLang = localStorage.getItem('hotel_lang') || 'KO';
-  currentLangIdx = LANGS.indexOf(savedLang);
-  if (currentLangIdx < 0) currentLangIdx = 0;
+  currentLang = savedLang;
   applyLang(savedLang);
+
+  // ── 셋팅 창 ──
+  function openSettings() {
+    document.getElementById('settings-sheet').classList.add('open');
+  }
+  function closeSettings() {
+    document.getElementById('settings-sheet').classList.remove('open');
+  }
+
+  // ── 테마 ──
+  let isLightMode = localStorage.getItem('hotel_theme') === 'light';
+  function initTheme() {
+    document.querySelector('.phone').classList.toggle('light-mode', isLightMode);
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) toggle.checked = isLightMode;
+    updateThemeLabel();
+  }
+  function toggleTheme(checked) {
+    isLightMode = checked;
+    localStorage.setItem('hotel_theme', checked ? 'light' : 'dark');
+    document.querySelector('.phone').classList.toggle('light-mode', checked);
+    updateThemeLabel();
+  }
+  function updateThemeLabel() {
+    const t = I18N[currentLang] || I18N['KO'];
+    const sub = document.getElementById('theme-sub-label');
+    if (sub) sub.textContent = isLightMode ? (t.theme_light || 'Light Mode') : (t.theme_dark || 'Dark Mode');
+  }
+  initTheme();
+
+  // ── 알림음 ──
+  let soundEnabled = localStorage.getItem('hotel_sound') !== 'off';
+  function initSound() {
+    const toggle = document.getElementById('sound-toggle');
+    if (toggle) toggle.checked = soundEnabled;
+  }
+  function toggleSound(checked) {
+    soundEnabled = checked;
+    localStorage.setItem('hotel_sound', checked ? 'on' : 'off');
+  }
+  initSound();
 
   // 새소리 (Web Audio API)
   function playBird() {
+    if (!soundEnabled) return;
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
