@@ -884,11 +884,19 @@
       position: absolute;
       inset: 0;
       z-index: 500;
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: none;
       overflow-y: auto;
+      animation: slideUp 0.32s cubic-bezier(0.4,0,0.2,1);
     }
-    #settings-sheet.open { transform: translateY(0); }
+    #settings-sheet.open { display: block; }
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);   opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(0);   opacity: 1; }
+      to   { transform: translateY(100%); opacity: 0; }
+    }
 
     .setting-row {
       display: flex;
@@ -2554,10 +2562,16 @@
 
   // ── 셋팅 창 ──
   function openSettings() {
-    document.getElementById('settings-sheet').classList.add('open');
+    const s = document.getElementById('settings-sheet');
+    s.classList.add('open');
   }
   function closeSettings() {
-    document.getElementById('settings-sheet').classList.remove('open');
+    const s = document.getElementById('settings-sheet');
+    s.style.animation = 'slideDown 0.28s cubic-bezier(0.4,0,0.2,1)';
+    setTimeout(() => {
+      s.classList.remove('open');
+      s.style.animation = '';
+    }, 280);
   }
 
   // ── 테마 ──
