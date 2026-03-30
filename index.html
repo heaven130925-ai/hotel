@@ -2539,6 +2539,14 @@
     updateThemeLabel();
   }
 
+  // ── 테마 (applyLang보다 먼저 선언) ──
+  let isLightMode = localStorage.getItem('hotel_theme') === 'light';
+  function updateThemeLabel() {
+    const t = I18N[currentLang] || I18N['KO'];
+    const sub = document.getElementById('theme-sub-label');
+    if (sub) sub.textContent = isLightMode ? (t.theme_light || 'Light Mode') : (t.theme_dark || 'Dark Mode');
+  }
+
   // 저장된 언어 복원
   const savedLang = localStorage.getItem('hotel_lang') || 'KO';
   currentLang = savedLang;
@@ -2553,7 +2561,6 @@
   }
 
   // ── 테마 ──
-  let isLightMode = localStorage.getItem('hotel_theme') === 'light';
   function initTheme() {
     document.querySelector('.phone').classList.toggle('light-mode', isLightMode);
     const toggle = document.getElementById('theme-toggle');
@@ -2565,11 +2572,6 @@
     localStorage.setItem('hotel_theme', checked ? 'light' : 'dark');
     document.querySelector('.phone').classList.toggle('light-mode', checked);
     updateThemeLabel();
-  }
-  function updateThemeLabel() {
-    const t = I18N[currentLang] || I18N['KO'];
-    const sub = document.getElementById('theme-sub-label');
-    if (sub) sub.textContent = isLightMode ? (t.theme_light || 'Light Mode') : (t.theme_dark || 'Dark Mode');
   }
   initTheme();
 
