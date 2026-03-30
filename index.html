@@ -886,6 +886,7 @@
       z-index: 500;
       display: none;
       overflow-y: auto;
+      background: #0f0f0f;
       animation: slideUp 0.32s cubic-bezier(0.4,0,0.2,1);
     }
     #settings-sheet.open { display: block; }
@@ -943,58 +944,95 @@
     .lang-opt.active { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.5); color: #c9a84c; }
 
     /* ══ LIGHT MODE ══ */
-    .phone.light-mode { background: #f5f0e8; }
-    .phone.light-mode #screen-home { background: #f5f0e8; }
-    .phone.light-mode .inner-screen { background: #f0ebe0; }
-    .phone.light-mode #settings-sheet { background: #f0ebe0; }
-    .phone.light-mode .bottom-nav { background: rgba(245,240,232,0.96); border-top-color: #e0d8c8; }
-    .phone.light-mode .nav-label { color: #888; }
-    .phone.light-mode .nav-item { color: #888; }
+    .phone.light-mode { background: #f0ece4; }
+    .phone.light-mode #screen-home { background: #f0ece4; }
+    .phone.light-mode .home-actions { background: #f0ece4; }
+    .phone.light-mode .inner-screen { background: #ede9e1; }
+    .phone.light-mode #settings-sheet { background: #f0ece4; }
+    .phone.light-mode .bottom-nav { background: rgba(240,236,228,0.97); border-top-color: #d8d0be; }
+    .phone.light-mode .nav-label { color: #7a6e5a; }
+    .phone.light-mode .nav-item { color: #7a6e5a; }
     .phone.light-mode .nav-item.active { color: #c9a84c; }
     .phone.light-mode .nav-item.active .nav-label { color: #c9a84c; }
-    .phone.light-mode .screen-title { color: #1a1612; }
-    .phone.light-mode .back-btn { background: #e8e0d0; border-color: #d8d0c0; }
-    .phone.light-mode .back-btn svg { stroke: #555; }
-    .phone.light-mode .section-label { color: #888; }
-    .phone.light-mode .req-section-label { color: #999; }
-    .phone.light-mode .action-btn { background: #fff; border-color: #e8e0d0; }
-    .phone.light-mode .action-icon-wrap { background: #f0ebe0; }
-    .phone.light-mode .action-label { color: #3a2e1e; }
-    .phone.light-mode .recent-item { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .nav-dot { background: #c9a84c; }
+
+    /* 홈 히어로 영역 — 텍스트 검정으로 */
+    .phone.light-mode .hotel-badge { color: #9a7a28; text-shadow: none; }
+    .phone.light-mode .guest-greeting { color: #1a1612; text-shadow: 0 1px 4px rgba(255,255,255,0.8); }
+    .phone.light-mode .guest-name { color: #0d0a06; text-shadow: 0 1px 6px rgba(255,255,255,0.7); }
+    .phone.light-mode .pill-label { color: rgba(0,0,0,0.6); }
+    .phone.light-mode .pill-val { color: #9a7a28; }
+    .phone.light-mode .room-pill { background: rgba(255,255,255,0.75); border-color: rgba(0,0,0,0.12); }
+    .phone.light-mode .hero-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.0) 30%, rgba(240,236,228,0.5) 65%, rgba(240,236,228,1) 100%); }
+
+    /* 섹션 라벨 */
+    .phone.light-mode .section-label { color: #7a6e5a; }
+    .phone.light-mode .req-section-label { color: #7a6e5a; }
+
+    /* 액션 버튼 */
+    .phone.light-mode .action-btn { background: #fff; border-color: #d8d0be; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .phone.light-mode .action-icon-wrap { background: #f5f0e6; }
+    .phone.light-mode .action-label { color: #2a2018; }
+
+    /* 최근 활동 */
+    .phone.light-mode .recent-item { background: #fff; border-color: #d8d0be; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
     .phone.light-mode .recent-name { color: #1a1612; }
-    .phone.light-mode .recent-time { color: #888; }
-    .phone.light-mode .request-item { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .recent-time { color: #7a6e5a; }
+
+    /* 스크린 헤더 */
+    .phone.light-mode .screen-title { color: #1a1612; }
+    .phone.light-mode .screen-header { border-bottom-color: #d8d0be; }
+    .phone.light-mode .back-btn { background: #e8e2d6; border-color: #ccc4b0; }
+    .phone.light-mode .back-btn svg { stroke: #3a2e1e; }
+
+    /* 요청 */
+    .phone.light-mode .request-item { background: #fff; border-color: #d8d0be; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
     .phone.light-mode .req-name { color: #1a1612; }
-    .phone.light-mode .req-sub { color: #999; }
-    .phone.light-mode .req-icon-wrap { background: #f0ebe0; }
-    .phone.light-mode .screen-header { border-bottom-color: #e8e0d0; }
-    .phone.light-mode .chat-area { background: #f0ebe0; }
-    .phone.light-mode .msg.hotel .msg-bubble { background: #fff; border-color: #e8e0d0; color: #3a2e1e; }
-    .phone.light-mode .msg-sender { color: #aaa; }
-    .phone.light-mode .msg-time { color: #bbb; }
-    .phone.light-mode .chat-bottom { background: #f5f0e8; border-top-color: #e8e0d0; }
-    .phone.light-mode .chat-input { background: #fff; border-color: #e0d8c8; color: #1a1612; }
-    .phone.light-mode .chat-input::placeholder { color: #aaa; }
-    .phone.light-mode .info-card { background: #fff; border-color: #e8e0d0; }
-    .phone.light-mode .info-card-header { border-bottom-color: #e8e0d0; }
-    .phone.light-mode .info-key { color: #888; }
-    .phone.light-mode .info-val { color: #3a2e1e; }
-    .phone.light-mode .info-row { border-bottom-color: #f0ebe0; }
-    .phone.light-mode .ecard { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .req-sub { color: #7a6e5a; }
+    .phone.light-mode .req-icon-wrap { background: #f0ece4; }
+
+    /* 채팅 */
+    .phone.light-mode .chat-area { background: #ede9e1; }
+    .phone.light-mode .msg.hotel .msg-bubble { background: #fff; border-color: #d8d0be; color: #1a1612; }
+    .phone.light-mode .msg-sender { color: #9a8e7a; }
+    .phone.light-mode .msg-time { color: #b0a898; }
+    .phone.light-mode .chat-bottom { background: #f0ece4; border-top-color: #d8d0be; }
+    .phone.light-mode .chat-input { background: #fff; border-color: #d0c8b8; color: #1a1612; }
+    .phone.light-mode .chat-input::placeholder { color: #b0a898; }
+
+    /* 정보 카드 */
+    .phone.light-mode .info-card { background: #fff; border-color: #d8d0be; }
+    .phone.light-mode .info-card-header { border-bottom-color: #ede9e1; }
+    .phone.light-mode .info-card-title { color: #9a7a28; }
+    .phone.light-mode .info-key { color: #7a6e5a; }
+    .phone.light-mode .info-val { color: #1a1612; }
+    .phone.light-mode .info-row { border-bottom-color: #ede9e1; }
+
+    /* 익스플로어 */
+    .phone.light-mode .ecard { background: #fff; border-color: #d8d0be; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
     .phone.light-mode .ecard-name { color: #1a1612; }
-    .phone.light-mode .ecard-info { color: #888; }
-    .phone.light-mode .etab { background: #f0ebe0; border-color: #e8e0d0; color: #888; }
-    .phone.light-mode .guide-card { background: #fff; border-color: #e8e0d0; }
+    .phone.light-mode .ecard-info { color: #7a6e5a; }
+    .phone.light-mode .etab { background: #e8e2d6; border-color: #d0c8b8; color: #7a6e5a; }
+    .phone.light-mode .ecard-tag { color: #9a7a28; }
+
+    /* 룸 가이드 */
+    .phone.light-mode .guide-card { background: #fff; border-color: #d8d0be; }
     .phone.light-mode .guide-title { color: #1a1612; }
-    .phone.light-mode .guide-body { border-top-color: #e8e0d0; }
-    .phone.light-mode .guide-tip { background: #f0ebe0; color: #888; }
-    .phone.light-mode .setting-row { border-bottom-color: #e8e0d0; }
+    .phone.light-mode .guide-body { border-top-color: #ede9e1; }
+    .phone.light-mode .guide-step-text { color: #3a2e1e; }
+    .phone.light-mode .guide-tip { background: #f5f0e6; color: #7a6e5a; }
+    .phone.light-mode .req-name.guide-title { color: #1a1612; }
+
+    /* 셋팅 */
+    .phone.light-mode .setting-row { border-bottom-color: #d8d0be; }
     .phone.light-mode .setting-label { color: #1a1612; }
-    .phone.light-mode .toggle-track { background: #e0d8c8; }
-    .phone.light-mode .toggle-track::before { background: #bbb; }
-    .phone.light-mode .lang-opt { background: #f0ebe0; border-color: #e8e0d0; color: #888; }
-    .phone.light-mode .notif-panel-bg { background: #f5f0e8; }
-    .phone.light-mode #notif-panel { background: #f0ebe0; border-bottom-color: #e0d8c8; }
+    .phone.light-mode .setting-sub { color: #7a6e5a; }
+    .phone.light-mode .toggle-track { background: #d0c8b8; }
+    .phone.light-mode .toggle-track::before { background: #9a8e7a; }
+    .phone.light-mode .lang-opt { background: #e8e2d6; border-color: #d0c8b8; color: #3a2e1e; }
+
+    /* 알림 패널 */
+    .phone.light-mode #notif-panel { background: #f0ece4; border-bottom-color: #d8d0be; }
 
   </style>
 </head>
@@ -1137,7 +1175,7 @@
 
     <div class="hero-content">
       <div class="hotel-badge hotel-name">Your Hotel</div>
-      <div class="guest-greeting" data-i18n="welcome">Welcome back</div>
+      <div class="guest-greeting">Welcome</div>
       <div class="guest-name guest-name-text">Guest</div>
       <div class="room-strip">
         <div class="room-pill">
@@ -2021,7 +2059,7 @@
       </div>
       <div>
         <div class="screen-title" data-i18n="explore_title">Explore Seoul</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="explore_near">NEAR PARK HYATT SEOUL</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="explore_near">NEAR YOUR HOTEL</div>
       </div>
     </div>
 
@@ -2184,7 +2222,7 @@
   </div>
 
   <!-- ══════════ SETTINGS SHEET ══════════ -->
-  <div id="settings-sheet" style="background:#0f0f0f">
+  <div id="settings-sheet">
     <div style="padding:calc(env(safe-area-inset-top,44px) + 20px) 20px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e1e1e;flex-shrink:0">
       <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;font-weight:300" data-i18n="settings_title">Settings</div>
       <div onclick="closeSettings()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">
@@ -2844,7 +2882,7 @@ RULES:
     localStorage.removeItem('chat_history');
     const area = document.getElementById('chat-area');
     area.innerHTML = `<div class="msg hotel">
-      <div class="msg-sender">Park Hyatt Seoul</div>
+      <div class="msg-sender hotel-name-text">Concierge</div>
       <div class="msg-bubble">Good evening, Ms. Kim. How may I assist you today?</div>
       <div class="msg-time">${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>
     </div>`;
@@ -2876,7 +2914,7 @@ RULES:
     div.className = 'msg ' + (role === 'guest' ? 'guest' : 'hotel');
     div.style.position = 'relative';
     div.innerHTML = role === 'hotel'
-      ? `<div class="msg-sender">Park Hyatt Seoul</div><div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`
+      ? `<div class="msg-sender hotel-name-text">Concierge</div><div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`
       : `<div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`;
     attachLongPress(div);
     area.appendChild(div);
