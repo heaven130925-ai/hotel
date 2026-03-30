@@ -2146,43 +2146,45 @@
     setTimeout(applySafeArea, 50);
   })();
 
-  // 맑은 벨 소리 (Web Audio API)
-  function playBell() {
+  // 새소리 (Web Audio API)
+  function playBird() {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+      function chirp(startTime, freqFrom, freqTo, duration, vol) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freqFrom, startTime);
+        osc.frequency.exponentialRampToValueAtTime(freqTo, startTime + duration * 0.6);
+        osc.frequency.exponentialRampToValueAtTime(freqFrom * 0.9, startTime + duration);
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(vol, startTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(startTime); osc.stop(startTime + duration + 0.05);
+      }
+
       const t = ctx.currentTime;
-
-      // 기본음 (맑은 고음)
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(1046, t); // C6
-      osc1.frequency.exponentialRampToValueAtTime(900, t + 0.6);
-      gain1.gain.setValueAtTime(0.45, t);
-      gain1.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
-      osc1.connect(gain1); gain1.connect(ctx.destination);
-      osc1.start(t); osc1.stop(t + 1.2);
-
-      // 배음 (풍부하게)
-      const osc2 = ctx.createOscillator();
-      const gain2 = ctx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(2093, t); // C7
-      gain2.gain.setValueAtTime(0.15, t);
-      gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
-      osc2.connect(gain2); gain2.connect(ctx.destination);
-      osc2.start(t); osc2.stop(t + 0.8);
+      // 짹짹 두 번
+      chirp(t,       2800, 3600, 0.12, 0.3);
+      chirp(t + 0.18, 2800, 3600, 0.12, 0.3);
+      chirp(t + 0.38, 3000, 3800, 0.15, 0.25);
     } catch(e) {}
   }
 
   let notifOpen = false;
+  let notifPlayed = false;
   function toggleNotif() {
     notifOpen = !notifOpen;
     const panel = document.getElementById('notif-panel');
     panel.style.transform = notifOpen ? 'translateY(0)' : 'translateY(-100%)';
     document.getElementById('notif-badge').style.display = notifOpen ? 'none' : 'block';
-    if (notifOpen) playBell();
+    if (notifOpen && !notifPlayed) { playBird(); notifPlayed = true; }
   }
+
+  // 앱 시작 3초 후 새소리로 알림 도착 알림
+  setTimeout(() => { playBird(); }, 3000);
 
   // ── Online Check-in ──
   function checkinNext(step) {
