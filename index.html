@@ -32,7 +32,7 @@
 
     // URL에서 hotelId 가져오기 (없으면 기본값)
     const params = new URLSearchParams(window.location.search);
-    const hotelId = params.get('hotel') || 'demo-hotel';
+    const hotelId = params.get('hotel') || 'park-hyatt-seoul';
 
     async function loadHotelData() {
       try {
@@ -2537,7 +2537,7 @@ RULES:
           const app2 = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
           const db2 = getFirestore(app2);
           const params = new URLSearchParams(window.location.search);
-          const hotelId = params.get('hotel') || 'demo-hotel';
+          const hotelId = params.get('hotel') || 'park-hyatt-seoul';
           await addDoc(collection(db2, 'hotels', hotelId, 'requests'), {
             title: `[컨시어지] ${text}`,
             note: reply.replace(/<br>/g, ' ').substring(0, 100),
@@ -2646,7 +2646,7 @@ RULES:
       const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
       const db = getFirestore(app);
       const params = new URLSearchParams(window.location.search);
-      const hotelId = params.get('hotel') || 'demo-hotel';
+      const hotelId = params.get('hotel') || 'park-hyatt-seoul';
       await addDoc(collection(db, 'hotels', hotelId, 'requests'), {
         title,
         note,
