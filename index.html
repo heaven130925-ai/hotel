@@ -105,6 +105,7 @@
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
+      #lang-btn { display: block !important; }
       .bottom-nav {
         padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
         height: auto !important;
@@ -388,10 +389,10 @@
     }
 
     .section-label {
-      font-size: 9px;
-      letter-spacing: 2.5px;
+      font-size: 10px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: #888;
+      color: #aaa;
       padding: 10px 0 8px;
     }
 
@@ -402,8 +403,8 @@
     }
 
     .action-btn {
-      background: #141414;
-      border: 1px solid #1e1e1e;
+      background: #1a1a1a;
+      border: 1px solid #282828;
       border-radius: 14px;
       padding: 14px 8px 12px;
       cursor: pointer;
@@ -415,11 +416,11 @@
       gap: 8px;
     }
 
-    .action-btn:active { background: #1a1608; border-color: rgba(201,168,76,0.4); }
+    .action-btn:active { background: #1e1a0a; border-color: rgba(201,168,76,0.4); }
 
     .action-icon-wrap {
       width: 44px; height: 44px;
-      background: #1c1c1c;
+      background: #242424;
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -427,8 +428,8 @@
     }
 
     .action-label {
-      font-size: 11px;
-      color: #e0d0a8;
+      font-size: 12px;
+      color: #eeddb8;
       letter-spacing: 0.3px;
       font-weight: 500;
       line-height: 1.2;
@@ -438,8 +439,8 @@
     .recent-list { display: flex; flex-direction: column; gap: 8px; }
 
     .recent-item {
-      background: #141414;
-      border: 1px solid #1e1e1e;
+      background: #1a1a1a;
+      border: 1px solid #282828;
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
@@ -447,8 +448,8 @@
       align-items: center;
     }
 
-    .recent-name { font-size: 13px; color: #f0e4c0; margin-bottom: 3px; font-weight: 500; }
-    .recent-time { font-size: 10px; color: #999; }
+    .recent-name { font-size: 14px; color: #f5ecd4; margin-bottom: 3px; font-weight: 500; }
+    .recent-time { font-size: 11px; color: #bbb; }
 
     .badge {
       font-size: 9px;
@@ -501,7 +502,7 @@
     .nav-item.active .nav-dot { opacity: 1; }
 
     /* ══════════ INNER SCREENS ══════════ */
-    .inner-screen { background: #0d0d0d; }
+    .inner-screen { background: #111; }
 
     .screen-header {
       padding: 56px 24px 16px;
@@ -526,12 +527,12 @@
       justify-content: center;
       cursor: pointer;
     }
-    .back-btn svg { width: 20px; height: 20px; stroke: #bbb; }
+    .back-btn svg { width: 20px; height: 20px; stroke: #ddd; }
 
     .screen-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      color: #f0e6cc;
+      font-size: 24px;
+      color: #fff;
       font-weight: 300;
       letter-spacing: 0.5px;
     }
@@ -541,17 +542,17 @@
 
     /* REQUEST LIST */
     .req-section-label {
-      font-size: 9px;
-      letter-spacing: 2.5px;
+      font-size: 10px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: #444;
+      color: #777;
       padding: 16px 24px 10px;
     }
 
     .request-item {
       margin: 0 24px 8px;
-      background: #141414;
-      border: 1px solid #1e1e1e;
+      background: #1a1a1a;
+      border: 1px solid #282828;
       border-radius: 14px;
       padding: 14px 16px;
       display: flex;
@@ -560,11 +561,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .request-item:active { border-color: rgba(201,168,76,0.35); background: #16120a; }
+    .request-item:active { border-color: rgba(201,168,76,0.35); background: #1e1a0a; }
 
     .req-icon-wrap {
-      width: 40px; height: 40px;
-      background: #1c1c1c;
+      width: 42px; height: 42px;
+      background: #242424;
       border-radius: 11px;
       display: flex;
       align-items: center;
@@ -573,8 +574,8 @@
     }
 
     .req-text { flex: 1; }
-    .req-name { font-size: 13px; color: #d4c4a0; margin-bottom: 2px; font-weight: 400; }
-    .req-sub { font-size: 10px; color: #4a4a4a; letter-spacing: 0.3px; }
+    .req-name { font-size: 15px; color: #e8dfc8; margin-bottom: 3px; font-weight: 400; }
+    .req-sub { font-size: 12px; color: #666; letter-spacing: 0.3px; }
 
     /* CHAT */
     .chat-area {
@@ -593,10 +594,10 @@
     .msg.guest { align-self: flex-end; }
 
     .msg-sender {
-      font-size: 9px;
+      font-size: 10px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: #444;
+      color: #666;
       margin-bottom: 5px;
       padding: 0 4px;
     }
@@ -610,9 +611,9 @@
     }
 
     .msg.hotel .msg-bubble {
-      background: #161616;
-      border: 1px solid #222;
-      color: #c8b890;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      color: #e0ceaa;
       border-bottom-left-radius: 4px;
     }
 
@@ -656,17 +657,17 @@
 
     .chat-input {
       flex: 1;
-      background: #161616;
-      border: 1px solid #222;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
       border-radius: 24px;
       padding: 11px 18px;
-      color: #d4c4a0;
+      color: #e8d8b8;
       font-size: 16px;
       outline: none;
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 0.3px;
     }
-    .chat-input::placeholder { color: #333; }
+    .chat-input::placeholder { color: #555; }
 
     .send-btn {
       width: 40px; height: 40px;
@@ -708,12 +709,12 @@
     .info-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 18px;
-      border-bottom: 1px solid #161616;
+      padding: 11px 18px;
+      border-bottom: 1px solid #1e1e1e;
     }
     .info-row:last-child { border-bottom: none; }
-    .info-key { font-size: 11px; color: #555; letter-spacing: 0.3px; }
-    .info-val { font-size: 11px; color: #c8b890; text-align: right; }
+    .info-key { font-size: 12px; color: #888; letter-spacing: 0.3px; }
+    .info-val { font-size: 12px; color: #e0ceaa; text-align: right; }
 
     /* ── EXPLORE ── */
     .etab {
@@ -736,8 +737,8 @@
     }
 
     .ecard {
-      background: #141414;
-      border: 1px solid #1e1e1e;
+      background: #1a1a1a;
+      border: 1px solid #282828;
       border-radius: 14px;
       overflow: hidden;
       transition: all 0.2s;
@@ -776,7 +777,7 @@
     }
     .ecard-info {
       font-size: 13px;
-      color: #555;
+      color: #888;
     }
     .map-btn {
       flex-shrink: 0;
@@ -1003,6 +1004,11 @@
       </div>
     </div>
 
+    <!-- 언어 전환 버튼 -->
+    <div id="lang-btn" style="position:absolute;right:16px;z-index:20;display:none" onclick="cycleLang()">
+      <div style="cursor:pointer;display:flex;align-items:center;justify-content:center;height:36px;padding:0 12px;background:rgba(0,0,0,0.45);border-radius:10px;backdrop-filter:blur(8px);font-size:12px;font-weight:600;color:#fff;letter-spacing:0.5px" id="lang-display">KO</div>
+    </div>
+
     <div class="hero">
       <div class="hero-clip">
         <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center top;" />
@@ -1042,7 +1048,7 @@
         </div>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5a9c5a" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      <div class="section-label">Services</div>
+      <div class="section-label" data-i18n="services">Services</div>
       <div class="action-grid">
 
         <div class="action-btn" onclick="goTo('screen-request')">
@@ -1101,7 +1107,7 @@
 
       </div>
 
-      <div class="section-label" style="margin-top:auto">Recent Activity</div>
+      <div class="section-label" style="margin-top:auto" data-i18n="recent">Recent Activity</div>
       <div class="recent-list">
         <div class="recent-item">
           <div>
@@ -1128,13 +1134,13 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div>
-        <div class="screen-title">Service Requests</div>
+        <div class="screen-title" data-i18n="req_title">Service Requests</div>
         <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
 
     <div class="scroll-area" style="padding-bottom:90px">
-      <div class="req-section-label">Room & Amenities</div>
+      <div class="req-section-label" data-i18n="req_amenity">Room & Amenities</div>
 
       <div class="request-item" onclick="showConfirm('Extra Towels')">
         <div class="req-icon-wrap">
@@ -1143,8 +1149,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Extra Towels</div>
-          <div class="req-sub">Bath, hand, or face towels</div>
+          <div class="req-name" data-i18n="req_towel">Extra Towels</div>
+          <div class="req-sub" data-i18n="req_towel_sub">Bath, hand, or face towels</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1156,8 +1162,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Extra Pillows</div>
-          <div class="req-sub">Pillow menu available</div>
+          <div class="req-name" data-i18n="req_pillow">Extra Pillows</div>
+          <div class="req-sub" data-i18n="req_pillow_sub">Pillow menu available</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1169,8 +1175,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Housekeeping</div>
-          <div class="req-sub">Room cleaning service</div>
+          <div class="req-name" data-i18n="req_housekeeping">Housekeeping</div>
+          <div class="req-sub" data-i18n="req_housekeeping_sub">Room cleaning service</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1182,8 +1188,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Turndown Service</div>
-          <div class="req-sub">Evening bed preparation</div>
+          <div class="req-name" data-i18n="req_turndown">Turndown Service</div>
+          <div class="req-sub" data-i18n="req_turndown_sub">Evening bed preparation</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1195,8 +1201,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Do Not Disturb</div>
-          <div class="req-sub">Block housekeeping visits</div>
+          <div class="req-name" data-i18n="req_dnd">Do Not Disturb</div>
+          <div class="req-sub" data-i18n="req_dnd_sub">Block housekeeping visits</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1210,8 +1216,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Laundry & Pressing</div>
-          <div class="req-sub">Pickup & delivery</div>
+          <div class="req-name" data-i18n="req_laundry">Laundry & Pressing</div>
+          <div class="req-sub" data-i18n="req_laundry_sub">Pickup & delivery</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1261,7 +1267,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div style="flex:1">
-        <div class="screen-title">Concierge</div>
+        <div class="screen-title" data-i18n="chat_title">Concierge</div>
         <div id="ai-status-label" style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">● AI POWERED</div>
       </div>
       <div style="display:flex;gap:8px">
@@ -1326,7 +1332,7 @@
       <div class="back-btn" onclick="goTo('screen-home')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
-      <div class="screen-title">Hotel Information</div>
+      <div class="screen-title" data-i18n="info_title">Hotel Information</div>
     </div>
 
     <div class="scroll-area" style="padding-top:4px;padding-bottom:90px">
@@ -1413,7 +1419,7 @@
       <div class="back-btn" onclick="goTo('screen-home')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
-      <div class="screen-title">Dining</div>
+      <div class="screen-title" data-i18n="dining_title">Dining</div>
     </div>
 
     <div class="scroll-area" style="padding-bottom:90px">
@@ -1488,7 +1494,7 @@
       <div class="back-btn" onclick="goTo('screen-home')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
-      <div class="screen-title">Facilities</div>
+      <div class="screen-title" data-i18n="facilities_title">Facilities</div>
     </div>
 
     <div class="scroll-area" style="padding-bottom:90px;padding-top:4px">
@@ -1567,7 +1573,7 @@
       <div class="back-btn" onclick="goTo('screen-home')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
-      <div class="screen-title">Valet</div>
+      <div class="screen-title" data-i18n="valet_title">Valet</div>
     </div>
 
     <div style="padding:8px 24px;flex:1;display:flex;flex-direction:column;gap:12px;padding-bottom:90px;overflow-y:auto">
@@ -1618,7 +1624,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div>
-        <div class="screen-title">In-Room Guide</div>
+        <div class="screen-title" data-i18n="roomguide_title">In-Room Guide</div>
         <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
@@ -1785,7 +1791,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div>
-        <div class="screen-title">Online Check-in</div>
+        <div class="screen-title" data-i18n="checkin_title">Online Check-in</div>
         <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
       </div>
     </div>
@@ -1895,8 +1901,8 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
       <div>
-        <div class="screen-title">Explore Seoul</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">NEAR PARK HYATT SEOUL</div>
+        <div class="screen-title" data-i18n="explore_title">Explore Seoul</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="explore_near">NEAR PARK HYATT SEOUL</div>
       </div>
     </div>
 
@@ -1907,7 +1913,7 @@
         <div style="display:flex;gap:8px;align-items:center;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:10px 14px">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input id="explore-search" type="text" placeholder="근처 맛집, 약국, 관광지 등 물어보세요" style="flex:1;background:transparent;border:none;outline:none;font-size:15px;color:#ccc;font-family:'Montserrat',sans-serif" onkeydown="if(event.key==='Enter')searchExplore()" />
-          <div onclick="searchExplore()" style="background:#c9a84c;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;white-space:nowrap">검색</div>
+          <div onclick="searchExplore()" id="explore-search-btn" style="background:#c9a84c;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;white-space:nowrap" data-i18n="explore_search">검색</div>
         </div>
         <div id="explore-ai-result" style="display:none;margin-top:10px;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:16px 18px">
           <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:10px">AI CONCIERGE</div>
@@ -2145,6 +2151,146 @@
 
     setTimeout(applySafeArea, 50);
   })();
+
+  // ── 언어 전환 ──
+  const LANGS = ['KO','EN','JA','ZH'];
+  const I18N = {
+    KO: {
+      nav_home:'홈', nav_request:'요청', nav_chat:'채팅', nav_explore:'탐색', nav_info:'정보',
+      req_title:'서비스 요청', req_amenity:'룸 & 어메니티', req_dining:'다이닝 & 미니바', req_wellness:'웰니스 & 스파',
+      req_towel:'추가 타월', req_towel_sub:'욕실, 핸드, 페이스 타월',
+      req_pillow:'추가 베개', req_pillow_sub:'베개 메뉴 이용 가능',
+      req_housekeeping:'하우스키핑', req_housekeeping_sub:'객실 청소 서비스',
+      req_turndown:'턴다운 서비스', req_turndown_sub:'야간 침대 준비',
+      req_dnd:'방해 금지', req_dnd_sub:'하우스키핑 방문 차단',
+      req_roomservice:'룸서비스', req_roomservice_sub:'24시간 식음료 주문',
+      req_laundry:'세탁 서비스', req_laundry_sub:'당일 서비스 오전 9시까지',
+      req_iron:'다리미 & 다리미판', req_iron_sub:'객실 내 사용 가능',
+      req_pool:'수영장 예약', req_pool_sub:'24층 실내 수영장',
+      req_spa:'스파 예약', req_spa_sub:'스파 & 웰니스 센터',
+      req_wakeup:'모닝콜', req_wakeup_sub:'원하는 시간에 설정',
+      req_valet:'발레 파킹', req_valet_sub:'차량 픽업 요청',
+      chat_title:'컨시어지', chat_placeholder:'메시지를 입력하세요...',
+      explore_title:'서울 탐색', explore_near:'호텔 인근', explore_placeholder:'근처 맛집, 약국, 관광지 등 물어보세요', explore_search:'검색',
+      info_title:'호텔 정보',
+      dining_title:'다이닝',
+      facilities_title:'시설',
+      valet_title:'발레 파킹',
+      roomguide_title:'룸 가이드',
+      checkin_title:'온라인 체크인',
+      services:'서비스', recent:'최근 활동',
+    },
+    EN: {
+      nav_home:'Home', nav_request:'Request', nav_chat:'Chat', nav_explore:'Explore', nav_info:'Info',
+      req_title:'Service Requests', req_amenity:'Room & Amenities', req_dining:'Dining & Minibar', req_wellness:'Wellness & Spa',
+      req_towel:'Extra Towels', req_towel_sub:'Bath, hand, or face towels',
+      req_pillow:'Extra Pillows', req_pillow_sub:'Pillow menu available',
+      req_housekeeping:'Housekeeping', req_housekeeping_sub:'Room cleaning service',
+      req_turndown:'Turndown Service', req_turndown_sub:'Evening bed preparation',
+      req_dnd:'Do Not Disturb', req_dnd_sub:'Block housekeeping visits',
+      req_roomservice:'Room Service', req_roomservice_sub:'Food & beverage 24hrs',
+      req_laundry:'Laundry Service', req_laundry_sub:'Same-day service until 9AM',
+      req_iron:'Iron & Ironing Board', req_iron_sub:'Available upon request',
+      req_pool:'Pool Reservation', req_pool_sub:'Indoor pool, 24F',
+      req_spa:'Spa Reservation', req_spa_sub:'Spa & wellness center',
+      req_wakeup:'Wake-up Call', req_wakeup_sub:'Set your preferred time',
+      req_valet:'Valet Parking', req_valet_sub:'Request vehicle pickup',
+      chat_title:'Concierge', chat_placeholder:'Type a message...',
+      explore_title:'Explore Seoul', explore_near:'NEAR YOUR HOTEL', explore_placeholder:'Ask about restaurants, pharmacy, attractions...', explore_search:'Search',
+      info_title:'Hotel Info',
+      dining_title:'Dining',
+      facilities_title:'Facilities',
+      valet_title:'Valet',
+      roomguide_title:'Room Guide',
+      checkin_title:'Online Check-in',
+      services:'Services', recent:'Recent Activity',
+    },
+    JA: {
+      nav_home:'ホーム', nav_request:'リクエスト', nav_chat:'チャット', nav_explore:'探索', nav_info:'情報',
+      req_title:'サービスリクエスト', req_amenity:'ルーム & アメニティ', req_dining:'ダイニング & ミニバー', req_wellness:'ウェルネス & スパ',
+      req_towel:'タオル追加', req_towel_sub:'バス・ハンド・フェイスタオル',
+      req_pillow:'枕追加', req_pillow_sub:'枕メニューあり',
+      req_housekeeping:'ハウスキーピング', req_housekeeping_sub:'客室清掃サービス',
+      req_turndown:'ターンダウンサービス', req_turndown_sub:'夜間ベッド準備',
+      req_dnd:'起こさないでください', req_dnd_sub:'ハウスキーピング訪問を停止',
+      req_roomservice:'ルームサービス', req_roomservice_sub:'24時間食事注文',
+      req_laundry:'ランドリーサービス', req_laundry_sub:'当日サービス午前9時まで',
+      req_iron:'アイロン & アイロン台', req_iron_sub:'ご要望に応じてご用意',
+      req_pool:'プール予約', req_pool_sub:'室内プール 24階',
+      req_spa:'スパ予約', req_spa_sub:'スパ & ウェルネスセンター',
+      req_wakeup:'モーニングコール', req_wakeup_sub:'ご希望の時間を設定',
+      req_valet:'バレーパーキング', req_valet_sub:'車両のお受け取り',
+      chat_title:'コンシェルジュ', chat_placeholder:'メッセージを入力...',
+      explore_title:'ソウル探索', explore_near:'ホテル周辺', explore_placeholder:'レストラン、薬局、観光地など...', explore_search:'検索',
+      info_title:'ホテル情報',
+      dining_title:'ダイニング',
+      facilities_title:'施設',
+      valet_title:'バレー',
+      roomguide_title:'ルームガイド',
+      checkin_title:'オンラインチェックイン',
+      services:'サービス', recent:'最近の活動',
+    },
+    ZH: {
+      nav_home:'首页', nav_request:'请求', nav_chat:'聊天', nav_explore:'探索', nav_info:'信息',
+      req_title:'服务请求', req_amenity:'客房 & 设施', req_dining:'餐饮 & 迷你吧', req_wellness:'健康 & 水疗',
+      req_towel:'额外毛巾', req_towel_sub:'浴巾、手巾、面巾',
+      req_pillow:'额外枕头', req_pillow_sub:'枕头菜单可选',
+      req_housekeeping:'客房清洁', req_housekeeping_sub:'客房清洁服务',
+      req_turndown:'开床服务', req_turndown_sub:'夜间床铺准备',
+      req_dnd:'请勿打扰', req_dnd_sub:'停止客房服务',
+      req_roomservice:'客房服务', req_roomservice_sub:'24小时餐饮服务',
+      req_laundry:'洗衣服务', req_laundry_sub:'当日服务截止上午9点',
+      req_iron:'熨斗 & 熨衣板', req_iron_sub:'按需提供',
+      req_pool:'游泳池预订', req_pool_sub:'室内游泳池 24层',
+      req_spa:'水疗预订', req_spa_sub:'水疗 & 健康中心',
+      req_wakeup:'叫醒服务', req_wakeup_sub:'设置您的首选时间',
+      req_valet:'代客泊车', req_valet_sub:'车辆取车请求',
+      chat_title:'礼宾部', chat_placeholder:'请输入消息...',
+      explore_title:'探索首尔', explore_near:'酒店附近', explore_placeholder:'询问餐厅、药店、景点...', explore_search:'搜索',
+      info_title:'酒店信息',
+      dining_title:'餐饮',
+      facilities_title:'设施',
+      valet_title:'代客泊车',
+      roomguide_title:'客房指南',
+      checkin_title:'在线入住',
+      services:'服务', recent:'近期活动',
+    }
+  };
+
+  let currentLangIdx = 0;
+  function cycleLang() {
+    currentLangIdx = (currentLangIdx + 1) % LANGS.length;
+    applyLang(LANGS[currentLangIdx]);
+  }
+
+  function applyLang(lang) {
+    const t = I18N[lang];
+    document.getElementById('lang-display').textContent = lang;
+    localStorage.setItem('hotel_lang', lang);
+
+    // 네비게이션
+    const navLabels = document.querySelectorAll('.nav-label');
+    const navKeys = ['nav_home','nav_request','nav_chat','nav_explore','nav_info'];
+    navLabels.forEach((el, i) => { if(navKeys[i]) el.textContent = t[navKeys[i]]; });
+
+    // data-i18n 속성으로 바꾸기
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) el.textContent = t[key];
+    });
+
+    // 채팅 placeholder
+    const ci = document.getElementById('chat-input');
+    if (ci) ci.placeholder = t.chat_placeholder;
+    const es = document.getElementById('explore-search');
+    if (es) es.placeholder = t.explore_placeholder;
+  }
+
+  // 저장된 언어 복원
+  const savedLang = localStorage.getItem('hotel_lang') || 'KO';
+  currentLangIdx = LANGS.indexOf(savedLang);
+  if (currentLangIdx < 0) currentLangIdx = 0;
+  applyLang(savedLang);
 
   // 새소리 (Web Audio API)
   function playBird() {
