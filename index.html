@@ -2112,21 +2112,20 @@
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
 
-    // iPhone 15 Pro: Dynamic Island = 59px
-    // iPhone 14 이하: 47px, Android: 24px
+    // safe-area-inset-top 실제값 읽기
+    // CSS 논리픽셀 기준: iPhone 15 Pro = 852, 15 Pro Max = 932, 14 Pro = 852
     function applySafeArea() {
-      const ua = navigator.userAgent;
-      const isIOS = /iPhone|iPad/.test(ua);
-      const screenH = window.screen.height;
-      const screenW = window.screen.width;
+      const isIOS = /iPhone|iPad/.test(navigator.userAgent);
+      const screenH = window.screen.height; // CSS 논리픽셀
 
       let safeTop = 24; // Android 기본
       if (isIOS) {
-        // iPhone 14 Pro / 15 / 15 Pro / 15 Pro Max: Dynamic Island
-        if (screenH === 2556 || screenH === 2796 || screenH === 2622 || screenH === 2868) {
+        // Dynamic Island 기기 (iPhone 14 Pro, 15, 15 Pro, 15 Pro Max, 16 시리즈)
+        // CSS 논리픽셀: 852, 932, 956, 1032 등
+        if (screenH >= 852) {
           safeTop = 59;
         } else {
-          safeTop = 47; // 노치 기기
+          safeTop = 47; // 노치 기기 (iPhone X~13)
         }
       }
 
@@ -2223,10 +2222,10 @@
       mapBtn.href = `https://maps.google.com/?q=${encodeURIComponent(query + ' 서울 강남')}`;
       mapWrap.style.display = 'block';
 
-      // AI 결과 아래까지 스크롤
+      // 결과 전체 보이도록 스크롤
       setTimeout(() => {
         const scrollArea = document.querySelector('#screen-explore .scroll-area');
-        if (scrollArea) scrollArea.scrollTo({ top: resultBox.offsetTop + resultBox.scrollHeight, behavior: 'smooth' });
+        if (scrollArea) scrollArea.scrollTo({ top: 9999, behavior: 'smooth' });
       }, 150);
     } catch(e) {
       resultText.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
