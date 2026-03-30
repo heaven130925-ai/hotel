@@ -105,11 +105,7 @@
       #status-bar { display: none !important; }
       /* 모바일에서만 홈 버튼 표시 */
       #home-top-btns { display: flex !important; }
-      /* 모든 화면 상단에 safe area 적용 */
-      .screen:not(#screen-landing) {
-        padding-top: env(safe-area-inset-top, 47px);
-        box-sizing: border-box;
-      }
+      /* safe area는 screen-header와 home-top-btns에서 개별 처리 */
       /* 하단 safe area — 홈 인디케이터 영역 확보 */
       .bottom-nav {
         padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
@@ -515,6 +511,11 @@
       align-items: center;
       gap: 14px;
       flex-shrink: 0;
+    }
+    @media (max-width: 480px) {
+      .screen-header {
+        padding-top: calc(env(safe-area-inset-top, 44px) + 16px);
+      }
     }
 
     .back-btn {
@@ -994,7 +995,7 @@
   <div class="screen" id="screen-home">
 
     <!-- 홈 전용 상단 버튼 (뒤로가기 + 종) -->
-    <div style="position:absolute;top:12px;left:16px;z-index:20;display:none;gap:8px" id="home-top-btns">
+    <div style="position:absolute;top:calc(env(safe-area-inset-top, 12px) + 12px);left:16px;z-index:20;display:none;gap:8px" id="home-top-btns">
       <div onclick="goTo('screen-landing')" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(0,0,0,0.4);border-radius:10px;backdrop-filter:blur(8px)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </div>
