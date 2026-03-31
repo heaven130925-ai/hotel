@@ -295,10 +295,11 @@
       background: linear-gradient(
         to bottom,
         rgba(0,0,0,0.15) 0%,
-        rgba(0,0,0,0.0) 20%,
-        rgba(0,0,0,0.45) 52%,
-        rgba(13,13,13,0.92) 70%,
-        rgba(13,13,13,1) 82%
+        rgba(0,0,0,0.0) 18%,
+        rgba(0,0,0,0.35) 45%,
+        rgba(0,0,0,0.72) 65%,
+        rgba(0,0,0,0.88) 80%,
+        rgba(0,0,0,0.94) 100%
       );
     }
 
@@ -386,7 +387,7 @@
       gap: 0;
       position: relative;
       z-index: 5;
-      background: #0d0d0d;
+      background: transparent;
     }
 
     .section-label {
@@ -660,10 +661,10 @@
       flex: 1;
       background: #1e1e1e;
       border: 1px solid #2a2a2a;
-      border-radius: 24px;
-      padding: 11px 18px;
+      border-radius: 20px;
+      padding: 9px 16px;
       color: #e8d8b8;
-      font-size: 18px;
+      font-size: 16px;
       outline: none;
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 0.3px;
@@ -947,7 +948,7 @@
     /* ══ LIGHT MODE ══ */
     .phone.light-mode { background: #f0ece4; }
     .phone.light-mode #screen-home { background: #f0ece4; }
-    .phone.light-mode .home-actions { background: #f0ece4; }
+    .phone.light-mode .home-actions { background: transparent; }
     .phone.light-mode .inner-screen { background: #ede9e1; }
     .phone.light-mode #settings-sheet { background: #f0ece4; }
     .phone.light-mode .bottom-nav { background: rgba(240,236,228,0.97); border-top-color: #d8d0be; }
@@ -964,8 +965,8 @@
     .phone.light-mode .pill-label { color: rgba(0,0,0,0.6); }
     .phone.light-mode .pill-val { color: #9a7a28; }
     .phone.light-mode .room-pill { background: rgba(255,255,255,0.75); border-color: rgba(0,0,0,0.12); }
-    .phone.light-mode .hero-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.0) 20%, rgba(240,236,228,0.5) 52%, rgba(240,236,228,0.95) 70%, rgba(240,236,228,1) 82%); }
-    .phone.light-mode .home-actions { background: #f0ece4; }
+    .phone.light-mode .hero-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.0) 18%, rgba(240,236,228,0.35) 45%, rgba(240,236,228,0.75) 65%, rgba(240,236,228,0.92) 100%); }
+    .phone.light-mode .home-actions { background: transparent; }
 
     /* 섹션 라벨 */
     .phone.light-mode .section-label { color: #7a6e5a; }
@@ -2765,7 +2766,7 @@
       const res = await fetch('https://geminiexplore-uc4jxyctlq-du.a.run.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, hotelName: window._hotelName || '', hotelAddress: window._hotelAddress || '' })
+        body: JSON.stringify({ query })
       });
       const data = await res.json();
       const rawText = data.text || '죄송합니다, 다시 시도해주세요.';
