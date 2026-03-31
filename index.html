@@ -42,10 +42,11 @@
           const data = docSnap.data();
           // 호텔 데이터 적용
           document.querySelectorAll('.guest-name').forEach(el => el.textContent = data.guestName || 'Guest');
-          document.querySelectorAll('.hotel-badge').forEach(el => el.textContent = data.name || 'Hotel');
           document.querySelectorAll('[data-room]').forEach(el => el.textContent = data.room || '');
           document.querySelectorAll('[data-checkout]').forEach(el => el.textContent = data.checkOut || '');
           document.querySelectorAll('[data-nights]').forEach(el => el.textContent = data.nightsLeft || '');
+          window._hotelName = data.name || '';
+          window._hotelAddress = data.address || '';
           // Pro 아닌 경우 AI 기능 잠금
           if (data.tier !== 'pro') {
             window._hotelTier = 'free';
@@ -267,27 +268,25 @@
     #screen-home { background: #0d0d0d; }
 
     .hero {
-      position: relative;
-      height: 245px;
-      flex-shrink: 0;
+      position: absolute;
+      inset: 0;
       overflow: hidden;
+      z-index: 0;
     }
 
     .hero-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: left center;
+      object-position: center top;
       display: block;
       image-rendering: -webkit-optimize-contrast;
-      border-radius: 0;
     }
 
     .hero-clip {
       position: absolute;
       inset: 0;
       overflow: hidden;
-      border-radius: 0;
     }
 
     .hero-overlay {
@@ -295,16 +294,17 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.2) 0%,
-        rgba(0,0,0,0.0) 35%,
-        rgba(0,0,0,0.6) 68%,
-        rgba(0,0,0,0.92) 100%
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.0) 20%,
+        rgba(0,0,0,0.45) 52%,
+        rgba(13,13,13,0.92) 70%,
+        rgba(13,13,13,1) 82%
       );
     }
 
     .hero-content {
       flex-shrink: 0;
-      margin-top: -20px;
+      margin-top: 235px;
       padding: 0 28px 14px;
       position: relative;
       z-index: 5;
@@ -385,7 +385,8 @@
       flex-direction: column;
       gap: 0;
       position: relative;
-      z-index: 1;
+      z-index: 5;
+      background: #0d0d0d;
     }
 
     .section-label {
@@ -963,7 +964,8 @@
     .phone.light-mode .pill-label { color: rgba(0,0,0,0.6); }
     .phone.light-mode .pill-val { color: #9a7a28; }
     .phone.light-mode .room-pill { background: rgba(255,255,255,0.75); border-color: rgba(0,0,0,0.12); }
-    .phone.light-mode .hero-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.0) 30%, rgba(240,236,228,0.5) 65%, rgba(240,236,228,1) 100%); }
+    .phone.light-mode .hero-overlay { background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.0) 20%, rgba(240,236,228,0.5) 52%, rgba(240,236,228,0.95) 70%, rgba(240,236,228,1) 82%); }
+    .phone.light-mode .home-actions { background: #f0ece4; }
 
     /* 섹션 라벨 */
     .phone.light-mode .section-label { color: #7a6e5a; }
