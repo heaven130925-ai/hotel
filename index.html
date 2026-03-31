@@ -312,14 +312,14 @@
     }
 
     .hotel-badge {
-      font-size: 12px;
+      font-size: 13px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: #c9a84c;
+      color: #d4b060;
       margin-bottom: 10px;
       font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      text-shadow: 0 1px 8px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.8);
+      font-weight: 600;
+      text-shadow: 0 1px 10px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,1), 0 2px 4px rgba(0,0,0,1);
     }
 
     .guest-greeting {
@@ -394,27 +394,31 @@
       font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: #aaa;
+      color: #ccc;
       padding: 10px 0 8px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8);
     }
 
     .action-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
       gap: 8px;
+      flex: 1;
     }
 
     .action-btn {
       background: #1a1a1a;
       border: 1px solid #282828;
       border-radius: 14px;
-      padding: 14px 8px 12px;
+      padding: 12px 8px;
       cursor: pointer;
       transition: all 0.2s;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -1171,7 +1175,7 @@
 
     <div class="hero">
       <div class="hero-clip">
-        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center top;" />
+        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center 30%;" />
         <div class="hero-overlay"></div>
       </div>
     </div>
@@ -1197,9 +1201,20 @@
     </div>
 
     <div class="home-actions">
-      <!-- 최근 활동 (상단으로 이동) -->
-      <div class="section-label" style="margin-top:0" data-i18n="recent">Recent Activity</div>
-      <div class="recent-list" style="margin-bottom:12px">
+      <!-- Online Check-in 배너 -->
+      <div onclick="goTo('screen-checkin')" style="margin-bottom:10px;background:linear-gradient(135deg,#0a1f0a,#152215);border:1px solid rgba(90,156,90,0.5);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 0 18px rgba(90,156,90,0.12)">
+        <div style="width:42px;height:42px;background:rgba(90,156,90,0.18);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:15px;color:#7fc47f;font-weight:600;margin-bottom:3px">Online Check-in Available</div>
+          <div style="font-size:12px;color:#557a55;letter-spacing:0.2px">Skip the front desk · Ready in 2 min</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <!-- 최근 활동 -->
+      <div class="section-label" style="margin-top:4px" data-i18n="recent">Recent Activity</div>
+      <div class="recent-list" style="margin-bottom:10px">
         <div class="recent-item">
           <div>
             <div class="recent-name" data-i18n="recent_item1">Extra Towels ×2</div>
@@ -1214,17 +1229,6 @@
           </div>
           <span class="badge pending" data-i18n="badge_progress">In Progress</span>
         </div>
-      </div>
-      <!-- Online Check-in 배너 -->
-      <div onclick="goTo('screen-checkin')" style="margin-bottom:10px;background:linear-gradient(135deg,#0a1f0a,#152215);border:1px solid rgba(90,156,90,0.5);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 0 18px rgba(90,156,90,0.12)">
-        <div style="width:42px;height:42px;background:rgba(90,156,90,0.18);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
-        </div>
-        <div style="flex:1">
-          <div style="font-size:15px;color:#7fc47f;font-weight:600;margin-bottom:3px">Online Check-in Available</div>
-          <div style="font-size:12px;color:#557a55;letter-spacing:0.2px">Skip the front desk · Ready in 2 min</div>
-        </div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <div class="section-label" data-i18n="services">Services</div>
       <div class="action-grid">
