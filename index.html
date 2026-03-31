@@ -308,20 +308,24 @@
 
     .hero-content {
       flex-shrink: 0;
-      margin-top: 200px;
-      padding: 0 28px 14px;
+      margin-top: 155px;
+      padding: 0 28px 10px;
       position: relative;
       z-index: 5;
     }
 
     .hotel-badge {
-      font-size: 12px;
-      letter-spacing: 2.5px;
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: rgba(201,168,76,0.9);
+      color: #c9a84c;
       margin-bottom: 8px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
+      background: rgba(0,0,0,0.55);
+      padding: 4px 10px;
+      border-radius: 6px;
     }
 
     .guest-greeting {
@@ -378,8 +382,9 @@
     /* Quick Actions */
     .home-actions {
       flex: 1;
-      min-height: 0;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
       padding: 4px 24px 0;
       display: flex;
       flex-direction: column;
@@ -401,18 +406,14 @@
     .action-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
       gap: 8px;
-      flex: 1;
-      min-height: 0;
-      padding-bottom: 82px;
     }
 
     .action-btn {
       background: #1a1a1a;
       border: 1px solid #282828;
       border-radius: 14px;
-      padding: 12px 8px;
+      padding: 18px 8px;
       cursor: pointer;
       transition: all 0.2s;
       text-align: center;
@@ -1214,8 +1215,8 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <!-- 최근 활동 -->
-      <div class="section-label" style="margin-top:4px" data-i18n="recent">Recent Activity</div>
-      <div class="recent-list" style="margin-bottom:10px">
+      <div class="section-label" style="margin-top:0;padding-top:4px" data-i18n="recent">Recent Activity</div>
+      <div class="recent-list" style="margin-bottom:6px">
         <div class="recent-item">
           <div>
             <div class="recent-name" data-i18n="recent_item1">Extra Towels ×2</div>
@@ -1231,63 +1232,66 @@
           <span class="badge pending" data-i18n="badge_progress">In Progress</span>
         </div>
       </div>
-      <div class="section-label" data-i18n="services">Services</div>
-      <div class="action-grid">
+      <!-- 서비스 섹션: 하단까지 solid dark 배경으로 채움 -->
+      <div style="background:#0d0d0d;margin:0 -24px;padding:0 24px 90px;flex:1">
+        <div class="section-label" data-i18n="services">Services</div>
+        <div class="action-grid">
 
-        <div class="action-btn" onclick="goTo('screen-request')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-request')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_requests">Requests</div>
           </div>
-          <div class="action-label" data-i18n="action_requests">Requests</div>
-        </div>
 
-        <div class="action-btn" onclick="goTo('screen-roomguide')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-roomguide')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_roomguide">Room Guide</div>
           </div>
-          <div class="action-label" data-i18n="action_roomguide">Room Guide</div>
-        </div>
 
-        <div class="action-btn" onclick="goTo('screen-explore')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-explore')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_explore">Explore</div>
           </div>
-          <div class="action-label" data-i18n="action_explore">Explore</div>
-        </div>
 
-        <div class="action-btn" onclick="goTo('screen-dining')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-dining')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_dining">Dining</div>
           </div>
-          <div class="action-label" data-i18n="action_dining">Dining</div>
-        </div>
 
-        <div class="action-btn" onclick="goTo('screen-facilities')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-facilities')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_facilities">Facilities</div>
           </div>
-          <div class="action-label" data-i18n="action_facilities">Facilities</div>
-        </div>
 
-        <div class="action-btn" onclick="goTo('screen-valet')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
+          <div class="action-btn" onclick="goTo('screen-valet')">
+            <div class="action-icon-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <div class="action-label" data-i18n="action_valet">Valet</div>
           </div>
-          <div class="action-label" data-i18n="action_valet">Valet</div>
-        </div>
 
+        </div>
       </div>
 
     </div>
