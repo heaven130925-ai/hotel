@@ -116,7 +116,8 @@
         overflow: hidden;
       }
       .home-actions {
-        padding-bottom: 4px !important;
+        padding-bottom: 0 !important;
+        justify-content: space-between !important;
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
@@ -3027,17 +3028,7 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
-  function fixHomeGap() {
-    if (window.innerWidth > 480) return;
-    const wrapper = document.getElementById('recent-activity-wrapper');
-    const nav = document.getElementById('bottom-nav');
-    if (!wrapper || !nav || nav.style.display === 'none') return;
-    wrapper.style.marginTop = '0px';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      const gap = Math.floor(nav.getBoundingClientRect().top - wrapper.getBoundingClientRect().bottom);
-      if (gap > 0) wrapper.style.marginTop = gap + 'px';
-    }));
-  }
+  function fixHomeGap() {}
 
   // 새소리 (Web Audio API)
   function playBird() {
