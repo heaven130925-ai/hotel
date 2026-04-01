@@ -378,7 +378,9 @@
 
     /* Quick Actions */
     .home-actions {
-      flex: 1;
+      flex: 1 1 0;
+      height: 0;
+      min-height: 0;
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
@@ -2666,19 +2668,16 @@
   }
   initSound();
 
-  // ── 서비스 버튼 높이 계산 (iOS Safari 대응) ──
-  function fitActionGrid() {
-    const homeEl = document.getElementById('screen-home');
-    const gridEl = homeEl ? homeEl.querySelector('.action-grid') : null;
-    if (!gridEl) return;
-    const gridTop = gridEl.getBoundingClientRect().top;
-    const screenH = window.innerHeight;
-    const navH = 82;
-    const available = screenH - gridTop - navH - 8;
-    if (available > 80) gridEl.style.height = available + 'px';
+  // ── home-actions padding-bottom = 실제 nav 높이로 동적 설정 ──
+  function fixHomeActionsPadding() {
+    const nav = document.getElementById('bottom-nav');
+    const ha  = document.querySelector('.home-actions');
+    if (!nav || !ha) return;
+    const navH = nav.getBoundingClientRect().height;
+    if (navH > 0) ha.style.paddingBottom = (navH + 4) + 'px';
   }
-  window.addEventListener('DOMContentLoaded', fitActionGrid);
-  window.addEventListener('resize', fitActionGrid);
+  window.addEventListener('load', fixHomeActionsPadding);
+  window.addEventListener('resize', fixHomeActionsPadding);
 
   // 새소리 (Web Audio API)
   function playBird() {
@@ -2851,19 +2850,8 @@
       sb.className = 'status-bar dark';
     }
 
-    // 메인화면 서비스 그리드 높이 계산 (screen이 실제로 보일 때)
     if (id === 'screen-home') {
-      requestAnimationFrame(() => {
-        const grid = document.querySelector('#screen-home .action-grid');
-        if (!grid) return;
-        const top = grid.getBoundingClientRect().top;
-        const navH = document.getElementById('bottom-nav').offsetHeight || 82;
-        const available = window.innerHeight - top - navH - 4;
-        if (available > 60) {
-          grid.style.height = available + 'px';
-          grid.style.paddingBottom = '0';
-        }
-      });
+      requestAnimationFrame(fixHomeActionsPadding);
     }
   }
 
