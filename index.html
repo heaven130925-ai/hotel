@@ -3032,16 +3032,10 @@
 
   function fixHomeGap() {
     if (window.innerWidth > 480) return;
-    const spacer = document.getElementById('home-spacer');
     const ha = document.querySelector('.home-actions');
-    const wrapper = document.getElementById('recent-activity-wrapper');
-    if (!spacer || !ha || !wrapper) return;
-    spacer.style.height = '0px';
-    requestAnimationFrame(() => {
-      // 남은 공간 = home-actions 높이 - padding-top(4) - banner높이 - spacer(0) - wrapper높이
-      const spare = ha.clientHeight - 4 - wrapper.offsetHeight - (spacer.previousElementSibling ? spacer.previousElementSibling.offsetHeight : 0);
-      spacer.style.height = Math.max(0, spare) + 'px';
-    });
+    const inner = document.querySelector('.home-actions-inner');
+    if (!ha || !inner) return;
+    inner.style.minHeight = ha.clientHeight + 'px';
   }
 
   // 새소리 (Web Audio API)
