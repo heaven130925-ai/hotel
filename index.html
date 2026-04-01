@@ -115,6 +115,9 @@
         position: relative;
         overflow: hidden;
       }
+      .home-actions {
+        padding-bottom: 16px !important;
+      }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
       #settings-open-btn { display: block !important; }
@@ -3012,6 +3015,7 @@
 
   // ── home-actions padding-bottom = 실제 nav 높이로 동적 설정 ──
   function fixHomeActionsPadding() {
+    if (window.innerWidth <= 480) return; // 모바일: nav가 flex flow에 있어 padding 불필요
     const nav = document.getElementById('bottom-nav');
     const ha  = document.querySelector('.home-actions');
     if (!nav || !ha) return;
