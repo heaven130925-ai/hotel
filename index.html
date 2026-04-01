@@ -1234,64 +1234,6 @@
           <span class="badge pending" data-i18n="badge_progress">In Progress</span>
         </div>
       </div>
-      <div class="section-label" data-i18n="services">Services</div>
-      <div class="action-grid">
-
-        <div class="action-btn" onclick="goTo('screen-request')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_requests">Requests</div>
-        </div>
-
-        <div class="action-btn" onclick="goTo('screen-roomguide')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_roomguide">Room Guide</div>
-        </div>
-
-        <div class="action-btn" onclick="goTo('screen-explore')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_explore">Explore</div>
-        </div>
-
-        <div class="action-btn" onclick="goTo('screen-dining')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_dining">Dining</div>
-        </div>
-
-        <div class="action-btn" onclick="goTo('screen-facilities')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_facilities">Facilities</div>
-        </div>
-
-        <div class="action-btn" onclick="goTo('screen-valet')">
-          <div class="action-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
-          </div>
-          <div class="action-label" data-i18n="action_valet">Valet</div>
-        </div>
-
-      </div>
 
     </div>
   </div>
@@ -1304,7 +1246,7 @@
       </div>
       <div>
         <div class="screen-title" data-i18n="req_title">Service Requests</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="label_concierge">CONCIERGE</div>
       </div>
     </div>
 
@@ -1462,22 +1404,22 @@
     <div id="confirm-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#151515;border-top:1px solid #2a2a2a;border-radius:24px 24px 0 0;padding:24px 28px 100px;z-index:30">
       <div style="width:36px;height:3px;background:#333;border-radius:2px;margin:0 auto 20px"></div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0e6cc;margin-bottom:8px" id="confirm-title"></div>
-      <div style="font-size:14px;color:#555;margin-bottom:24px" id="confirm-subtitle">We will send someone to your room shortly.</div>
+      <div style="font-size:14px;color:#555;margin-bottom:24px" id="confirm-subtitle" data-i18n="confirm_subtitle">We will send someone to your room shortly.</div>
       <textarea id="confirm-note" placeholder="Any special notes? (optional)" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:14px 16px;color:#c8b890;font-size:16px;font-family:'Montserrat',sans-serif;resize:none;height:88px;outline:none;margin-bottom:16px"></textarea>
-      <div onclick="submitRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Send Request</div>
-      <div onclick="closeConfirm()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px">CANCEL</div>
+      <div onclick="submitRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="confirm_send">Send Request</div>
+      <div onclick="closeConfirm()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px" data-i18n="confirm_cancel">CANCEL</div>
     </div>
 
     <!-- Room Service Sheet -->
     <div id="roomservice-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#151515;border-top:1px solid #2a2a2a;border-radius:24px 24px 0 0;padding:24px 28px 100px;z-index:30">
       <div style="width:36px;height:3px;background:#333;border-radius:2px;margin:0 auto 20px"></div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0e6cc;margin-bottom:4px">Room Service</div>
-      <div style="font-size:13px;color:#555;margin-bottom:20px">Available 24 hours · Delivery ~30 min</div>
-      <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">ORDER</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0e6cc;margin-bottom:4px" data-i18n="rs_title">Room Service</div>
+      <div style="font-size:13px;color:#555;margin-bottom:20px" data-i18n="rs_subtitle">Available 24 hours · Delivery ~30 min</div>
+      <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px" data-i18n="rs_order_label">ORDER</div>
       <textarea id="rs-order" placeholder="What would you like? (e.g. Club Sandwich, 2x Americano, Orange Juice)" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:14px 16px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;resize:none;height:96px;outline:none;margin-bottom:14px"></textarea>
       <div style="display:flex;gap:10px;margin-bottom:14px">
         <div style="flex:1">
-          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">GUESTS (CUTLERY)</div>
+          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px" data-i18n="rs_guests_label">GUESTS (CUTLERY)</div>
           <select id="rs-guests" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:10px;padding:11px 14px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;outline:none;appearance:none">
             <option value="1">1 person</option>
             <option value="2" selected>2 persons</option>
@@ -1486,7 +1428,7 @@
           </select>
         </div>
         <div style="flex:1">
-          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">DELIVERY TIME</div>
+          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px" data-i18n="rs_time_label">DELIVERY TIME</div>
           <select id="rs-time" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:10px;padding:11px 14px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;outline:none;appearance:none">
             <option value="asap">ASAP</option>
             <option value="30min">In 30 min</option>
@@ -1495,8 +1437,8 @@
           </select>
         </div>
       </div>
-      <div onclick="submitRoomService()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Place Order</div>
-      <div onclick="closeRoomService()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px">CANCEL</div>
+      <div onclick="submitRoomService()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="rs_btn">Place Order</div>
+      <div onclick="closeRoomService()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px" data-i18n="confirm_cancel">CANCEL</div>
     </div>
   </div>
 
@@ -1508,7 +1450,7 @@
       </div>
       <div style="flex:1">
         <div class="screen-title" data-i18n="chat_title">Concierge</div>
-        <div id="ai-status-label" style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">● AI POWERED</div>
+        <div id="ai-status-label" style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="label_ai_powered">● AI POWERED</div>
       </div>
       <div style="display:flex;gap:8px">
         <div onclick="clearChat()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #252525;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="대화 삭제">
@@ -1665,15 +1607,15 @@
     <div class="scroll-area" style="padding-bottom:90px">
 
       <div style="margin:0 24px 16px">
-        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px">Restaurant</div>
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px" data-i18n="dining_restaurant_label">Restaurant</div>
 
         <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;overflow:hidden;margin-bottom:10px">
           <div style="padding:18px 18px 14px">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
               <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#c9a84c;font-weight:400">The Lounge</div>
-              <span style="font-size:9px;background:#0a1a0a;color:#7cc47c;border:1px solid #2a5a2a;padding:3px 8px;border-radius:8px;letter-spacing:0.8px">OPEN</span>
+              <span style="font-size:9px;background:#0a1a0a;color:#7cc47c;border:1px solid #2a5a2a;padding:3px 8px;border-radius:8px;letter-spacing:0.8px" data-i18n="badge_open">OPEN</span>
             </div>
-            <div style="font-size:11px;color:#666;margin-bottom:14px">Contemporary cuisine with panoramic city views</div>
+            <div style="font-size:11px;color:#666;margin-bottom:14px" data-i18n="dining_desc">Contemporary cuisine with panoramic city views</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
               <div style="background:#1a1a1a;border-radius:8px;padding:8px 10px">
                 <div style="font-size:9px;color:#555;letter-spacing:1px;margin-bottom:2px">BREAKFAST</div>
@@ -1692,23 +1634,23 @@
                 <div style="font-size:11px;color:#c8b890">Until 1:00 AM</div>
               </div>
             </div>
-            <div onclick="showConfirm('Table Reservation — The Lounge')" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:10px;padding:11px;text-align:center;font-size:12px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Reserve a Table</div>
+            <div onclick="showConfirm('Table Reservation — The Lounge')" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:10px;padding:11px;text-align:center;font-size:12px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="dining_reserve">Reserve a Table</div>
           </div>
         </div>
       </div>
 
       <div style="margin:0 24px 16px">
-        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px">Room Service</div>
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:10px" data-i18n="dining_roomsvc_label">Room Service</div>
         <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:18px">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc;margin-bottom:6px">In-Room Dining</div>
-          <div style="font-size:11px;color:#666;margin-bottom:14px">Available 24 hours · Billed to your room</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc;margin-bottom:6px" data-i18n="dining_inroom">In-Room Dining</div>
+          <div style="font-size:11px;color:#666;margin-bottom:14px" data-i18n="dining_inroom_sub">Available 24 hours · Billed to your room</div>
           <div class="request-item" style="margin:0 0 8px" onclick="openRoomService('I\'d like to order room service. Could you show me the menu?')">
             <div class="req-icon-wrap">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
             </div>
             <div class="req-text">
-              <div class="req-name">Order Food & Drinks</div>
-              <div class="req-sub">Menu via concierge</div>
+              <div class="req-name" data-i18n="dining_order">Order Food & Drinks</div>
+              <div class="req-sub" data-i18n="dining_order_sub">Menu via concierge</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
@@ -1717,8 +1659,8 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="11"/><path d="M21 15V2a5 5 0 0 0-5 5v6h3v7a1 1 0 0 0 2 0V15z"/></svg>
             </div>
             <div class="req-text">
-              <div class="req-name">Breakfast in Room</div>
-              <div class="req-sub">Set delivery time</div>
+              <div class="req-name" data-i18n="dining_bfroom">Breakfast in Room</div>
+              <div class="req-sub" data-i18n="dining_bfroom_sub">Set delivery time</div>
             </div>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
@@ -1746,8 +1688,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Indoor Pool</div>
-          <div class="req-sub">6:00 AM – 10:00 PM · 25F</div>
+          <div class="req-name" data-i18n="fac_pool">Indoor Pool</div>
+          <div class="req-sub" data-i18n="fac_pool_sub">6:00 AM – 10:00 PM · 25F</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1759,8 +1701,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Fitness Center</div>
-          <div class="req-sub">24 Hours · 24F · Free access</div>
+          <div class="req-name" data-i18n="fac_gym">Fitness Center</div>
+          <div class="req-sub" data-i18n="fac_gym_sub">24 Hours · 24F · Free access</div>
         </div>
         <span style="font-size:9px;background:#0a1a0a;color:#7cc47c;border:1px solid #2a5a2a;padding:3px 8px;border-radius:8px;letter-spacing:0.5px">OPEN</span>
       </div>
@@ -1772,8 +1714,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Sauna</div>
-          <div class="req-sub">7:00 AM – 10:00 PM · 25F</div>
+          <div class="req-name" data-i18n="fac_sauna">Sauna</div>
+          <div class="req-sub" data-i18n="fac_sauna_sub">7:00 AM – 10:00 PM · 25F</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1785,8 +1727,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Spa & Wellness</div>
-          <div class="req-sub">10:00 AM – 9:00 PM · Book via concierge</div>
+          <div class="req-name" data-i18n="fac_spa">Spa & Wellness</div>
+          <div class="req-sub" data-i18n="fac_spa_sub">10:00 AM – 9:00 PM · Book via concierge</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1798,8 +1740,8 @@
           </svg>
         </div>
         <div class="req-text">
-          <div class="req-name">Tennis Court</div>
-          <div class="req-sub">7:00 AM – 9:00 PM · Outdoor</div>
+          <div class="req-name" data-i18n="fac_tennis">Tennis Court</div>
+          <div class="req-sub" data-i18n="fac_tennis_sub">7:00 AM – 9:00 PM · Outdoor</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -1824,18 +1766,18 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
           </div>
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc">Retrieve My Car</div>
-            <div style="font-size:11px;color:#555;margin-top:2px">~15 minutes preparation time</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0e6cc" data-i18n="valet_retrieve">Retrieve My Car</div>
+            <div style="font-size:11px;color:#555;margin-top:2px" data-i18n="valet_retrieve_sub">~15 minutes preparation time</div>
           </div>
         </div>
         <!-- 시간 선택 -->
         <div style="margin-bottom:14px">
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:8px">PICK-UP TIME</div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:8px" data-i18n="valet_pickup_label">PICK-UP TIME</div>
           <div style="display:flex;gap:8px;margin-bottom:10px">
-            <div id="vt-now"  onclick="selectValetTime('now')"  style="flex:1;padding:8px 4px;background:#1e1e1e;border:1px solid #c9a84c;border-radius:10px;text-align:center;font-size:11px;color:#c9a84c;cursor:pointer;transition:all 0.2s">Now</div>
-            <div id="vt-30"   onclick="selectValetTime('30')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">+30 min</div>
-            <div id="vt-60"   onclick="selectValetTime('60')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">+1 hr</div>
-            <div id="vt-cust" onclick="selectValetTime('custom')" style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s">직접 입력</div>
+            <div id="vt-now"  onclick="selectValetTime('now')"  style="flex:1;padding:8px 4px;background:#1e1e1e;border:1px solid #c9a84c;border-radius:10px;text-align:center;font-size:11px;color:#c9a84c;cursor:pointer;transition:all 0.2s" data-i18n="valet_now">Now</div>
+            <div id="vt-30"   onclick="selectValetTime('30')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s" data-i18n="valet_30">+30 min</div>
+            <div id="vt-60"   onclick="selectValetTime('60')"   style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s" data-i18n="valet_1hr">+1 hr</div>
+            <div id="vt-cust" onclick="selectValetTime('custom')" style="flex:1;padding:8px 4px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;text-align:center;font-size:11px;color:#888;cursor:pointer;transition:all 0.2s" data-i18n="valet_custom">직접 입력</div>
           </div>
           <div id="vt-custom-wrap" style="display:none">
             <input id="vt-time-input" type="time" style="width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:10px 14px;font-size:14px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;-webkit-appearance:none;color-scheme:dark" />
@@ -1843,11 +1785,11 @@
           <div id="vt-time-display" style="font-size:12px;color:#c9a84c;margin-top:6px;letter-spacing:0.3px;display:none"></div>
         </div>
 
-        <div onclick="submitValetRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Request Car</div>
+        <div onclick="submitValetRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="valet_request_btn">Request Car</div>
       </div>
 
       <div style="background:#141414;border:1px solid #1e1e1e;border-radius:16px;padding:20px">
-        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:12px">Valet Info</div>
+        <div style="font-size:9px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:12px" data-i18n="valet_info_title">Valet Info</div>
         <div class="info-row"><span class="info-key">Hours</span><span class="info-val">24 Hours</span></div>
         <div class="info-row"><span class="info-key">Location</span><span class="info-val">B1 Parking Lobby</span></div>
         <div class="info-row"><span class="info-key">Retrieval</span><span class="info-val">~15 minutes</span></div>
@@ -1865,7 +1807,7 @@
       </div>
       <div>
         <div class="screen-title" data-i18n="roomguide_title">In-Room Guide</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="label_concierge">CONCIERGE</div>
       </div>
     </div>
 
@@ -2032,7 +1974,7 @@
       </div>
       <div>
         <div class="screen-title" data-i18n="checkin_title">Online Check-in</div>
-        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px">CONCIERGE</div>
+        <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-top:2px" data-i18n="label_concierge">CONCIERGE</div>
       </div>
     </div>
 
@@ -2047,87 +1989,87 @@
 
       <!-- Step 1: Guest Info -->
       <div id="checkin-step-1" style="padding:0 24px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Guest Information</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px" data-i18n="ci_guest_title">Guest Information</div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">FULL NAME</div>
-          <input type="text" placeholder="Full Name" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_name_label">FULL NAME</div>
+          <input id="ci-name" type="text" placeholder="Full Name" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">NATIONALITY</div>
-          <input type="text" placeholder="e.g. Korean" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_nat_label">NATIONALITY</div>
+          <input id="ci-nat" type="text" placeholder="e.g. Korean" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">PASSPORT / ID NUMBER</div>
-          <input type="text" placeholder="M12345678" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:1px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_passport_label">PASSPORT / ID NUMBER</div>
+          <input id="ci-passport" type="text" placeholder="M12345678" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:1px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">DATE OF BIRTH</div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_dob_label">DATE OF BIRTH</div>
           <input type="date" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;color-scheme:dark" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">MOBILE NUMBER</div>
-          <input type="tel" placeholder="+82 10-0000-0000" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_mobile_label">MOBILE NUMBER</div>
+          <input id="ci-mobile" type="tel" placeholder="+82 10-0000-0000" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
-        <div onclick="checkinNext(2)" style="margin-top:8px;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Next</div>
+        <div onclick="checkinNext(2)" style="margin-top:8px;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="ci_next">Next</div>
       </div>
 
       <!-- Step 2: Payment -->
       <div id="checkin-step-2" style="display:none;padding:0 24px;flex-direction:column;gap:12px">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Payment</div>
-        <div style="font-size:11px;color:#555;margin-bottom:4px">Credit card for incidentals only — no charge at check-in</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px" data-i18n="ci_payment_title">Payment</div>
+        <div style="font-size:11px;color:#555;margin-bottom:4px" data-i18n="ci_payment_sub">Credit card for incidentals only — no charge at check-in</div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CARD NUMBER</div>
-          <input type="text" placeholder="•••• •••• •••• ••••" maxlength="19" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:14px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:2px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_card_label">CARD NUMBER</div>
+          <input id="ci-card" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:14px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none;letter-spacing:2px" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div style="display:flex;gap:10px">
           <div style="flex:1">
-            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">EXPIRY</div>
+            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_expiry_label">EXPIRY</div>
             <input type="text" placeholder="MM / YY" maxlength="7" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
           </div>
           <div style="flex:1">
-            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CVV</div>
+            <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_cvv_label">CVV</div>
             <input type="password" placeholder="•••" maxlength="4" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
           </div>
         </div>
 
         <div>
-          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px">CARDHOLDER NAME</div>
+          <div style="font-size:9px;color:#555;letter-spacing:1.5px;margin-bottom:6px" data-i18n="ci_holder_label">CARDHOLDER NAME</div>
           <input type="text" placeholder="Full Name" style="width:100%;background:#141414;border:1px solid #252525;border-radius:10px;padding:12px 14px;font-size:13px;color:#f0e6cc;font-family:'Montserrat',sans-serif;outline:none" onfocus="this.style.borderColor='#c9a84c55'" onblur="this.style.borderColor='#252525'" />
         </div>
 
         <div style="display:flex;gap:10px;margin-top:8px">
-          <div onclick="checkinNext(1)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer">Back</div>
-          <div onclick="checkinNext(3)" style="flex:2;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Next</div>
+          <div onclick="checkinNext(1)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer" data-i18n="ci_back">Back</div>
+          <div onclick="checkinNext(3)" style="flex:2;background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px" data-i18n="ci_next">Next</div>
         </div>
       </div>
 
       <!-- Step 3: Confirm -->
       <div id="checkin-step-3" style="display:none;padding:0 24px;flex-direction:column;gap:12px">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px">Confirm</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#f0e6cc;margin-bottom:4px" data-i18n="ci_confirm_title">Confirm</div>
 
         <div style="background:#141414;border:1px solid #1e1e1e;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
           <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Guest</span><span style="font-size:12px;color:#f0e6cc guest-name">—</span></div>
           <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room</span><span style="font-size:12px;color:#f0e6cc" data-room>—</span></div>
           <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Check-out</span><span style="font-size:12px;color:#f0e6cc" data-checkout>—</span></div>
-          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Room Type</span><span style="font-size:12px;color:#f0e6cc">Deluxe</span></div>
-          <div style="border-top:1px solid #222;padding-top:10px;display:flex;justify-content:space-between"><span style="font-size:11px;color:#555">Key Delivery</span><span style="font-size:12px;color:#c9a84c">Mobile Key</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:#555" data-i18n="ci_room_type_label">Room Type</span><span style="font-size:12px;color:#f0e6cc" data-i18n="ci_room_type_val">Deluxe</span></div>
+          <div style="border-top:1px solid #222;padding-top:10px;display:flex;justify-content:space-between"><span style="font-size:11px;color:#555" data-i18n="ci_key_label">Key Delivery</span><span style="font-size:12px;color:#c9a84c" data-i18n="ci_key_val">Mobile Key</span></div>
         </div>
 
-        <div style="background:#0e1a0e;border:1px solid rgba(90,156,90,0.25);border-radius:12px;padding:12px 14px;font-size:11px;color:#5a8a5a;line-height:1.6">
+        <div style="background:#0e1a0e;border:1px solid rgba(90,156,90,0.25);border-radius:12px;padding:12px 14px;font-size:11px;color:#5a8a5a;line-height:1.6" data-i18n="ci_confirm_msg">
           Your room will be ready upon arrival. Mobile key will be activated automatically on check-in date.
         </div>
 
         <div style="display:flex;gap:10px;margin-top:4px">
-          <div onclick="checkinNext(2)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer">Back</div>
-          <div onclick="submitCheckin()" style="flex:2;background:linear-gradient(135deg,#5a9c5a,#3d6e3d);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#fff;cursor:pointer;letter-spacing:0.5px">Complete Check-in</div>
+          <div onclick="checkinNext(2)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;text-align:center;font-size:13px;color:#888;cursor:pointer" data-i18n="ci_back">Back</div>
+          <div onclick="submitCheckin()" style="flex:2;background:linear-gradient(135deg,#5a9c5a,#3d6e3d);border-radius:12px;padding:14px;text-align:center;font-size:13px;font-weight:500;color:#fff;cursor:pointer;letter-spacing:0.5px" data-i18n="ci_complete">Complete Check-in</div>
         </div>
       </div>
 
@@ -2156,7 +2098,7 @@
           <div onclick="searchExplore()" id="explore-search-btn" style="background:#c9a84c;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500;color:#0d0d0d;cursor:pointer;white-space:nowrap" data-i18n="explore_search">검색</div>
         </div>
         <div id="explore-ai-result" style="display:none;margin-top:10px;background:#141414;border:1px solid #1e1e1e;border-radius:12px;padding:16px 18px">
-          <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:10px">AI CONCIERGE</div>
+          <div style="font-size:9px;letter-spacing:1.5px;color:#c9a84c;margin-bottom:10px" data-i18n="explore_ai_label">AI CONCIERGE</div>
           <div id="explore-ai-text" style="font-size:14px;color:#ccc;line-height:1.75;word-break:break-word;overflow-wrap:break-word"></div>
           <div id="explore-map-wrap" style="margin-top:12px;display:none">
             <a id="explore-map-btn" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#c9a84c;color:#0d0d0d;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;">
@@ -2169,10 +2111,10 @@
 
       <!-- 카테고리 탭 -->
       <div style="display:flex;gap:8px;padding:0 24px 16px;overflow-x:auto" id="explore-tabs">
-        <div class="etab active" onclick="filterExplore('all',this)">All</div>
-        <div class="etab" onclick="filterExplore('dining',this)">Dining</div>
-        <div class="etab" onclick="filterExplore('attraction',this)">Attractions</div>
-        <div class="etab" onclick="filterExplore('shopping',this)">Shopping</div>
+        <div class="etab active" onclick="filterExplore('all',this)" data-i18n="explore_all">All</div>
+        <div class="etab" onclick="filterExplore('dining',this)" data-i18n="explore_dining_tab">Dining</div>
+        <div class="etab" onclick="filterExplore('attraction',this)" data-i18n="explore_attractions">Attractions</div>
+        <div class="etab" onclick="filterExplore('shopping',this)" data-i18n="explore_shopping">Shopping</div>
       </div>
 
       <div id="explore-list" style="padding:0 24px;display:flex;flex-direction:column;gap:10px">
@@ -2529,6 +2471,63 @@
       settings_contact:'빠른 전화', dial_desk:'프런트', dial_roomservice:'룸서비스',
       dial_valet:'발레', dial_emergency:'응급',
       theme_dark:'다크 모드', theme_light:'라이트 모드',
+      label_concierge: 'CONCIERGE',
+      label_ai_powered: '● AI 컨시어지',
+      confirm_subtitle: '곧 담당자가 방으로 방문해 드리겠습니다.',
+      confirm_note_ph: '추가 요청사항이 있으신가요? (선택)',
+      confirm_send: '요청 보내기',
+      confirm_cancel: '취소',
+      rs_title: '룸서비스',
+      rs_subtitle: '24시간 운영 · 배달 약 30분',
+      rs_order_label: '주문 내용',
+      rs_order_ph: '주문하실 내용을 입력해주세요 (예: 클럽 샌드위치, 아메리카노 2잔)',
+      rs_guests_label: '인원 (커틀러리)',
+      rs_time_label: '배달 시간',
+      rs_1p: '1명', rs_2p: '2명', rs_3p: '3명', rs_4p: '4명',
+      rs_asap: '지금 바로', rs_30min: '30분 후', rs_1hr: '1시간 후', rs_specific: '시간 직접 입력',
+      rs_btn: '주문하기',
+      valet_retrieve: '차량 출고 요청',
+      valet_retrieve_sub: '준비 시간 약 15분',
+      valet_pickup_label: '출차 시간',
+      valet_now: '즉시', valet_30: '+30분', valet_1hr: '+1시간', valet_custom: '직접 입력',
+      valet_request_btn: '출고 요청',
+      valet_info_title: '발레 안내',
+      ci_guest_title: '게스트 정보',
+      ci_name_label: '성함', ci_name_ph: '성함을 입력해주세요',
+      ci_nat_label: '국적', ci_nat_ph: '예: 한국',
+      ci_passport_label: '여권 / 신분증 번호', ci_passport_ph: 'M12345678',
+      ci_dob_label: '생년월일',
+      ci_mobile_label: '휴대폰 번호', ci_mobile_ph: '+82 10-0000-0000',
+      ci_next: '다음',
+      ci_payment_title: '결제 정보',
+      ci_payment_sub: '보증 카드만 등록 · 체크인 시 청구 없음',
+      ci_card_label: '카드 번호', ci_card_ph: '•••• •••• •••• ••••',
+      ci_expiry_label: '유효기간', ci_expiry_ph: 'MM / YY',
+      ci_cvv_label: 'CVV', ci_cvv_ph: '•••',
+      ci_holder_label: '카드 소유자 성함',
+      ci_back: '이전',
+      ci_confirm_title: '확인',
+      ci_room_type_label: '객실 타입', ci_room_type_val: '디럭스',
+      ci_key_label: '키 수령 방법', ci_key_val: '모바일 키',
+      ci_confirm_msg: '도착 시 객실이 준비되어 있습니다. 체크인 당일 모바일 키가 자동으로 활성화됩니다.',
+      ci_complete: '체크인 완료',
+      explore_all: '전체', explore_dining_tab: '다이닝', explore_attractions: '명소', explore_shopping: '쇼핑',
+      explore_ai_label: 'AI 컨시어지',
+      fac_pool: '실내 수영장', fac_pool_sub: '오전 6시 – 오후 10시 · 25층',
+      fac_gym: '피트니스 센터', fac_gym_sub: '24시간 · 24층 · 무료 이용',
+      fac_sauna: '사우나', fac_sauna_sub: '오전 7시 – 오후 10시 · 25층',
+      fac_spa: '스파 & 웰니스', fac_spa_sub: '오전 10시 – 오후 9시 · 컨시어지 예약',
+      fac_tennis: '테니스 코트', fac_tennis_sub: '오전 7시 – 오후 9시 · 야외',
+      dining_restaurant_label: '레스토랑',
+      dining_desc: '파노라마 전망의 컨템포러리 요리',
+      dining_open: '영업 중',
+      dining_reserve: '테이블 예약',
+      dining_roomsvc_label: '룸서비스',
+      dining_inroom: '인룸 다이닝',
+      dining_inroom_sub: '24시간 운영 · 객실 청구',
+      dining_order: '식음료 주문', dining_order_sub: '컨시어지를 통한 메뉴 주문',
+      dining_bfroom: '객실 조식', dining_bfroom_sub: '배달 시간 설정',
+      badge_open: '영업 중',
     },
     EN: {
       welcome:'Welcome back',
@@ -2572,6 +2571,63 @@
       settings_contact:'Quick Dial', dial_desk:'Front Desk', dial_roomservice:'Room Service',
       dial_valet:'Valet', dial_emergency:'Emergency',
       theme_dark:'Dark Mode', theme_light:'Light Mode',
+      label_concierge: 'CONCIERGE',
+      label_ai_powered: '● AI POWERED',
+      confirm_subtitle: 'We will send someone to your room shortly.',
+      confirm_note_ph: 'Any special notes? (optional)',
+      confirm_send: 'Send Request',
+      confirm_cancel: 'CANCEL',
+      rs_title: 'Room Service',
+      rs_subtitle: 'Available 24 hours · Delivery ~30 min',
+      rs_order_label: 'ORDER',
+      rs_order_ph: 'What would you like? (e.g. Club Sandwich, 2x Americano)',
+      rs_guests_label: 'GUESTS (CUTLERY)',
+      rs_time_label: 'DELIVERY TIME',
+      rs_1p: '1 person', rs_2p: '2 persons', rs_3p: '3 persons', rs_4p: '4 persons',
+      rs_asap: 'ASAP', rs_30min: 'In 30 min', rs_1hr: 'In 1 hour', rs_specific: 'Specific time',
+      rs_btn: 'Place Order',
+      valet_retrieve: 'Retrieve My Car',
+      valet_retrieve_sub: '~15 minutes preparation time',
+      valet_pickup_label: 'PICK-UP TIME',
+      valet_now: 'Now', valet_30: '+30 min', valet_1hr: '+1 hr', valet_custom: 'Enter time',
+      valet_request_btn: 'Request Car',
+      valet_info_title: 'Valet Info',
+      ci_guest_title: 'Guest Information',
+      ci_name_label: 'FULL NAME', ci_name_ph: 'Full Name',
+      ci_nat_label: 'NATIONALITY', ci_nat_ph: 'e.g. Korean',
+      ci_passport_label: 'PASSPORT / ID NUMBER', ci_passport_ph: 'M12345678',
+      ci_dob_label: 'DATE OF BIRTH',
+      ci_mobile_label: 'MOBILE NUMBER', ci_mobile_ph: '+82 10-0000-0000',
+      ci_next: 'Next',
+      ci_payment_title: 'Payment',
+      ci_payment_sub: 'Credit card for incidentals only — no charge at check-in',
+      ci_card_label: 'CARD NUMBER', ci_card_ph: '•••• •••• •••• ••••',
+      ci_expiry_label: 'EXPIRY', ci_expiry_ph: 'MM / YY',
+      ci_cvv_label: 'CVV', ci_cvv_ph: '•••',
+      ci_holder_label: 'CARDHOLDER NAME',
+      ci_back: 'Back',
+      ci_confirm_title: 'Confirm',
+      ci_room_type_label: 'Room Type', ci_room_type_val: 'Deluxe',
+      ci_key_label: 'Key Delivery', ci_key_val: 'Mobile Key',
+      ci_confirm_msg: 'Your room will be ready upon arrival. Mobile key will be activated automatically on check-in date.',
+      ci_complete: 'Complete Check-in',
+      explore_all: 'All', explore_dining_tab: 'Dining', explore_attractions: 'Attractions', explore_shopping: 'Shopping',
+      explore_ai_label: 'AI CONCIERGE',
+      fac_pool: 'Indoor Pool', fac_pool_sub: '6:00 AM – 10:00 PM · 25F',
+      fac_gym: 'Fitness Center', fac_gym_sub: '24 Hours · 24F · Free access',
+      fac_sauna: 'Sauna', fac_sauna_sub: '7:00 AM – 10:00 PM · 25F',
+      fac_spa: 'Spa & Wellness', fac_spa_sub: '10:00 AM – 9:00 PM · Book via concierge',
+      fac_tennis: 'Tennis Court', fac_tennis_sub: '7:00 AM – 9:00 PM · Outdoor',
+      dining_restaurant_label: 'Restaurant',
+      dining_desc: 'Contemporary cuisine with panoramic city views',
+      dining_open: 'OPEN',
+      dining_reserve: 'Reserve a Table',
+      dining_roomsvc_label: 'Room Service',
+      dining_inroom: 'In-Room Dining',
+      dining_inroom_sub: 'Available 24 hours · Billed to your room',
+      dining_order: 'Order Food & Drinks', dining_order_sub: 'Menu via concierge',
+      dining_bfroom: 'Breakfast in Room', dining_bfroom_sub: 'Set delivery time',
+      badge_open: 'OPEN',
     },
     JA: {
       welcome:'ようこそ',
@@ -2615,6 +2671,63 @@
       settings_contact:'クイックダイヤル', dial_desk:'フロント', dial_roomservice:'ルームサービス',
       dial_valet:'バレー', dial_emergency:'緊急',
       theme_dark:'ダークモード', theme_light:'ライトモード',
+      label_concierge: 'コンシェルジュ',
+      label_ai_powered: '● AIコンシェルジュ',
+      confirm_subtitle: 'すぐにスタッフがお部屋にお伺いします。',
+      confirm_note_ph: '特別なご要望はありますか？（任意）',
+      confirm_send: 'リクエスト送信',
+      confirm_cancel: 'キャンセル',
+      rs_title: 'ルームサービス',
+      rs_subtitle: '24時間対応 · お届け約30分',
+      rs_order_label: 'ご注文',
+      rs_order_ph: 'ご注文内容をご記入ください（例：クラブサンドイッチ、アメリカーノ×2）',
+      rs_guests_label: '人数（カトラリー）',
+      rs_time_label: 'お届け時間',
+      rs_1p: '1名', rs_2p: '2名', rs_3p: '3名', rs_4p: '4名',
+      rs_asap: 'すぐに', rs_30min: '30分後', rs_1hr: '1時間後', rs_specific: '時間を指定',
+      rs_btn: '注文する',
+      valet_retrieve: 'お車の出庫',
+      valet_retrieve_sub: '準備時間約15分',
+      valet_pickup_label: '出庫時間',
+      valet_now: 'すぐに', valet_30: '+30分', valet_1hr: '+1時間', valet_custom: '時間を入力',
+      valet_request_btn: '出庫リクエスト',
+      valet_info_title: 'バレー案内',
+      ci_guest_title: 'ゲスト情報',
+      ci_name_label: 'お名前', ci_name_ph: 'お名前をご入力ください',
+      ci_nat_label: '国籍', ci_nat_ph: '例：日本',
+      ci_passport_label: 'パスポート / ID番号', ci_passport_ph: 'M12345678',
+      ci_dob_label: '生年月日',
+      ci_mobile_label: '電話番号', ci_mobile_ph: '+82 10-0000-0000',
+      ci_next: '次へ',
+      ci_payment_title: 'お支払い情報',
+      ci_payment_sub: '保証カードのみ登録 · チェックイン時の請求なし',
+      ci_card_label: 'カード番号', ci_card_ph: '•••• •••• •••• ••••',
+      ci_expiry_label: '有効期限', ci_expiry_ph: 'MM / YY',
+      ci_cvv_label: 'CVV', ci_cvv_ph: '•••',
+      ci_holder_label: 'カード名義人',
+      ci_back: '戻る',
+      ci_confirm_title: '確認',
+      ci_room_type_label: '客室タイプ', ci_room_type_val: 'デラックス',
+      ci_key_label: 'キーの受取方法', ci_key_val: 'モバイルキー',
+      ci_confirm_msg: 'ご到着時にお部屋をご用意しております。チェックイン当日にモバイルキーが自動で有効になります。',
+      ci_complete: 'チェックインを完了',
+      explore_all: '全て', explore_dining_tab: 'グルメ', explore_attractions: '観光', explore_shopping: 'ショッピング',
+      explore_ai_label: 'AIコンシェルジュ',
+      fac_pool: '室内プール', fac_pool_sub: '午前6時 – 午後10時 · 25階',
+      fac_gym: 'フィットネスセンター', fac_gym_sub: '24時間 · 24階 · 無料',
+      fac_sauna: 'サウナ', fac_sauna_sub: '午前7時 – 午後10時 · 25階',
+      fac_spa: 'スパ & ウェルネス', fac_spa_sub: '午前10時 – 午後9時 · コンシェルジュ予約',
+      fac_tennis: 'テニスコート', fac_tennis_sub: '午前7時 – 午後9時 · 屋外',
+      dining_restaurant_label: 'レストラン',
+      dining_desc: 'パノラマビューのコンテンポラリー料理',
+      dining_open: '営業中',
+      dining_reserve: 'テーブル予約',
+      dining_roomsvc_label: 'ルームサービス',
+      dining_inroom: 'インルームダイニング',
+      dining_inroom_sub: '24時間対応 · お部屋へのご請求',
+      dining_order: '食事・ドリンクの注文', dining_order_sub: 'コンシェルジュ経由',
+      dining_bfroom: 'お部屋での朝食', dining_bfroom_sub: 'お届け時間を設定',
+      badge_open: '営業中',
     },
     ZH: {
       welcome:'欢迎回来',
@@ -2658,6 +2771,63 @@
       settings_contact:'快速拨号', dial_desk:'前台', dial_roomservice:'客房服务',
       dial_valet:'代客泊车', dial_emergency:'紧急',
       theme_dark:'深色模式', theme_light:'浅色模式',
+      label_concierge: '礼宾部',
+      label_ai_powered: '● AI礼宾',
+      confirm_subtitle: '我们将很快派人前往您的房间。',
+      confirm_note_ph: '有特殊要求吗？（选填）',
+      confirm_send: '发送请求',
+      confirm_cancel: '取消',
+      rs_title: '客房服务',
+      rs_subtitle: '24小时服务 · 送达约30分钟',
+      rs_order_label: '订单内容',
+      rs_order_ph: '请输入您想点的内容（例：总汇三明治、美式咖啡×2）',
+      rs_guests_label: '人数（餐具）',
+      rs_time_label: '送达时间',
+      rs_1p: '1人', rs_2p: '2人', rs_3p: '3人', rs_4p: '4人',
+      rs_asap: '立即', rs_30min: '30分钟后', rs_1hr: '1小时后', rs_specific: '指定时间',
+      rs_btn: '下单',
+      valet_retrieve: '取车请求',
+      valet_retrieve_sub: '准备时间约15分钟',
+      valet_pickup_label: '取车时间',
+      valet_now: '立即', valet_30: '+30分', valet_1hr: '+1小时', valet_custom: '输入时间',
+      valet_request_btn: '请求取车',
+      valet_info_title: '代客泊车说明',
+      ci_guest_title: '宾客信息',
+      ci_name_label: '姓名', ci_name_ph: '请输入姓名',
+      ci_nat_label: '国籍', ci_nat_ph: '例：中国',
+      ci_passport_label: '护照 / 证件号码', ci_passport_ph: 'M12345678',
+      ci_dob_label: '出生日期',
+      ci_mobile_label: '手机号码', ci_mobile_ph: '+82 10-0000-0000',
+      ci_next: '下一步',
+      ci_payment_title: '付款信息',
+      ci_payment_sub: '仅用于担保 · 入住时不收费',
+      ci_card_label: '卡号', ci_card_ph: '•••• •••• •••• ••••',
+      ci_expiry_label: '有效期', ci_expiry_ph: 'MM / YY',
+      ci_cvv_label: 'CVV', ci_cvv_ph: '•••',
+      ci_holder_label: '持卡人姓名',
+      ci_back: '返回',
+      ci_confirm_title: '确认',
+      ci_room_type_label: '房型', ci_room_type_val: '豪华房',
+      ci_key_label: '取钥匙方式', ci_key_val: '手机钥匙',
+      ci_confirm_msg: '到达时房间已为您准备好。入住当天手机钥匙将自动激活。',
+      ci_complete: '完成入住',
+      explore_all: '全部', explore_dining_tab: '餐饮', explore_attractions: '景点', explore_shopping: '购物',
+      explore_ai_label: 'AI礼宾',
+      fac_pool: '室内游泳池', fac_pool_sub: '上午6点 – 晚上10点 · 25层',
+      fac_gym: '健身中心', fac_gym_sub: '24小时 · 24层 · 免费',
+      fac_sauna: '桑拿', fac_sauna_sub: '上午7点 – 晚上10点 · 25层',
+      fac_spa: '水疗 & 健康中心', fac_spa_sub: '上午10点 – 晚上9点 · 礼宾预约',
+      fac_tennis: '网球场', fac_tennis_sub: '上午7点 – 晚上9点 · 室外',
+      dining_restaurant_label: '餐厅',
+      dining_desc: '全景视野的当代料理',
+      dining_open: '营业中',
+      dining_reserve: '预订餐桌',
+      dining_roomsvc_label: '客房服务',
+      dining_inroom: '客房餐饮',
+      dining_inroom_sub: '24小时服务 · 计入房费',
+      dining_order: '点餐 & 饮品', dining_order_sub: '通过礼宾点菜',
+      dining_bfroom: '客房早餐', dining_bfroom_sub: '设置送达时间',
+      badge_open: '营业中',
     }
   };
 
@@ -2690,6 +2860,42 @@
     if (ci) ci.placeholder = t.chat_placeholder || '';
     const es = document.getElementById('explore-search');
     if (es) es.placeholder = t.explore_placeholder || '';
+
+    // confirm-note placeholder
+    const confirmNote = document.getElementById('confirm-note');
+    if (confirmNote && t.confirm_note_ph) confirmNote.placeholder = t.confirm_note_ph;
+
+    // rs-order placeholder
+    const rsOrder = document.getElementById('rs-order');
+    if (rsOrder && t.rs_order_ph) rsOrder.placeholder = t.rs_order_ph;
+
+    // Room service guest options
+    const rsGuests = document.getElementById('rs-guests');
+    if (rsGuests && t.rs_1p) {
+      const opts = rsGuests.options;
+      if (opts[0]) opts[0].text = t.rs_1p;
+      if (opts[1]) opts[1].text = t.rs_2p;
+      if (opts[2]) opts[2].text = t.rs_3p;
+      if (opts[3]) opts[3].text = t.rs_4p;
+    }
+    const rsTime = document.getElementById('rs-time');
+    if (rsTime && t.rs_asap) {
+      const opts = rsTime.options;
+      if (opts[0]) opts[0].text = t.rs_asap;
+      if (opts[1]) opts[1].text = t.rs_30min;
+      if (opts[2]) opts[2].text = t.rs_1hr;
+      if (opts[3]) opts[3].text = t.rs_specific;
+    }
+
+    // Check-in placeholders
+    ['ci-name','ci-nat','ci-passport','ci-mobile'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const keys = ['ci_name_ph','ci_nat_ph','ci_passport_ph','ci_mobile_ph'];
+      if (t[keys[i]]) el.placeholder = t[keys[i]];
+    });
+    const ciCardPh = document.getElementById('ci-card');
+    if (ciCardPh && t.ci_card_ph) ciCardPh.placeholder = t.ci_card_ph;
 
     // 셋팅 언어 버튼 활성화
     document.querySelectorAll('.lang-opt').forEach(el => el.classList.remove('active'));
