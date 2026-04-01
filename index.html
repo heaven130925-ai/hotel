@@ -274,26 +274,25 @@
 
     #screen-home { background: #0d0d0d; }
 
-    .hero {
-      position: absolute;
-      inset: 0;
+    /* ── HERO SECTION (고정 높이 섹션) ── */
+    .hero-section {
+      flex-shrink: 0;
+      position: relative;
       overflow: hidden;
-      z-index: 0;
+      height: 300px;   /* 데스크탑 기본값 */
+      background: #111;
+    }
+
+    @media (max-width: 480px) {
+      .hero-section { height: 38dvh; }
     }
 
     .hero-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center top;
+      object-position: center 45%;
       display: block;
-      image-rendering: -webkit-optimize-contrast;
-    }
-
-    .hero-clip {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
     }
 
     .hero-overlay {
@@ -301,20 +300,21 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.0) 0%,
-        rgba(0,0,0,0.0) 10%,
-        rgba(0,0,0,0.35) 22%,
-        rgba(0,0,0,0.70) 29%,
-        rgba(0,0,0,0.92) 34%,
+        rgba(0,0,0,0.22) 0%,
+        rgba(0,0,0,0.05) 30%,
+        rgba(0,0,0,0.0)  50%,
+        rgba(0,0,0,0.45) 72%,
+        rgba(0,0,0,0.88) 88%,
         rgba(0,0,0,0.97) 100%
       );
     }
 
     .hero-content {
-      flex-shrink: 0;
-      margin-top: 55px;
-      padding: 0 28px 10px;
-      position: relative;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 28px 14px;
       z-index: 5;
     }
 
@@ -1181,29 +1181,26 @@
       </div>
     </div>
 
-    <div class="hero">
-      <div class="hero-clip">
-        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center 65%;" />
-        <div class="hero-overlay"></div>
-      </div>
-    </div>
-
-    <div class="hero-content">
-      <div class="hotel-badge hotel-name">Your Hotel</div>
-      <div class="guest-greeting">Welcome</div>
-      <div class="guest-name guest-name-text">Guest</div>
-      <div class="room-strip">
-        <div class="room-pill">
-          <div class="pill-label" data-i18n="pill_room">Room</div>
-          <div class="pill-val" data-room>2104</div>
-        </div>
-        <div class="room-pill">
-          <div class="pill-label" data-i18n="pill_checkout">Check-out</div>
-          <div class="pill-val" data-checkout>Mar 27</div>
-        </div>
-        <div class="room-pill">
-          <div class="pill-label" data-i18n="pill_nights">Nights Left</div>
-          <div class="pill-val" data-nights>2</div>
+    <div class="hero-section">
+      <img class="hero-img" src="hero.jpg" alt="Hotel" />
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hotel-badge hotel-name">Your Hotel</div>
+        <div class="guest-greeting">Welcome</div>
+        <div class="guest-name guest-name-text">Guest</div>
+        <div class="room-strip">
+          <div class="room-pill">
+            <div class="pill-label" data-i18n="pill_room">Room</div>
+            <div class="pill-val" data-room>2104</div>
+          </div>
+          <div class="room-pill">
+            <div class="pill-label" data-i18n="pill_checkout">Check-out</div>
+            <div class="pill-val" data-checkout>Mar 27</div>
+          </div>
+          <div class="room-pill">
+            <div class="pill-label" data-i18n="pill_nights">Nights Left</div>
+            <div class="pill-val" data-nights>2</div>
+          </div>
         </div>
       </div>
     </div>
@@ -2471,13 +2468,13 @@
         }
       }
 
-      // 홈화면 전체 UI를 safe area 아래로 밀기
-      const screenHome = document.getElementById('screen-home');
-      if (screenHome) screenHome.style.paddingTop = safeTop + 'px';
-
       // 홈 버튼은 safe area 바로 아래에 위치
       const homeTopBtns = document.getElementById('home-top-btns');
       if (homeTopBtns) homeTopBtns.style.top = (safeTop + 10) + 'px';
+
+      // 설정 버튼도 같은 높이
+      const settingsBtn = document.getElementById('settings-open-btn');
+      if (settingsBtn) settingsBtn.style.top = (safeTop + 10) + 'px';
 
       // 내부 화면 헤더 padding
       document.querySelectorAll('.screen-header').forEach(h => {
