@@ -115,8 +115,8 @@
         position: relative;
         overflow: hidden;
       }
-      .home-actions {
-        padding-bottom: 0 !important;
+      .home-actions-inner {
+        padding-bottom: 4px;
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
@@ -404,13 +404,15 @@
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      padding: 4px 24px 88px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
       position: relative;
       z-index: 5;
       background: #0d0d0d;
+    }
+    .home-actions-inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 4px 24px 0;
     }
 
     .section-label {
@@ -1219,7 +1221,7 @@
       </div>
     </div>
 
-    <div class="home-actions">
+    <div class="home-actions"><div class="home-actions-inner">
       <!-- Online Check-in 배너 -->
       <div onclick="goTo('screen-checkin')" style="margin-bottom:10px;background:linear-gradient(135deg,#0a1f0a,#152215);border:1px solid rgba(90,156,90,0.5);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 0 18px rgba(90,156,90,0.12)">
         <div style="width:42px;height:42px;background:rgba(90,156,90,0.18);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -1231,9 +1233,9 @@
         </div>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      <div id="home-spacer" style="flex-shrink:0"></div>
+      <div style="flex:1"></div>
       <!-- 최근 활동 -->
-      <div id="recent-activity-wrapper">
+      <div>
       <div class="section-label" style="padding-top:4px" data-i18n="recent">Recent Activity</div>
       <div class="recent-list" style="margin-bottom:0">
         <div class="recent-item">
@@ -1253,7 +1255,7 @@
       </div>
       </div>
 
-    </div>
+    </div></div>
   </div>
 
   <!-- ══════════ REQUESTS ══════════ -->
