@@ -3032,10 +3032,13 @@
 
   function fixHomeGap() {
     if (window.innerWidth > 480) return;
-    const ha = document.querySelector('.home-actions');
+    const sc = document.getElementById('screens-container');
+    const hero = document.querySelector('#screen-home .hero-section');
     const inner = document.querySelector('.home-actions-inner');
-    if (!ha || !inner) return;
-    inner.style.minHeight = ha.clientHeight + 'px';
+    if (!sc || !hero || !inner) return;
+    // screens-container 실제 높이 - hero 높이 = home-actions 가용 높이
+    const haH = sc.clientHeight - hero.offsetHeight;
+    inner.style.minHeight = Math.max(0, haH) + 'px';
   }
 
   // 새소리 (Web Audio API)
