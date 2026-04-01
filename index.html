@@ -1232,9 +1232,9 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <!-- 최근 활동 -->
-      <div style="margin-top:auto">
+      <div id="recent-activity-wrapper">
       <div class="section-label" style="padding-top:4px" data-i18n="recent">Recent Activity</div>
-      <div class="recent-list" style="margin-bottom:6px">
+      <div class="recent-list" style="margin-bottom:0">
         <div class="recent-item">
           <div>
             <div class="recent-name" data-i18n="recent_item1">Extra Towels ×2</div>
@@ -3027,7 +3027,17 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
-  function fixHomeGap() {}
+  function fixHomeGap() {
+    if (window.innerWidth > 480) return;
+    const wrapper = document.getElementById('recent-activity-wrapper');
+    const nav = document.getElementById('bottom-nav');
+    if (!wrapper || !nav || nav.style.display === 'none') return;
+    wrapper.style.marginTop = '0px';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const gap = Math.floor(nav.getBoundingClientRect().top - wrapper.getBoundingClientRect().bottom);
+      if (gap > 0) wrapper.style.marginTop = gap + 'px';
+    }));
+  }
 
   // 새소리 (Web Audio API)
   function playBird() {
