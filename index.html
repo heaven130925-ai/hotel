@@ -1232,7 +1232,8 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <!-- 최근 활동 -->
-      <div class="section-label" style="margin-top:0;padding-top:4px" data-i18n="recent">Recent Activity</div>
+      <div style="margin-top:auto">
+      <div class="section-label" style="padding-top:4px" data-i18n="recent">Recent Activity</div>
       <div class="recent-list" style="margin-bottom:6px">
         <div class="recent-item">
           <div>
@@ -1248,6 +1249,7 @@
           </div>
           <span class="badge pending" data-i18n="badge_progress">In Progress</span>
         </div>
+      </div>
       </div>
 
     </div>
@@ -3025,37 +3027,7 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
-  // ── 홈 화면 하단 공백 제거 ──
-  function fixHomeGap() {
-    if (window.innerWidth > 480) return;
-    const ha = document.querySelector('.home-actions');
-    const nav = document.getElementById('bottom-nav');
-    if (!ha || !nav || nav.style.display === 'none') return;
-
-    // Reset previous changes
-    ha.querySelectorAll('.recent-item').forEach(el => el.style.paddingBottom = '');
-    [...ha.children].forEach(k => k.style.marginTop = '');
-    const recentList = ha.querySelector('.recent-list');
-    if (recentList) recentList.style.marginBottom = '0px'; // remove bottom margin to free space
-
-    requestAnimationFrame(() => {
-      if (!recentList) return;
-      const items = recentList.querySelectorAll('.recent-item');
-      if (!items.length) return;
-      const lastItem = items[items.length - 1];
-      const gap = nav.getBoundingClientRect().top - lastItem.getBoundingClientRect().bottom;
-      if (gap <= 2) return;
-      // Stretch last card to visually fill gap (leave 4px breathing room)
-      lastItem.style.paddingBottom = (12 + gap - 4) + 'px';
-      // Prevent scroll if any overflow
-      requestAnimationFrame(() => {
-        if (ha.scrollHeight > ha.clientHeight + 2) {
-          const over = ha.scrollHeight - ha.clientHeight;
-          lastItem.style.paddingBottom = Math.max(12, 12 + gap - 4 - over) + 'px';
-        }
-      });
-    });
-  }
+  function fixHomeGap() {}
 
   // 새소리 (Web Audio API)
   function playBird() {
