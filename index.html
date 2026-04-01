@@ -116,10 +116,7 @@
         overflow: hidden;
       }
       .home-actions {
-        padding-bottom: 16px !important;
-      }
-      .home-actions .section-label[data-i18n="recent"] {
-        margin-top: auto !important;
+        padding-bottom: 4px !important;
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
@@ -3028,19 +3025,19 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
-  // ── 임시 디버그 (스크린샷 후 제거) ──
-  if (window.innerWidth <= 480) {
-    setTimeout(() => {
-      const ph = document.querySelector('.phone');
-      const sc = document.getElementById('screens-container');
-      const nav = document.getElementById('bottom-nav');
-      const ha = document.querySelector('.home-actions');
-      const d = document.createElement('div');
-      d.style.cssText = 'position:fixed;bottom:200px;left:0;right:0;background:rgba(255,0,0,0.85);color:#fff;font-size:11px;padding:6px 10px;z-index:99999;text-align:center;';
-      const kids = ha ? [...ha.children].map((k,i)=>`c${i}:${k.offsetHeight}`).join(' ') : '';
-      d.textContent = `ha:${ha?.offsetHeight} ${kids}`;
-      document.body.appendChild(d);
-    }, 1500);
+  // ── 홈 화면 하단 공백 제거 ──
+  function fixHomeGap() {
+    if (window.innerWidth > 480) return;
+    const ha = document.querySelector('.home-actions');
+    const nav = document.getElementById('bottom-nav');
+    if (!ha || !nav || nav.style.display === 'none') return;
+    const kids = [...ha.children];
+    if (kids.length < 2) return;
+    const totalKidH = kids.reduce((s, k) => s + k.offsetHeight, 0);
+    const free = ha.offsetHeight - totalKidH - 4; // 4 = padding-top
+    if (free > 8) {
+      kids[1].style.marginTop = (free - 4) + 'px';
+    }
   }
 
   // 새소리 (Web Audio API)
@@ -3216,6 +3213,7 @@
 
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
+      requestAnimationFrame(fixHomeGap);
     }
   }
 
@@ -3606,6 +3604,9 @@ RULES:
   const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
   const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
+  if (startScreen === 'screen-home') {
+    requestAnimationFrame(fixHomeGap);
+  }
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
   window.addEventListener('beforeunload', () => {
