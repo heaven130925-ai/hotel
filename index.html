@@ -3028,6 +3028,20 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
+  // ── 임시 디버그 (스크린샷 후 제거) ──
+  if (window.innerWidth <= 480) {
+    setTimeout(() => {
+      const ph = document.querySelector('.phone');
+      const sc = document.getElementById('screens-container');
+      const nav = document.getElementById('bottom-nav');
+      const ha = document.querySelector('.home-actions');
+      const d = document.createElement('div');
+      d.style.cssText = 'position:fixed;bottom:200px;left:0;right:0;background:rgba(255,0,0,0.85);color:#fff;font-size:11px;padding:6px 10px;z-index:99999;text-align:center;';
+      d.textContent = `ph:${ph?.offsetHeight} sc:${sc?.offsetHeight} nav:${nav?.offsetHeight} ha:${ha?.offsetHeight}`;
+      document.body.appendChild(d);
+    }, 1500);
+  }
+
   // 새소리 (Web Audio API)
   function playBird() {
     if (!soundEnabled) return;
