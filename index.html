@@ -3037,7 +3037,8 @@
       const ha = document.querySelector('.home-actions');
       const d = document.createElement('div');
       d.style.cssText = 'position:fixed;bottom:200px;left:0;right:0;background:rgba(255,0,0,0.85);color:#fff;font-size:11px;padding:6px 10px;z-index:99999;text-align:center;';
-      d.textContent = `ph:${ph?.offsetHeight} sc:${sc?.offsetHeight} nav:${nav?.offsetHeight} ha:${ha?.offsetHeight}`;
+      const kids = ha ? [...ha.children].map((k,i)=>`c${i}:${k.offsetHeight}`).join(' ') : '';
+      d.textContent = `ha:${ha?.offsetHeight} ${kids}`;
       document.body.appendChild(d);
     }, 1500);
   }
