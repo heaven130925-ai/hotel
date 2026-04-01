@@ -111,7 +111,11 @@
       #home-top-btns { display: flex !important; }
       #settings-open-btn { display: block !important; }
       .bottom-nav {
-        padding-bottom: max(28px, env(safe-area-inset-bottom, 28px)) !important;
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        padding-bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
         height: auto !important;
       }
     }
@@ -297,18 +301,18 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.05) 0%,
-        rgba(0,0,0,0.0) 20%,
-        rgba(0,0,0,0.15) 42%,
-        rgba(0,0,0,0.60) 58%,
-        rgba(0,0,0,0.88) 70%,
-        rgba(0,0,0,0.96) 80%
+        rgba(0,0,0,0.0) 0%,
+        rgba(0,0,0,0.0) 10%,
+        rgba(0,0,0,0.35) 22%,
+        rgba(0,0,0,0.70) 29%,
+        rgba(0,0,0,0.92) 34%,
+        rgba(0,0,0,0.97) 100%
       );
     }
 
     .hero-content {
       flex-shrink: 0;
-      margin-top: 110px;
+      margin-top: 55px;
       padding: 0 28px 10px;
       position: relative;
       z-index: 5;
@@ -322,7 +326,8 @@
       margin-bottom: 6px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      opacity: 0.9;
+      opacity: 0.95;
+      text-shadow: 0 1px 8px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.9);
     }
 
     .guest-greeting {
@@ -333,6 +338,7 @@
       text-transform: uppercase;
       font-weight: 500;
       margin-bottom: 4px;
+      text-shadow: 0 1px 8px rgba(0,0,0,1), 0 2px 20px rgba(0,0,0,0.95), 0 0 40px rgba(0,0,0,0.8);
     }
 
     .guest-name {
@@ -343,6 +349,7 @@
       letter-spacing: 1px;
       line-height: 1.1;
       margin-bottom: 14px;
+      text-shadow: 0 1px 10px rgba(0,0,0,1), 0 3px 24px rgba(0,0,0,0.95), 0 0 50px rgba(0,0,0,0.8);
     }
 
     .room-strip {
@@ -1176,7 +1183,7 @@
 
     <div class="hero">
       <div class="hero-clip">
-        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center 50%;" />
+        <img class="hero-img" src="hero.jpg" alt="Hotel" style="object-position: center 65%;" />
         <div class="hero-overlay"></div>
       </div>
     </div>
@@ -1321,6 +1328,46 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
 
+      <div class="request-item" onclick="showConfirm('Extra Water Bottles')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v6"/><path d="M5 8h14l-1 14H6L5 8z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name" data-i18n="req_water">Extra Water Bottles</div>
+          <div class="req-sub" data-i18n="req_water_sub">Still or sparkling water</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showConfirm('Ice Bucket')">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3l4-2 4 2v2H8V3z"/><path d="M6 5h12l-1.5 14.5a2 2 0 0 1-2 1.5h-5a2 2 0 0 1-2-1.5L6 5z"/>
+            <line x1="9" y1="11" x2="9.01" y2="11"/><line x1="12" y1="9" x2="12.01" y2="9"/><line x1="15" y1="11" x2="15.01" y2="11"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name" data-i18n="req_ice">Ice Bucket</div>
+          <div class="req-sub" data-i18n="req_ice_sub">Ice delivered to your room</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="request-item" onclick="showRoomService()">
+        <div class="req-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+          </svg>
+        </div>
+        <div class="req-text">
+          <div class="req-name" data-i18n="req_roomservice">Room Service</div>
+          <div class="req-sub" data-i18n="req_roomservice_sub">Food & beverage 24hrs</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
       <div class="request-item" onclick="showConfirm('Extra Pillows')">
         <div class="req-icon-wrap">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1419,10 +1466,41 @@
     <div id="confirm-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#151515;border-top:1px solid #2a2a2a;border-radius:24px 24px 0 0;padding:24px 28px 100px;z-index:30">
       <div style="width:36px;height:3px;background:#333;border-radius:2px;margin:0 auto 20px"></div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0e6cc;margin-bottom:8px" id="confirm-title"></div>
-      <div style="font-size:14px;color:#555;margin-bottom:24px">We will send someone to your room shortly.</div>
+      <div style="font-size:14px;color:#555;margin-bottom:24px" id="confirm-subtitle">We will send someone to your room shortly.</div>
       <textarea id="confirm-note" placeholder="Any special notes? (optional)" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:14px 16px;color:#c8b890;font-size:16px;font-family:'Montserrat',sans-serif;resize:none;height:88px;outline:none;margin-bottom:16px"></textarea>
       <div onclick="submitRequest()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Send Request</div>
       <div onclick="closeConfirm()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px">CANCEL</div>
+    </div>
+
+    <!-- Room Service Sheet -->
+    <div id="roomservice-sheet" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#151515;border-top:1px solid #2a2a2a;border-radius:24px 24px 0 0;padding:24px 28px 100px;z-index:30">
+      <div style="width:36px;height:3px;background:#333;border-radius:2px;margin:0 auto 20px"></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#f0e6cc;margin-bottom:4px">Room Service</div>
+      <div style="font-size:13px;color:#555;margin-bottom:20px">Available 24 hours · Delivery ~30 min</div>
+      <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">ORDER</div>
+      <textarea id="rs-order" placeholder="What would you like? (e.g. Club Sandwich, 2x Americano, Orange Juice)" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:12px;padding:14px 16px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;resize:none;height:96px;outline:none;margin-bottom:14px"></textarea>
+      <div style="display:flex;gap:10px;margin-bottom:14px">
+        <div style="flex:1">
+          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">GUESTS (CUTLERY)</div>
+          <select id="rs-guests" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:10px;padding:11px 14px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;outline:none;appearance:none">
+            <option value="1">1 person</option>
+            <option value="2" selected>2 persons</option>
+            <option value="3">3 persons</option>
+            <option value="4">4 persons</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:11px;color:#888;letter-spacing:1px;margin-bottom:8px">DELIVERY TIME</div>
+          <select id="rs-time" style="width:100%;background:#1a1a1a;border:1px solid #252525;border-radius:10px;padding:11px 14px;color:#c8b890;font-size:15px;font-family:'Montserrat',sans-serif;outline:none;appearance:none">
+            <option value="asap">ASAP</option>
+            <option value="30min">In 30 min</option>
+            <option value="1hr">In 1 hour</option>
+            <option value="specific">Specific time</option>
+          </select>
+        </div>
+      </div>
+      <div onclick="submitRoomService()" style="background:linear-gradient(135deg,#c9a84c,#a8832a);border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:500;color:#0d0d0d;cursor:pointer;letter-spacing:0.5px">Place Order</div>
+      <div onclick="closeRoomService()" style="text-align:center;margin-top:12px;font-size:13px;color:#444;cursor:pointer;letter-spacing:1px">CANCEL</div>
     </div>
   </div>
 
@@ -2421,6 +2499,9 @@
       nav_home:'홈', nav_request:'요청', nav_chat:'채팅', nav_explore:'탐색',
       req_title:'서비스 요청', req_amenity:'룸 & 어메니티', req_dining:'다이닝 & 미니바', req_wellness:'웰니스 & 스파',
       req_towel:'추가 타월', req_towel_sub:'욕실, 핸드, 페이스 타월',
+      req_water:'추가 물병', req_water_sub:'생수 또는 탄산수',
+      req_ice:'얼음 버킷', req_ice_sub:'얼음을 객실로 배달',
+      req_roomservice:'룸서비스', req_roomservice_sub:'24시간 식음료 주문',
       req_pillow:'추가 베개', req_pillow_sub:'베개 메뉴 이용 가능',
       req_housekeeping:'하우스키핑', req_housekeeping_sub:'객실 청소 서비스',
       req_turndown:'턴다운 서비스', req_turndown_sub:'야간 침대 준비',
@@ -2461,6 +2542,9 @@
       nav_home:'Home', nav_request:'Requests', nav_chat:'Chat', nav_explore:'Explore',
       req_title:'Service Requests', req_amenity:'Room & Amenities', req_dining:'Dining & Minibar', req_wellness:'Wellness & Spa',
       req_towel:'Extra Towels', req_towel_sub:'Bath, hand, or face towels',
+      req_water:'Extra Water Bottles', req_water_sub:'Still or sparkling water',
+      req_ice:'Ice Bucket', req_ice_sub:'Ice delivered to your room',
+      req_roomservice:'Room Service', req_roomservice_sub:'Food & beverage 24hrs',
       req_pillow:'Extra Pillows', req_pillow_sub:'Pillow menu available',
       req_housekeeping:'Housekeeping', req_housekeeping_sub:'Room cleaning service',
       req_turndown:'Turndown Service', req_turndown_sub:'Evening bed preparation',
@@ -2501,6 +2585,9 @@
       nav_home:'ホーム', nav_request:'リクエスト', nav_chat:'チャット', nav_explore:'探索',
       req_title:'サービスリクエスト', req_amenity:'ルーム & アメニティ', req_dining:'ダイニング & ミニバー', req_wellness:'ウェルネス & スパ',
       req_towel:'タオル追加', req_towel_sub:'バス・ハンド・フェイスタオル',
+      req_water:'ウォーター追加', req_water_sub:'ミネラルウォーター・炭酸水',
+      req_ice:'氷バケツ', req_ice_sub:'お部屋へ氷をお届け',
+      req_roomservice:'ルームサービス', req_roomservice_sub:'24時間食事注文',
       req_pillow:'枕追加', req_pillow_sub:'枕メニューあり',
       req_housekeeping:'ハウスキーピング', req_housekeeping_sub:'客室清掃サービス',
       req_turndown:'ターンダウンサービス', req_turndown_sub:'夜間ベッド準備',
@@ -2541,6 +2628,9 @@
       nav_home:'首页', nav_request:'请求', nav_chat:'聊天', nav_explore:'探索',
       req_title:'服务请求', req_amenity:'客房 & 设施', req_dining:'餐饮 & 迷你吧', req_wellness:'健康 & 水疗',
       req_towel:'额外毛巾', req_towel_sub:'浴巾、手巾、面巾',
+      req_water:'额外矿泉水', req_water_sub:'矿泉水或气泡水',
+      req_ice:'冰桶', req_ice_sub:'冰块送到客房',
+      req_roomservice:'客房服务', req_roomservice_sub:'24小时餐饮服务',
       req_pillow:'额外枕头', req_pillow_sub:'枕头菜单可选',
       req_housekeeping:'客房清洁', req_housekeeping_sub:'客房清洁服务',
       req_turndown:'开床服务', req_turndown_sub:'夜间床铺准备',
@@ -3104,12 +3194,32 @@ RULES:
 
   function showConfirm(name) {
     document.getElementById('confirm-title').textContent = name;
+    document.getElementById('confirm-subtitle').textContent = 'We will send someone to your room shortly.';
     document.getElementById('confirm-note').value = '';
+    document.getElementById('confirm-note').placeholder = 'Any special notes? (optional)';
     document.getElementById('confirm-sheet').style.display = 'block';
   }
 
   function closeConfirm() {
     document.getElementById('confirm-sheet').style.display = 'none';
+  }
+
+  function showRoomService() {
+    document.getElementById('rs-order').value = '';
+    document.getElementById('roomservice-sheet').style.display = 'block';
+  }
+
+  function closeRoomService() {
+    document.getElementById('roomservice-sheet').style.display = 'none';
+  }
+
+  function submitRoomService() {
+    const order = document.getElementById('rs-order').value.trim();
+    if (!order) { document.getElementById('rs-order').focus(); return; }
+    const guests = document.getElementById('rs-guests').value;
+    const time = document.getElementById('rs-time').options[document.getElementById('rs-time').selectedIndex].text;
+    closeRoomService();
+    showToast('Room Service ordered ✓ · ' + time);
   }
 
   function showToast(msg) {
