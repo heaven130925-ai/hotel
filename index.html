@@ -3031,13 +3031,30 @@
     const ha = document.querySelector('.home-actions');
     const nav = document.getElementById('bottom-nav');
     if (!ha || !nav || nav.style.display === 'none') return;
-    const kids = [...ha.children];
-    if (kids.length < 2) return;
-    const totalKidH = kids.reduce((s, k) => s + k.offsetHeight, 0);
-    const free = ha.offsetHeight - totalKidH - 4; // 4 = padding-top
-    if (free > 8) {
-      kids[1].style.marginTop = (free - 4) + 'px';
-    }
+
+    // Reset previous changes
+    ha.querySelectorAll('.recent-item').forEach(el => el.style.paddingBottom = '');
+    [...ha.children].forEach(k => k.style.marginTop = '');
+    const recentList = ha.querySelector('.recent-list');
+    if (recentList) recentList.style.marginBottom = '0px'; // remove bottom margin to free space
+
+    requestAnimationFrame(() => {
+      if (!recentList) return;
+      const items = recentList.querySelectorAll('.recent-item');
+      if (!items.length) return;
+      const lastItem = items[items.length - 1];
+      const gap = nav.getBoundingClientRect().top - lastItem.getBoundingClientRect().bottom;
+      if (gap <= 2) return;
+      // Stretch last card to visually fill gap (leave 4px breathing room)
+      lastItem.style.paddingBottom = (12 + gap - 4) + 'px';
+      // Prevent scroll if any overflow
+      requestAnimationFrame(() => {
+        if (ha.scrollHeight > ha.clientHeight + 2) {
+          const over = ha.scrollHeight - ha.clientHeight;
+          lastItem.style.paddingBottom = Math.max(12, 12 + gap - 4 - over) + 'px';
+        }
+      });
+    });
   }
 
   // 새소리 (Web Audio API)
