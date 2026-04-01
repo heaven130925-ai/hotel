@@ -116,13 +116,7 @@
         overflow: hidden;
       }
       .home-actions {
-        overflow-y: visible !important;
-        overflow-x: visible !important;
         padding-bottom: 0 !important;
-      }
-      #recent-activity-wrapper {
-        position: static !important;
-        margin-top: auto !important;
       }
       #status-bar { display: none !important; }
       #home-top-btns { display: flex !important; }
@@ -1237,6 +1231,7 @@
         </div>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6dbb6d" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
+      <div id="home-spacer" style="flex-shrink:0"></div>
       <!-- 최근 활동 -->
       <div id="recent-activity-wrapper">
       <div class="section-label" style="padding-top:4px" data-i18n="recent">Recent Activity</div>
@@ -3033,7 +3028,19 @@
   window.addEventListener('load', fixHomeActionsPadding);
   window.addEventListener('resize', fixHomeActionsPadding);
 
-  function fixHomeGap() {}
+  function fixHomeGap() {
+    if (window.innerWidth > 480) return;
+    const spacer = document.getElementById('home-spacer');
+    const ha = document.querySelector('.home-actions');
+    const wrapper = document.getElementById('recent-activity-wrapper');
+    if (!spacer || !ha || !wrapper) return;
+    spacer.style.height = '0px';
+    requestAnimationFrame(() => {
+      // 남은 공간 = home-actions 높이 - padding-top(4) - banner높이 - spacer(0) - wrapper높이
+      const spare = ha.clientHeight - 4 - wrapper.offsetHeight - (spacer.previousElementSibling ? spacer.previousElementSibling.offsetHeight : 0);
+      spacer.style.height = Math.max(0, spare) + 'px';
+    });
+  }
 
   // 새소리 (Web Audio API)
   function playBird() {
