@@ -3032,13 +3032,12 @@
 
   function fixHomeGap() {
     if (window.innerWidth > 480) return;
-    const sc = document.getElementById('screens-container');
-    const hero = document.querySelector('#screen-home .hero-section');
+    const ha = document.querySelector('.home-actions');
     const inner = document.querySelector('.home-actions-inner');
-    if (!sc || !hero || !inner) return;
-    // screens-container 실제 높이 - hero 높이 = home-actions 가용 높이
-    const haH = sc.clientHeight - hero.offsetHeight;
-    inner.style.minHeight = Math.max(0, haH) + 'px';
+    if (!ha || !inner) return;
+    // ha.clientHeight: flex:1로 결정된 실제 픽셀 높이 (layout 완료 후 정확함)
+    const h = ha.clientHeight;
+    if (h > 0) inner.style.minHeight = h + 'px';
   }
 
   // 새소리 (Web Audio API)
@@ -3214,7 +3213,8 @@
 
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
-      requestAnimationFrame(fixHomeGap);
+      // double rAF: 첫번째 rAF에서 layout 재계산, 두번째 rAF에서 정확한 값 측정
+      requestAnimationFrame(() => requestAnimationFrame(fixHomeGap));
     }
   }
 
@@ -3606,7 +3606,7 @@ RULES:
   const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
   if (startScreen === 'screen-home') {
-    requestAnimationFrame(fixHomeGap);
+    requestAnimationFrame(() => requestAnimationFrame(fixHomeGap));
   }
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
