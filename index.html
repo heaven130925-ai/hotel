@@ -2401,12 +2401,16 @@
   (function() {
     if (window.innerWidth > 480) return;
     const phone = document.querySelector('.phone');
-    const fixH = window.innerHeight;
-    phone.style.height = fixH + 'px';
-    document.body.style.height = fixH + 'px';
-    document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
+    document.body.style.top = '0';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.bottom = '0';
     document.body.style.width = '100%';
+    document.body.style.height = '100%';
+    document.body.style.overflow = 'hidden';
+    phone.style.width = '100%';
+    phone.style.height = '100%';
 
     // safe-area-inset-top 실제값 읽기
     // CSS 논리픽셀 기준: iPhone 15 Pro = 852, 15 Pro Max = 932, 14 Pro = 852
