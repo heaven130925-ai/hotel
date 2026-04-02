@@ -1083,11 +1083,20 @@
     /* 설정 제목 */
     .phone.light-mode .settings-title-text { color: #1a1008 !important; }
     /* 설정 다크 박스 → 라이트 */
-    .phone.light-mode .settings-dark-box { background: #f5f0e6 !important; border-color: #c8bea8 !important; }
-    .phone.light-mode .settings-dark-box .settings-box-sub { color: #5a4e3a !important; }
-    /* 컨시어지 헤더 버튼 */
-    .phone.light-mode .header-action-btn { background: #e8e2d6 !important; border-color: #c8bea8 !important; }
-    .phone.light-mode .header-action-btn svg { stroke: #3a2e1e !important; }
+    .phone.light-mode .settings-dark-box { background: #f0ebe0 !important; border-color: #b8ae98 !important; }
+    .phone.light-mode .settings-dark-box .settings-box-sub { color: #4a3e2a !important; }
+    /* 설정 섹션 라벨 */
+    .phone.light-mode .settings-section-label { color: #3a2e1e !important; font-weight: 600 !important; }
+    /* 설정 헤더 구분선 */
+    .phone.light-mode #settings-sheet > div:first-child { border-bottom-color: #c8bea8 !important; }
+    /* 설정 구분선 */
+    .phone.light-mode #settings-sheet div[style*="background:#1e1e1e"] { background: #c8bea8 !important; }
+    /* 앱 정보 텍스트 */
+    .phone.light-mode #settings-sheet [style*="color:#333"] { color: #3a2e1e !important; }
+    .phone.light-mode #settings-sheet [style*="color:#2a2a2a"] { color: #5a4e3a !important; }
+    /* 헤더 버튼 (X, 쓰레기통, 설정 등) */
+    .phone.light-mode .header-action-btn { background: #e0d8c8 !important; border-color: #b8ae98 !important; }
+    .phone.light-mode .header-action-btn svg { stroke: #2a1e0e !important; }
 
     /* 알림 패널 */
     .phone.light-mode #notif-panel { background: #f0ece4; border-bottom-color: #d8d0be; }
@@ -2298,7 +2307,7 @@
   <div id="settings-sheet">
     <div style="padding:calc(env(safe-area-inset-top,44px) + 20px) 20px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e1e1e;flex-shrink:0">
       <div class="settings-title-text" style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;font-weight:300" data-i18n="settings_title">Settings</div>
-      <div onclick="closeSettings()" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">
+      <div onclick="closeSettings()" class="settings-dark-box header-action-btn" style="width:36px;height:36px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </div>
     </div>
@@ -2307,7 +2316,7 @@
 
       <!-- 언어 -->
       <div style="padding:20px 20px 8px">
-        <div style="font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:14px" data-i18n="settings_lang">Language</div>
+        <div class="settings-section-label" style="font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:14px" data-i18n="settings_lang">Language</div>
         <div class="lang-grid" id="lang-grid">
           <div class="lang-opt active" id="lang-opt-KO" onclick="selectLang('KO')">🇰🇷 한국어</div>
           <div class="lang-opt" id="lang-opt-EN" onclick="selectLang('EN')">🇺🇸 English</div>
