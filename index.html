@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
@@ -36,6 +36,12 @@
     // URL에서 hotelId 가져오기 (없으면 기본값)
     const params = new URLSearchParams(window.location.search);
     const hotelId = params.get('hotel') || 'park-hyatt-seoul';
+
+    // 전역 노출 (일반 스크립트에서 사용)
+    window._db = db;
+    window._hotelId = hotelId;
+    window._addDoc = addDoc;
+    window._collection = collection;
 
     async function loadHotelData() {
       try {
@@ -62,7 +68,58 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', loadHotelData);
+    // 실시간 요청 목록 구독
+    function startRequestsListener() {
+      try {
+        const q = query(
+          collection(db, 'hotels', hotelId, 'requests'),
+          orderBy('createdAt', 'desc')
+        );
+        onSnapshot(q, (snapshot) => {
+          const list = document.getElementById('recent-dynamic-list');
+          if (!list) return;
+          if (snapshot.empty) {
+            list.innerHTML = '<div style="font-size:13px;color:#666;text-align:center;padding:16px 0">아직 요청 내역이 없습니다</div>';
+            return;
+          }
+          list.innerHTML = '';
+          snapshot.forEach((docSnap) => {
+            const d = docSnap.data();
+            const statusMap = {
+              'pending':     { label: '접수됨',  cls: 'pending' },
+              'in-progress': { label: '진행 중', cls: 'in-progress' },
+              'done':        { label: '완료',    cls: 'done' }
+            };
+            const s = statusMap[d.status] || statusMap['pending'];
+            // 시간 포맷
+            let timeStr = '';
+            try {
+              const dt = new Date(d.createdAt);
+              const h = dt.getHours(), m = String(dt.getMinutes()).padStart(2,'0');
+              const ampm = h >= 12 ? 'PM' : 'AM';
+              timeStr = `Today · ${h > 12 ? h-12 : h || 12}:${m} ${ampm}`;
+            } catch(_) {}
+            const item = document.createElement('div');
+            item.className = 'recent-item';
+            item.innerHTML = `
+              <div>
+                <div class="recent-name">${d.title || ''}</div>
+                <div class="recent-time">${timeStr}${d.note ? ' · ' + d.note : ''}</div>
+              </div>
+              <span class="badge ${s.cls}">${s.label}</span>
+            `;
+            list.appendChild(item);
+          });
+        });
+      } catch(e) {
+        console.log('onSnapshot 실패:', e);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadHotelData();
+      startRequestsListener();
+    });
   </script>
   <style>
     #qr-generated { display: flex; align-items: center; justify-content: center; }
@@ -500,7 +557,8 @@
       font-weight: 500;
     }
     .badge.done { background: #0a1a0a; color: #7cc47c; border: 1px solid #2a5a2a; }
-    .badge.pending { background: #1a1305; color: #e0be6a; border: 1px solid #4a3510; }
+    .badge.pending { background: #0a0f1f; color: #7aabee; border: 1px solid #1a3a6a; }
+    .badge.in-progress { background: #1a1305; color: #e0be6a; border: 1px solid #4a3510; }
 
     /* ─── BOTTOM NAV ─── */
     .bottom-nav {
@@ -1274,21 +1332,8 @@
       <!-- 최근 활동 -->
       <div id="recent-wrapper">
       <div class="section-label" style="padding-top:4px" data-i18n="recent">Recent Activity</div>
-      <div class="recent-list" style="margin-bottom:0">
-        <div class="recent-item">
-          <div>
-            <div class="recent-name" data-i18n="recent_item1">Extra Towels ×2</div>
-            <div class="recent-time"><span data-i18n="recent_today">Today</span> · 10:24 AM</div>
-          </div>
-          <span class="badge done" data-i18n="badge_done">Done</span>
-        </div>
-        <div class="recent-item">
-          <div>
-            <div class="recent-name" data-i18n="recent_item2">Housekeeping</div>
-            <div class="recent-time"><span data-i18n="recent_today">Today</span> · 2:10 PM</div>
-          </div>
-          <span class="badge pending" data-i18n="badge_progress">In Progress</span>
-        </div>
+      <div class="recent-list" style="margin-bottom:0" id="recent-dynamic-list">
+        <div style="font-size:13px;color:#666;text-align:center;padding:16px 0">불러오는 중...</div>
       </div>
       </div>
 
@@ -3631,27 +3676,16 @@ RULES:
 
     // Firebase에 요청 저장
     try {
-      const { getFirestore, collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-      const firebaseConfig = {
-        apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
-        authDomain: "hotel-app-f4a93.firebaseapp.com",
-        projectId: "hotel-app-f4a93",
-        storageBucket: "hotel-app-f4a93.firebasestorage.app",
-        messagingSenderId: "285558698060",
-        appId: "1:285558698060:web:50895111eaf0c6cd1344e9"
-      };
-      const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      const params = new URLSearchParams(window.location.search);
-      const hotelId = params.get('hotel') || 'park-hyatt-seoul';
-      await addDoc(collection(db, 'hotels', hotelId, 'requests'), {
-        title,
-        note,
-        room: '2104',
-        status: 'pending',
-        createdAt: new Date().toISOString()
-      });
+      await window._addDoc(
+        window._collection(window._db, 'hotels', window._hotelId, 'requests'),
+        {
+          title,
+          note,
+          room: '2104',
+          status: 'pending',
+          createdAt: new Date().toISOString()
+        }
+      );
     } catch(e) {
       console.log('Firebase 저장 실패:', e);
     }
