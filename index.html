@@ -96,18 +96,22 @@
     @media (max-width: 480px) {
       body {
         background: #0d0d0d;
-        align-items: flex-start;
         padding: 0;
-        min-height: 100dvh;
+        overflow: hidden;
       }
       .phone {
-        width: 100vw;
-        height: 100dvh;
-        border-radius: 0;
-        box-shadow: none;
-        display: grid;
-        grid-template-rows: 1fr auto;
-        overflow: hidden;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        display: grid !important;
+        grid-template-rows: 1fr auto !important;
+        overflow: hidden !important;
       }
       #screens-container {
         grid-row: 1;
@@ -2400,17 +2404,7 @@
   // ── 모바일 화면 고정 + safe area JS 처리 ──
   (function() {
     if (window.innerWidth > 480) return;
-    const phone = document.querySelector('.phone');
-    document.body.style.position = 'fixed';
-    document.body.style.top = '0';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.bottom = '0';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
-    document.body.style.overflow = 'hidden';
-    phone.style.width = '100%';
-    phone.style.height = '100%';
+    // CSS에서 phone을 position:fixed inset:0으로 처리하므로 JS 높이 계산 불필요
 
     // safe-area-inset-top 실제값 읽기
     // CSS 논리픽셀 기준: iPhone 15 Pro = 852, 15 Pro Max = 932, 14 Pro = 852
