@@ -3673,10 +3673,7 @@ RULES:
   screens.forEach(s => {
     document.getElementById(s).style.display = 'none';
   });
-  const lastScreen = localStorage.getItem('last_screen');
-  const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-  const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
-  goTo(startScreen);
+  goTo('screen-landing');
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
   window.addEventListener('beforeunload', () => {
