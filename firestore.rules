@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 호텔 기본 데이터: 읽기만 허용
+    match /hotels/{hotelId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // 게스트 요청: 누구나 읽기/쓰기 허용 (인증 없는 게스트 앱)
+    match /hotels/{hotelId}/requests/{requestId} {
+      allow read, write: if true;
+    }
+  }
+}

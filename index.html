@@ -3676,7 +3676,6 @@ RULES:
     const title = document.getElementById('confirm-title').textContent;
     const note = document.getElementById('confirm-note').value.trim();
     closeConfirm();
-    showToast('Request sent ✓');
 
     // Firebase에 요청 저장
     try {
@@ -3690,8 +3689,10 @@ RULES:
           createdAt: new Date().toISOString()
         }
       );
+      showToast('Request sent ✓');
     } catch(e) {
-      console.log('Firebase 저장 실패:', e);
+      console.error('Firebase 저장 실패:', e);
+      showToast('저장 실패: ' + (e.code || e.message));
     }
   }
 
