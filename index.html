@@ -3029,13 +3029,50 @@
     if (toggle) toggle.checked = isLightMode;
     updateThemeLabel();
   }
+  function applySettingsLightMode(isLight) {
+    // 다크 박스 (WiFi, 빠른전화, X버튼)
+    document.querySelectorAll('.settings-dark-box').forEach(el => {
+      el.style.background = isLight ? '#f0ebe0' : '#1a1a1a';
+      el.style.borderColor = isLight ? '#b8ae98' : '#2a2a2a';
+    });
+    // 헤더 버튼 SVG
+    document.querySelectorAll('.header-action-btn svg').forEach(el => {
+      el.setAttribute('stroke', isLight ? '#2a1e0e' : '#666');
+    });
+    // 설정 제목
+    const title = document.querySelector('.settings-title-text');
+    if (title) title.style.color = isLight ? '#1a1008' : '#fff';
+    // 섹션 라벨
+    document.querySelectorAll('.settings-section-label').forEach(el => {
+      el.style.color = isLight ? '#3a2e1e' : '#555';
+      el.style.fontWeight = isLight ? '600' : '400';
+    });
+    // 박스 내 서브텍스트
+    document.querySelectorAll('.settings-box-sub').forEach(el => {
+      el.style.color = isLight ? '#4a3e2a' : '#555';
+    });
+    // 설정 헤더 구분선
+    const sheetHeader = document.querySelector('#settings-sheet > div:first-child');
+    if (sheetHeader) sheetHeader.style.borderBottomColor = isLight ? '#c8bea8' : '#1e1e1e';
+    // 구분선
+    document.querySelectorAll('#settings-sheet div[style*="height:1px"]').forEach(el => {
+      el.style.background = isLight ? '#c0b098' : '#1e1e1e';
+    });
+    // 앱 정보 텍스트
+    document.querySelectorAll('#settings-sheet [style*="color:#333"]').forEach(el => {
+      el.style.color = isLight ? '#3a2e1e' : '#333';
+    });
+  }
+
   function toggleTheme(checked) {
     isLightMode = checked;
     localStorage.setItem('hotel_theme', checked ? 'light' : 'dark');
     document.querySelector('.phone').classList.toggle('light-mode', checked);
     updateThemeLabel();
+    applySettingsLightMode(checked);
   }
   initTheme();
+  applySettingsLightMode(isLightMode);
 
   // ── 알림음 ──
   let soundEnabled = localStorage.getItem('hotel_sound') !== 'off';
