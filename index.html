@@ -3224,6 +3224,7 @@
 
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
+      fixHomeGap();
     }
   }
 
@@ -3614,6 +3615,9 @@ RULES:
   const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
   const startScreen = (lastScreen && document.getElementById(lastScreen)) ? lastScreen : (isPWA ? 'screen-home' : 'screen-landing');
   goTo(startScreen);
+  if (startScreen === 'screen-home') {
+    setTimeout(fixHomeGap, 150);
+  }
 
   // 새로고침/종료 직전 현재 화면 저장 (가장 정확한 시점)
   window.addEventListener('beforeunload', () => {
