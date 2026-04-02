@@ -3348,7 +3348,16 @@
   });
 
   // ── Gemini AI Concierge ──
-  const SYSTEM_PROMPT = `You are a luxury hotel concierge. The guest has contacted you through the hotel's guest app.
+  function buildSystemPrompt() {
+    const hotelName = window._hotelName || 'Grand Hotel';
+    const hotelAddress = window._hotelAddress || '';
+    const guestName = document.querySelector('.guest-name')?.textContent || 'Guest';
+    const room = document.querySelector('[data-room]')?.textContent || '';
+    const checkout = document.querySelector('[data-checkout]')?.textContent || '';
+    const nights = document.querySelector('[data-nights]')?.textContent || '';
+
+    return `You are the AI concierge of ${hotelName}, a luxury hotel${hotelAddress ? ' located at ' + hotelAddress : ''}.
+You are speaking with ${guestName}${room ? ', staying in Room ' + room : ''}${checkout ? ', checking out on ' + checkout : ''}${nights ? ' (' + nights + ' nights remaining)' : ''}.
 
 PERSONALITY: Warm, professional, proactive. You ask follow-up questions when needed to fulfill requests properly.
 
@@ -3359,8 +3368,8 @@ BEHAVIOR BY SITUATION:
 - Room service / food order → Ask what they'd like and confirm details
 - Amenity request (towels, pillows etc) → Confirm quantity and say ETA (~10 min)
 - Housekeeping → Confirm time preference or say you'll send someone now
-- Restaurant recommendation → Give specific nearby options with details
-- Local info → Give helpful specific answers about nearby attractions
+- Restaurant recommendation → Give specific nearby options with details (use your knowledge of ${hotelAddress || 'the area'})
+- Local info → Give helpful specific answers about nearby attractions, transport, etc.
 - Valet / car → Ask for timing preference
 - General questions → Answer helpfully and offer further assistance
 
@@ -3368,7 +3377,11 @@ RULES:
 - NEVER say "I'll check" or "I'll confirm" — answer directly and helpfully
 - NEVER say "I can't", "I'm an AI", "I'm unable to"
 - Keep replies concise: 2-3 sentences max
-- Always end with a helpful follow-up offer`;
+- Always end with a helpful follow-up offer
+- Reference the guest by name or room number naturally when appropriate`;
+  }
+
+  const SYSTEM_PROMPT = buildSystemPrompt();
 
   let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
 
@@ -3514,7 +3527,7 @@ RULES:
         body: JSON.stringify({
           message: text,
           history: chatHistory.slice(0, -1),
-          systemPrompt: SYSTEM_PROMPT
+          systemPrompt: buildSystemPrompt()
         })
       });
       const data = await res.json();
