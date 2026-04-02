@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
@@ -70,28 +70,29 @@
 
     // 실시간 요청 목록 구독
     function startRequestsListener() {
-      try {
-        const q = query(
-          collection(db, 'hotels', hotelId, 'requests'),
-          orderBy('createdAt', 'desc')
-        );
-        onSnapshot(q, (snapshot) => {
+      const colRef = collection(db, 'hotels', hotelId, 'requests');
+      onSnapshot(
+        colRef,
+        (snapshot) => {
           const list = document.getElementById('recent-dynamic-list');
           if (!list) return;
           if (snapshot.empty) {
             list.innerHTML = '<div style="font-size:13px;color:#666;text-align:center;padding:16px 0">아직 요청 내역이 없습니다</div>';
             return;
           }
+          // createdAt 내림차순 정렬 (인덱스 불필요)
+          const docs = [];
+          snapshot.forEach(d => docs.push({ id: d.id, ...d.data() }));
+          docs.sort((a, b) => (b.createdAt || '') > (a.createdAt || '') ? 1 : -1);
+
           list.innerHTML = '';
-          snapshot.forEach((docSnap) => {
-            const d = docSnap.data();
+          docs.forEach((d) => {
             const statusMap = {
               'pending':     { label: '접수됨',  cls: 'pending' },
               'in-progress': { label: '진행 중', cls: 'in-progress' },
               'done':        { label: '완료',    cls: 'done' }
             };
             const s = statusMap[d.status] || statusMap['pending'];
-            // 시간 포맷
             let timeStr = '';
             try {
               const dt = new Date(d.createdAt);
@@ -110,10 +111,13 @@
             `;
             list.appendChild(item);
           });
-        });
-      } catch(e) {
-        console.log('onSnapshot 실패:', e);
-      }
+        },
+        (err) => {
+          console.error('onSnapshot 에러:', err);
+          const list = document.getElementById('recent-dynamic-list');
+          if (list) list.innerHTML = '<div style="font-size:13px;color:#888;text-align:center;padding:16px 0">불러오기 실패</div>';
+        }
+      );
     }
 
     window.addEventListener('DOMContentLoaded', () => {
