@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
@@ -42,6 +42,8 @@
     window._hotelId = hotelId;
     window._addDoc = addDoc;
     window._collection = collection;
+    window._deleteDoc = deleteDoc;
+    window._doc = doc;
 
     async function loadHotelData() {
       try {
@@ -102,12 +104,18 @@
             } catch(_) {}
             const item = document.createElement('div');
             item.className = 'recent-item';
+            const deleteBtn = d.status === 'done'
+              ? `<span class="recent-delete-btn" onclick="deleteRequest('${docSnap.id}')">삭제</span>`
+              : '';
             item.innerHTML = `
-              <div>
+              <div style="flex:1;min-width:0">
                 <div class="recent-name">${d.title || ''}</div>
                 <div class="recent-time">${timeStr}${d.note ? ' · ' + d.note : ''}</div>
               </div>
-              <span class="badge ${s.cls}">${s.label}</span>
+              <div class="recent-right">
+                <span class="badge ${s.cls}">${s.label}</span>
+                ${deleteBtn}
+              </div>
             `;
             list.appendChild(item);
           });
@@ -559,10 +567,21 @@
       letter-spacing: 0.8px;
       text-transform: uppercase;
       font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .badge.done { background: #0a1a0a; color: #7cc47c; border: 1px solid #2a5a2a; }
     .badge.pending { background: #0a0f1f; color: #7aabee; border: 1px solid #1a3a6a; }
     .badge.in-progress { background: #1a1305; color: #e0be6a; border: 1px solid #4a3510; }
+
+    .recent-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .recent-delete-btn {
+      font-size: 10px; color: #444; cursor: pointer; letter-spacing: 0.5px;
+      padding: 2px 6px; border-radius: 6px; border: 1px solid #2a2a2a;
+      background: transparent; line-height: 1.4;
+    }
+    .recent-delete-btn:active { background: #2a2a2a; }
+    .phone.light-mode .recent-delete-btn { color: #999; border-color: #ccc; }
 
     /* ─── BOTTOM NAV ─── */
     .bottom-nav {
@@ -3706,6 +3725,16 @@ RULES:
     } catch(e) {
       console.error('Firebase 저장 실패:', e);
       showToast('저장 실패: ' + (e.code || e.message));
+    }
+  }
+
+  async function deleteRequest(docId) {
+    try {
+      await window._deleteDoc(
+        window._doc(window._db, 'hotels', window._hotelId, 'requests', docId)
+      );
+    } catch(e) {
+      showToast('삭제 실패: ' + (e.code || e.message));
     }
   }
 
