@@ -9,123 +9,143 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0d0d0d; color: #f0e6cc; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
 
-    .header {
-      background: #111; border-bottom: 1px solid #1e1e1e;
-      padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 10;
-    }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .logo { font-size: 10px; letter-spacing: 2px; color: #c9a84c; }
-    .hotel-name { font-size: 16px; font-weight: 500; }
-    .live-badge { background: rgba(106,154,106,0.15); border: 1px solid rgba(106,154,106,0.3); color: #6a9a6a; font-size: 9px; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 20px; }
-
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px 20px 0; }
-    .stat-card { background: #141414; border: 1px solid #1e1e1e; border-radius: 14px; padding: 16px; text-align: center; }
-    .stat-num { font-size: 28px; font-weight: 600; color: #c9a84c; }
-    .stat-label { font-size: 10px; color: #555; letter-spacing: 1px; margin-top: 4px; }
-
-    .section-title { font-size: 10px; letter-spacing: 2px; color: #555; padding: 20px 20px 10px; }
-
-    .request-list { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 10px; }
-
-    .req-card {
-      background: #141414; border: 1px solid #1e1e1e; border-radius: 16px; padding: 16px;
-      display: flex; align-items: center; gap: 14px; transition: border-color 0.2s;
-    }
-    .req-card.pending { border-left: 3px solid #c9a84c; }
-    .req-card.done { border-left: 3px solid #6a9a6a; opacity: 0.6; }
-
-    .req-icon { width: 40px; height: 40px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .req-body { flex: 1; min-width: 0; }
-    .req-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
-    .req-meta { font-size: 11px; color: #555; }
-    .req-note { font-size: 11px; color: #888; margin-top: 4px; font-style: italic; }
-
-    .done-btn {
-      background: linear-gradient(135deg, #c9a84c, #a8832a);
-      border: none; border-radius: 10px; padding: 8px 14px;
-      font-size: 11px; font-weight: 500; color: #0d0d0d;
-      cursor: pointer; white-space: nowrap; flex-shrink: 0;
-    }
-    .done-btn:disabled { background: #1a1a1a; color: #555; cursor: default; }
-
-    .done-tag { font-size: 10px; color: #6a9a6a; letter-spacing: 1px; flex-shrink: 0; }
-
-    .empty { text-align: center; padding: 60px 20px; color: #333; font-size: 13px; }
-    .empty-icon { font-size: 40px; margin-bottom: 12px; }
-
+    /* ── 로그인 ── */
     .login-screen {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       min-height: 100vh; padding: 40px 20px;
     }
     .login-logo { font-size: 10px; letter-spacing: 3px; color: #c9a84c; margin-bottom: 8px; }
-    .login-title { font-size: 24px; font-weight: 300; margin-bottom: 32px; }
+    .login-title { font-size: 22px; font-weight: 300; margin-bottom: 32px; }
     .login-card { background: #141414; border: 1px solid #1e1e1e; border-radius: 20px; padding: 32px; width: 100%; max-width: 360px; }
     .login-field { margin-bottom: 16px; }
     .login-label { font-size: 10px; letter-spacing: 1.5px; color: #555; margin-bottom: 6px; display: block; }
     .login-input { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #f0e6cc; font-family: 'Montserrat', sans-serif; outline: none; }
     .login-input:focus { border-color: #c9a84c; }
     .login-btn { width: 100%; background: linear-gradient(135deg, #c9a84c, #a8832a); border: none; border-radius: 12px; padding: 14px; font-size: 13px; font-weight: 500; color: #0d0d0d; cursor: pointer; margin-top: 8px; }
+    .login-err { color: #e07070; font-size: 12px; text-align: center; margin-top: 12px; display: none; }
+
+    /* ── 헤더 ── */
+    .header {
+      background: #111; border-bottom: 1px solid #1e1e1e;
+      padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .logo { font-size: 10px; letter-spacing: 2px; color: #c9a84c; }
+    .hotel-name { font-size: 16px; font-weight: 500; margin-top: 2px; }
+    .live-badge { background: rgba(106,154,106,0.15); border: 1px solid rgba(106,154,106,0.3); color: #6a9a6a; font-size: 9px; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 20px; }
+    .logout-btn { font-size: 11px; color: #444; cursor: pointer; padding: 6px 12px; border: 1px solid #222; border-radius: 8px; }
+
+    /* ── 통계 ── */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px 16px 0; }
+    .stat-card { background: #141414; border: 1px solid #1e1e1e; border-radius: 14px; padding: 14px 10px; text-align: center; }
+    .stat-num { font-size: 26px; font-weight: 600; }
+    .stat-num.pending { color: #7aabee; }
+    .stat-num.progress { color: #e0be6a; }
+    .stat-num.done { color: #7cc47c; }
+    .stat-label { font-size: 10px; color: #555; letter-spacing: 1px; margin-top: 4px; }
+
+    /* ── 필터 탭 ── */
+    .filter-tabs { display: flex; gap: 8px; padding: 16px 16px 0; }
+    .tab { font-size: 11px; padding: 6px 14px; border-radius: 20px; border: 1px solid #2a2a2a; color: #555; cursor: pointer; letter-spacing: 0.5px; }
+    .tab.active { background: #c9a84c; border-color: #c9a84c; color: #0d0d0d; font-weight: 600; }
+
+    /* ── 요청 카드 ── */
+    .section-title { font-size: 10px; letter-spacing: 2px; color: #555; padding: 16px 16px 8px; }
+    .request-list { padding: 0 16px 100px; display: flex; flex-direction: column; gap: 10px; }
+
+    .req-card {
+      background: #141414; border: 1px solid #1e1e1e; border-radius: 16px; padding: 16px;
+      display: flex; align-items: flex-start; gap: 14px;
+      border-left: 3px solid transparent;
+    }
+    .req-card.pending { border-left-color: #7aabee; }
+    .req-card.in-progress { border-left-color: #e0be6a; }
+    .req-card.done { border-left-color: #3a5a3a; opacity: 0.55; }
+
+    .req-icon { width: 38px; height: 38px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .req-body { flex: 1; min-width: 0; }
+    .req-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .req-meta { font-size: 11px; color: #555; }
+    .req-note { font-size: 11px; color: #888; margin-top: 5px; font-style: italic; background: #111; border-radius: 6px; padding: 6px 8px; }
+    .req-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; align-items: flex-end; }
+
+    .action-btn {
+      border: none; border-radius: 8px; padding: 7px 12px;
+      font-size: 11px; font-weight: 500; cursor: pointer; white-space: nowrap;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .btn-progress { background: #1a1305; color: #e0be6a; border: 1px solid #4a3510; }
+    .btn-done { background: linear-gradient(135deg, #c9a84c, #a8832a); color: #0d0d0d; }
+    .done-tag { font-size: 10px; color: #4a7a4a; letter-spacing: 1px; padding-top: 4px; }
+
+    .empty { text-align: center; padding: 60px 20px; color: #333; font-size: 13px; }
   </style>
 </head>
 <body>
 
-  <!-- 로그인 화면 -->
+  <!-- 로그인 -->
   <div class="login-screen" id="login-screen">
     <div class="login-logo">HOTEL APP</div>
     <div class="login-title">직원 대시보드</div>
     <div class="login-card">
       <div class="login-field">
         <label class="login-label">호텔 ID</label>
-        <input class="login-input" id="login-hotel" placeholder="park-hyatt-seoul" />
+        <input class="login-input" id="login-hotel" placeholder="park-hyatt-seoul" value="park-hyatt-seoul" />
       </div>
       <div class="login-field">
         <label class="login-label">비밀번호</label>
-        <input class="login-input" type="password" id="login-pw" placeholder="••••••" />
+        <input class="login-input" type="password" id="login-pw" placeholder="••••••"
+          onkeydown="if(event.key==='Enter') doLogin()" />
       </div>
       <button class="login-btn" onclick="doLogin()">로그인</button>
+      <div class="login-err" id="login-err"></div>
     </div>
   </div>
 
   <!-- 대시보드 -->
   <div id="dashboard" style="display:none">
     <div class="header">
-      <div class="header-left">
-        <div>
-          <div class="logo">STAFF DASHBOARD</div>
-          <div class="hotel-name" id="dash-hotel-name">호텔</div>
-        </div>
+      <div>
+        <div class="logo">STAFF DASHBOARD</div>
+        <div class="hotel-name" id="dash-hotel-name"></div>
       </div>
-      <div class="live-badge">● LIVE</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="live-badge">● LIVE</div>
+        <div class="logout-btn" onclick="doLogout()">로그아웃</div>
+      </div>
     </div>
 
     <div class="stats">
       <div class="stat-card">
-        <div class="stat-num" id="stat-pending">0</div>
-        <div class="stat-label">대기중</div>
+        <div class="stat-num pending" id="stat-pending">0</div>
+        <div class="stat-label">접수됨</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num" id="stat-done">0</div>
+        <div class="stat-num progress" id="stat-progress">0</div>
+        <div class="stat-label">진행 중</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num done" id="stat-done">0</div>
         <div class="stat-label">완료</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-total">0</div>
-        <div class="stat-label">전체</div>
-      </div>
+    </div>
+
+    <div class="filter-tabs">
+      <div class="tab active" onclick="setFilter('all', this)">전체</div>
+      <div class="tab" onclick="setFilter('pending', this)">접수됨</div>
+      <div class="tab" onclick="setFilter('in-progress', this)">진행 중</div>
+      <div class="tab" onclick="setFilter('done', this)">완료</div>
     </div>
 
     <div class="section-title">요청 목록 (실시간)</div>
     <div class="request-list" id="request-list">
-      <div class="empty">
-        <div class="empty-icon">📋</div>
-        게스트 요청이 없습니다
-      </div>
+      <div class="empty">불러오는 중...</div>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBaL9gGEiLFLgb7cHg6gqdSEyVhy9z_nTY",
@@ -140,80 +160,148 @@
     const db = getFirestore(app);
 
     let currentHotelId = '';
+    let currentFilter = 'all';
+    let allRequests = [];
+    let unsubscribe = null;
+
+    // 아이콘 매핑
+    const ICONS = {
+      default: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/></svg>`,
+      towel:   `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>`,
+      room:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`,
+      food:    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>`,
+    };
+
+    function getIcon(title) {
+      const t = (title || '').toLowerCase();
+      if (t.includes('수건') || t.includes('towel') || t.includes('베개') || t.includes('pillow')) return ICONS.towel;
+      if (t.includes('하우스') || t.includes('house') || t.includes('청소') || t.includes('clean')) return ICONS.room;
+      if (t.includes('식사') || t.includes('음식') || t.includes('dining') || t.includes('food') || t.includes('drink')) return ICONS.food;
+      return ICONS.default;
+    }
+
+    function formatTime(iso) {
+      try {
+        const dt = new Date(iso);
+        return dt.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+      } catch(_) { return ''; }
+    }
+
+    function renderList() {
+      const filtered = currentFilter === 'all'
+        ? allRequests
+        : allRequests.filter(r => r.status === currentFilter);
+
+      const list = document.getElementById('request-list');
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty">요청이 없습니다</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(r => {
+        const isDone = r.status === 'done';
+        const isProgress = r.status === 'in-progress';
+        const statusCls = r.status || 'pending';
+        return `
+          <div class="req-card ${statusCls}">
+            <div class="req-icon">${getIcon(r.title)}</div>
+            <div class="req-body">
+              <div class="req-title">${r.title || ''}</div>
+              <div class="req-meta">객실 ${r.room || '-'} · ${formatTime(r.createdAt)}</div>
+              ${r.note ? `<div class="req-note">"${r.note}"</div>` : ''}
+            </div>
+            <div class="req-actions">
+              ${isDone
+                ? `<div class="done-tag">완료 ✓</div>`
+                : isProgress
+                  ? `<button class="action-btn btn-done" onclick="markStatus('${r.id}', 'done')">완료</button>`
+                  : `
+                    <button class="action-btn btn-progress" onclick="markStatus('${r.id}', 'in-progress')">진행 중</button>
+                    <button class="action-btn btn-done" onclick="markStatus('${r.id}', 'done')">완료</button>
+                  `
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.setFilter = function(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      renderList();
+    };
 
     window.doLogin = async function() {
       const hotelId = document.getElementById('login-hotel').value.trim();
       const pw = document.getElementById('login-pw').value.trim();
+      const errEl = document.getElementById('login-err');
+      errEl.style.display = 'none';
 
-      if (!hotelId) { alert('호텔 ID를 입력하세요'); return; }
-
-      // 임시 비밀번호: 1234 (나중에 Firebase Auth로 교체)
-      if (pw !== '1234') { alert('비밀번호가 틀렸습니다'); return; }
+      if (!hotelId) { showErr('호텔 ID를 입력하세요'); return; }
+      if (pw !== '1234') { showErr('비밀번호가 틀렸습니다'); return; }
 
       try {
         const hotelDoc = await getDoc(doc(db, 'hotels', hotelId));
-        if (!hotelDoc.exists()) { alert('호텔을 찾을 수 없습니다'); return; }
+        if (!hotelDoc.exists()) { showErr('호텔을 찾을 수 없습니다'); return; }
 
         currentHotelId = hotelId;
         document.getElementById('dash-hotel-name').textContent = hotelDoc.data().name || hotelId;
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
-        loadRequests();
+        startListener();
       } catch(e) {
-        alert('오류가 발생했습니다');
+        showErr('오류가 발생했습니다: ' + e.message);
       }
     };
 
-    function loadRequests() {
-      const q = query(collection(db, 'hotels', currentHotelId, 'requests'), orderBy('createdAt', 'desc'));
+    function showErr(msg) {
+      const el = document.getElementById('login-err');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
 
-      onSnapshot(q, (snapshot) => {
-        const requests = [];
-        snapshot.forEach(d => requests.push({ id: d.id, ...d.data() }));
+    window.doLogout = function() {
+      if (unsubscribe) unsubscribe();
+      currentHotelId = '';
+      allRequests = [];
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-pw').value = '';
+    };
 
-        const pending = requests.filter(r => r.status === 'pending').length;
-        const done = requests.filter(r => r.status === 'done').length;
+    function startListener() {
+      const colRef = collection(db, 'hotels', currentHotelId, 'requests');
+      unsubscribe = onSnapshot(colRef, (snapshot) => {
+        allRequests = [];
+        snapshot.forEach(d => allRequests.push({ id: d.id, ...d.data() }));
+        // createdAt 내림차순
+        allRequests.sort((a, b) => (b.createdAt || '') > (a.createdAt || '') ? 1 : -1);
 
-        document.getElementById('stat-pending').textContent = pending;
-        document.getElementById('stat-done').textContent = done;
-        document.getElementById('stat-total').textContent = requests.length;
+        const pending  = allRequests.filter(r => r.status === 'pending').length;
+        const progress = allRequests.filter(r => r.status === 'in-progress').length;
+        const done     = allRequests.filter(r => r.status === 'done').length;
+        document.getElementById('stat-pending').textContent  = pending;
+        document.getElementById('stat-progress').textContent = progress;
+        document.getElementById('stat-done').textContent     = done;
 
-        const list = document.getElementById('request-list');
-        if (requests.length === 0) {
-          list.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>게스트 요청이 없습니다</div>';
-          return;
-        }
-
-        list.innerHTML = requests.map(r => {
-          const time = new Date(r.createdAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          const isDone = r.status === 'done';
-          return `
-            <div class="req-card ${isDone ? 'done' : 'pending'}">
-              <div class="req-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-                </svg>
-              </div>
-              <div class="req-body">
-                <div class="req-title">${r.title}</div>
-                <div class="req-meta">객실 ${r.room} · ${time}</div>
-                ${r.note ? `<div class="req-note">"${r.note}"</div>` : ''}
-              </div>
-              ${isDone
-                ? `<div class="done-tag">완료 ✓</div>`
-                : `<button class="done-btn" onclick="markDone('${r.id}')">완료</button>`
-              }
-            </div>
-          `;
-        }).join('');
+        renderList();
+      }, (err) => {
+        console.error('onSnapshot 에러:', err);
+        document.getElementById('request-list').innerHTML = '<div class="empty">불러오기 실패: ' + err.message + '</div>';
       });
     }
 
-    window.markDone = async function(requestId) {
-      await updateDoc(doc(db, 'hotels', currentHotelId, 'requests', requestId), {
-        status: 'done',
-        doneAt: new Date().toISOString()
-      });
+    window.markStatus = async function(requestId, newStatus) {
+      try {
+        const update = { status: newStatus };
+        if (newStatus === 'done') update.doneAt = new Date().toISOString();
+        if (newStatus === 'in-progress') update.startedAt = new Date().toISOString();
+        await updateDoc(doc(db, 'hotels', currentHotelId, 'requests', requestId), update);
+      } catch(e) {
+        alert('업데이트 실패: ' + e.message);
+      }
     };
   </script>
 
