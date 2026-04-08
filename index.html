@@ -3358,7 +3358,8 @@
       requestAnimationFrame(fixHomeActionsPadding);
     }
     if (id === 'screen-chat') {
-      requestAnimationFrame(fixChatAreaHeight);
+      requestAnimationFrame(() => requestAnimationFrame(fixChatAreaHeight));
+      setTimeout(fixChatAreaHeight, 100);
     }
   }
 
@@ -3369,8 +3370,11 @@
     const bottom = screen.querySelector('.chat-bottom');
     const area = document.getElementById('chat-area');
     if (!screen || !header || !bottom || !area) return;
+    // PWA에서 offsetHeight가 0인 경우 window.innerHeight 사용
+    const totalH = screen.offsetHeight || window.innerHeight;
+    if (totalH < 100) return; // 아직 레이아웃 안 됨
     const apiH = (apiPanel && apiPanel.style.display !== 'none') ? apiPanel.offsetHeight : 0;
-    const h = screen.offsetHeight - header.offsetHeight - apiH - bottom.offsetHeight;
+    const h = totalH - header.offsetHeight - apiH - bottom.offsetHeight;
     area.style.height = Math.max(100, h) + 'px';
   }
 
