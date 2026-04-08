@@ -623,7 +623,7 @@
     .nav-item.active .nav-dot { opacity: 1; }
 
     /* ══════════ INNER SCREENS ══════════ */
-    .inner-screen { background: #111; }
+    .inner-screen { background: #111; overflow: hidden; }
 
     .screen-header {
       padding: 56px 24px 16px;
@@ -708,6 +708,8 @@
 
     /* CHAT */
     .chat-area {
+      flex: 1;
+      min-height: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
