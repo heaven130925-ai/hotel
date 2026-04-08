@@ -186,7 +186,7 @@
         flex: 1 1 0;
         min-height: 0;
         position: relative;
-        overflow: clip;
+        overflow: hidden;
       }
       .home-actions {
         padding-bottom: calc(50px + env(safe-area-inset-bottom, 6px)) !important;
@@ -708,8 +708,6 @@
 
     /* CHAT */
     .chat-area {
-      flex: 1;
-      height: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
@@ -3359,6 +3357,21 @@
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
     }
+    if (id === 'screen-chat') {
+      requestAnimationFrame(fixChatAreaHeight);
+    }
+  }
+
+  function fixChatAreaHeight() {
+    const screen = document.getElementById('screen-chat');
+    const header = screen.querySelector('.screen-header');
+    const apiPanel = document.getElementById('api-key-panel');
+    const bottom = screen.querySelector('.chat-bottom');
+    const area = document.getElementById('chat-area');
+    if (!screen || !header || !bottom || !area) return;
+    const apiH = (apiPanel && apiPanel.style.display !== 'none') ? apiPanel.offsetHeight : 0;
+    const h = screen.offsetHeight - header.offsetHeight - apiH - bottom.offsetHeight;
+    area.style.height = Math.max(100, h) + 'px';
   }
 
   // 브라우저 뒤로가기 버튼 → screen-home으로
