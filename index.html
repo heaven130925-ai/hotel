@@ -623,7 +623,7 @@
     .nav-item.active .nav-dot { opacity: 1; }
 
     /* ══════════ INNER SCREENS ══════════ */
-    .inner-screen { background: #111; overflow: hidden; }
+    .inner-screen { background: #111; }
 
     .screen-header {
       padding: 56px 24px 16px;
@@ -708,12 +708,8 @@
 
     /* CHAT */
     .chat-area {
-      flex: 1;
-      min-height: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
-      touch-action: pan-y;
-      overscroll-behavior: contain;
       padding: 12px 24px 8px;
       display: flex;
       flex-direction: column;
@@ -3360,25 +3356,25 @@
       requestAnimationFrame(fixHomeActionsPadding);
     }
     if (id === 'screen-chat') {
-      requestAnimationFrame(() => requestAnimationFrame(fixChatAreaHeight));
-      setTimeout(fixChatAreaHeight, 100);
+      fixChatAreaHeight();
+      setTimeout(fixChatAreaHeight, 50);
+      setTimeout(fixChatAreaHeight, 200);
     }
   }
 
   function fixChatAreaHeight() {
-    const screen = document.getElementById('screen-chat');
-    const header = screen.querySelector('.screen-header');
-    const apiPanel = document.getElementById('api-key-panel');
-    const bottom = screen.querySelector('.chat-bottom');
     const area = document.getElementById('chat-area');
-    if (!screen || !header || !bottom || !area) return;
-    // PWA에서 offsetHeight가 0인 경우 window.innerHeight 사용
-    const totalH = screen.offsetHeight || window.innerHeight;
-    if (totalH < 100) return; // 아직 레이아웃 안 됨
+    const header = document.querySelector('#screen-chat .screen-header');
+    const bottom = document.querySelector('#screen-chat .chat-bottom');
+    const apiPanel = document.getElementById('api-key-panel');
+    if (!area || !header || !bottom) return;
     const apiH = (apiPanel && apiPanel.style.display !== 'none') ? apiPanel.offsetHeight : 0;
-    const h = totalH - header.offsetHeight - apiH - bottom.offsetHeight;
-    area.style.height = Math.max(100, h) + 'px';
+    // window.innerHeight 기준 — PWA/Safari 모두 정확
+    const h = window.innerHeight - header.offsetHeight - apiH - bottom.offsetHeight;
+    if (h < 50) return;
+    area.style.height = h + 'px';
   }
+  window.addEventListener('resize', fixChatAreaHeight);
 
   // 브라우저 뒤로가기 버튼 → screen-home으로
   window.addEventListener('popstate', () => {
