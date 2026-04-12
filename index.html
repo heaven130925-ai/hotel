@@ -625,6 +625,20 @@
     /* ══════════ INNER SCREENS ══════════ */
     .inner-screen { background: #111; }
 
+    /* 채팅 화면: grid로 높이 명확하게 분배 */
+    #screen-chat {
+      display: none;
+      grid-template-rows: auto auto 1fr auto;
+    }
+    #screen-chat.active {
+      display: grid !important;
+    }
+    #screen-chat .chat-area {
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .screen-header {
       padding: 56px 24px 16px;
       display: flex;
@@ -708,8 +722,6 @@
 
     /* CHAT */
     .chat-area {
-      flex: 1;
-      min-height: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 12px 24px 8px;
@@ -758,7 +770,6 @@
     .msg.guest .msg-time { text-align: right; }
 
     .chat-bottom {
-      flex-shrink: 0;
       padding: 10px 20px 82px;
       background: #0d0d0d;
       border-top: 1px solid #161616;
@@ -767,19 +778,7 @@
       align-items: center;
     }
     @media (max-width: 480px) {
-      /* chat-bottom을 fixed로 빼서 chat-area가 scroll-area와 동일한 구조 */
-      .chat-bottom {
-        position: fixed !important;
-        left: 0; right: 0;
-        bottom: 0;
-        padding: 10px 20px env(safe-area-inset-bottom, 8px);
-        padding-bottom: calc(env(safe-area-inset-bottom, 8px) + 10px);
-        z-index: 20;
-      }
-      /* chat-area 하단에 chat-bottom 높이만큼 여백 */
-      .chat-area {
-        padding-bottom: 80px;
-      }
+      .chat-bottom { padding-bottom: 90px; }
     }
 
     /* 메시지 꾹 누르기 삭제 메뉴 */
@@ -3342,7 +3341,7 @@
       el.style.display = 'none';
     });
     const target = document.getElementById(id);
-    target.style.display = 'flex';
+    target.style.display = id === 'screen-chat' ? 'grid' : 'flex';
     target.classList.add('active');
 
     Object.values(navMap).forEach(n => document.getElementById(n).classList.remove('active'));
