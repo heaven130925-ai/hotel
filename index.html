@@ -186,7 +186,7 @@
         flex: 1 1 0;
         min-height: 0;
         position: relative;
-        overflow: hidden;
+        overflow: clip;
       }
       .home-actions {
         padding-bottom: calc(50px + env(safe-area-inset-bottom, 6px)) !important;
@@ -708,6 +708,8 @@
 
     /* CHAT */
     .chat-area {
+      flex: 1;
+      min-height: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       padding: 12px 24px 8px;
@@ -3355,26 +3357,8 @@
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
     }
-    if (id === 'screen-chat') {
-      fixChatAreaHeight();
-      setTimeout(fixChatAreaHeight, 50);
-      setTimeout(fixChatAreaHeight, 200);
     }
   }
-
-  function fixChatAreaHeight() {
-    const area = document.getElementById('chat-area');
-    const header = document.querySelector('#screen-chat .screen-header');
-    const bottom = document.querySelector('#screen-chat .chat-bottom');
-    const apiPanel = document.getElementById('api-key-panel');
-    if (!area || !header || !bottom) return;
-    const apiH = (apiPanel && apiPanel.style.display !== 'none') ? apiPanel.offsetHeight : 0;
-    // window.innerHeight 기준 — PWA/Safari 모두 정확
-    const h = window.innerHeight - header.offsetHeight - apiH - bottom.offsetHeight;
-    if (h < 50) return;
-    area.style.height = h + 'px';
-  }
-  window.addEventListener('resize', fixChatAreaHeight);
 
   // 브라우저 뒤로가기 버튼 → screen-home으로
   window.addEventListener('popstate', () => {
