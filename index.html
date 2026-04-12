@@ -381,22 +381,6 @@
 
     @media (max-width: 480px) {
       .hero-section { height: 58dvh; }
-
-      /* 채팅 화면: overflow:hidden 레이어 우회 — position:fixed로 독립 */
-      #screen-chat.active {
-        position: fixed !important;
-        top: 0 !important; left: 0 !important;
-        right: 0 !important; bottom: 0 !important;
-        z-index: 30;
-        display: flex !important;
-        flex-direction: column !important;
-      }
-      #screen-chat .chat-area {
-        flex: 1 !important;
-        min-height: 0 !important;
-        overflow-y: scroll !important;
-        -webkit-overflow-scrolling: touch !important;
-      }
     }
 
     .hero-img {
@@ -640,6 +624,7 @@
 
     /* ══════════ INNER SCREENS ══════════ */
     .inner-screen { background: #111; }
+    #screen-chat { overflow: hidden; }
 
     .screen-header {
       padding: 56px 24px 16px;
@@ -724,8 +709,9 @@
 
     /* CHAT */
     .chat-area {
-      flex: 1;
-      min-height: 0;
+      /* 위치/높이는 JS가 직접 설정 */
+      position: absolute;
+      left: 0; right: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       padding: 12px 24px 8px;
@@ -3373,7 +3359,23 @@
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
     }
+    if (id === 'screen-chat') {
+      positionChatArea();
     }
+  }
+
+  function positionChatArea() {
+    const screen = document.getElementById('screen-chat');
+    const header = screen.querySelector('.screen-header');
+    const apiPanel = document.getElementById('api-key-panel');
+    const bottom = screen.querySelector('.chat-bottom');
+    const area = document.getElementById('chat-area');
+    if (!area || !header || !bottom) return;
+
+    const topH = header.offsetHeight + ((apiPanel && apiPanel.offsetHeight > 0) ? apiPanel.offsetHeight : 0);
+    const botH = bottom.offsetHeight;
+    area.style.top    = topH + 'px';
+    area.style.bottom = botH + 'px';
   }
 
   // 브라우저 뒤로가기 버튼 → screen-home으로
