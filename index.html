@@ -624,7 +624,6 @@
 
     /* ══════════ INNER SCREENS ══════════ */
     .inner-screen { background: #111; }
-    #screen-chat { overflow: hidden; }
 
     .screen-header {
       padding: 56px 24px 16px;
@@ -709,10 +708,9 @@
 
     /* CHAT */
     .chat-area {
-      /* 위치/높이는 JS가 직접 설정 */
-      position: absolute;
-      left: 0; right: 0;
-      overflow-y: scroll;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 12px 24px 8px;
       display: flex;
@@ -769,7 +767,19 @@
       align-items: center;
     }
     @media (max-width: 480px) {
-      .chat-bottom { padding-bottom: 90px; }
+      /* chat-bottom을 fixed로 빼서 chat-area가 scroll-area와 동일한 구조 */
+      .chat-bottom {
+        position: fixed !important;
+        left: 0; right: 0;
+        bottom: 0;
+        padding: 10px 20px env(safe-area-inset-bottom, 8px);
+        padding-bottom: calc(env(safe-area-inset-bottom, 8px) + 10px);
+        z-index: 20;
+      }
+      /* chat-area 하단에 chat-bottom 높이만큼 여백 */
+      .chat-area {
+        padding-bottom: 80px;
+      }
     }
 
     /* 메시지 꾹 누르기 삭제 메뉴 */
@@ -3359,24 +3369,7 @@
     if (id === 'screen-home') {
       requestAnimationFrame(fixHomeActionsPadding);
     }
-    if (id === 'screen-chat') {
-      positionChatArea();
     }
-  }
-
-  function positionChatArea() {
-    const screen = document.getElementById('screen-chat');
-    const header = screen.querySelector('.screen-header');
-    const apiPanel = document.getElementById('api-key-panel');
-    const bottom = screen.querySelector('.chat-bottom');
-    const area = document.getElementById('chat-area');
-    if (!area || !header || !bottom) return;
-
-    const topH = header.offsetHeight + ((apiPanel && apiPanel.offsetHeight > 0) ? apiPanel.offsetHeight : 0);
-    const botH = bottom.offsetHeight;
-    area.style.top    = topH + 'px';
-    area.style.bottom = botH + 'px';
-  }
 
   // 브라우저 뒤로가기 버튼 → screen-home으로
   window.addEventListener('popstate', () => {
