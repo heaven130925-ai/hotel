@@ -770,7 +770,7 @@
     .msg.guest .msg-time { text-align: right; }
 
     .chat-bottom {
-      padding: 10px 20px 82px;
+      padding: 10px 20px 12px;
       background: #0d0d0d;
       border-top: 1px solid #161616;
       display: flex;
@@ -778,7 +778,9 @@
       align-items: center;
     }
     @media (max-width: 480px) {
-      .chat-bottom { padding-bottom: 90px; }
+      .chat-bottom {
+        padding-bottom: calc(env(safe-area-inset-bottom, 8px) + 10px);
+      }
     }
 
     /* 메시지 꾹 누르기 삭제 메뉴 */
@@ -3353,14 +3355,17 @@
       history.pushState({ screen: id }, '', '');
     }
 
-    // 랜딩 화면일 때 네비바 숨기기
+    // 랜딩/채팅 화면일 때 네비바 숨기기 (채팅은 뒤로가기로 이동)
     const nav = document.getElementById('bottom-nav');
     const sb = document.getElementById('status-bar');
-    if (id === 'screen-landing') {
+    if (id === 'screen-landing' || id === 'screen-chat') {
       nav.style.display = 'none';
-      sb.style.display = 'none';
     } else {
       nav.style.display = 'flex';
+    }
+    if (id === 'screen-landing') {
+      sb.style.display = 'none';
+    } else {
       sb.style.display = 'flex';
       sb.className = 'status-bar dark';
     }
